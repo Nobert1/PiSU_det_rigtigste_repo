@@ -17,6 +17,6 @@ public interface Observer {
      *
      * @param subject the subject which changed
      */
-    public void update(Subject subject);
+    public void update(designpatterns.Subject subject);
 
 }

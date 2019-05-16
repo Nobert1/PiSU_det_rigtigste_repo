@@ -3,9 +3,7 @@ package monopoly.mini;
 import monopoly.mini.controller.GameController;
 import monopoly.mini.database.dal.DALException;
 import monopoly.mini.model.*;
-import monopoly.mini.model.cards.CardMove;
-import monopoly.mini.model.cards.CardReceiveMoneyFromBank;
-import monopoly.mini.model.cards.PayTax;
+import monopoly.mini.model.cards.*;
 import monopoly.mini.model.properties.Colors;
 import monopoly.mini.model.properties.RealEstate;
 import monopoly.mini.model.properties.Utility;
@@ -393,6 +391,7 @@ public class MiniMonopoly {
         p.setPropertid(i++);
         game.addSpace(p);
 
+<<<<<<< HEAD
         if (p.getColor().equals(Colors.LIGHTBLUE)||(p.getColor().equals(Colors.LIGHTRED))){
             p.setHousePrice(50);
         }
@@ -406,22 +405,77 @@ public class MiniMonopoly {
             p.setHousePrice(200);
         }
 
+=======
+        //TODO Make sure all cards are implemented
+>>>>>>> origin/Chancecards
 
         List<Card> cards = new ArrayList<Card>();
 
-        CardMove move = new CardMove();
-        move.setTarget(game.getSpaces().get(9));
-        move.setText("Move to Allégade!");
-        cards.add(move);
+        CardMove move1 = new CardMove();
+        move1.setTarget(game.getSpaces().get(9));
+        move1.setText("Move to Allégade!");
+        cards.add(move1);
+
+        CardMove move2 = new CardMove();
+        move2.setTarget(game.getSpaces().get(24));
+        move2.setText("Move to Grønningen!");
+        cards.add(move2);
+
+        CardMove move3 = new CardMove();
+        move3.setTarget(game.getSpaces().get(31));
+        move3.setText("Move to Amagertorv!");
+        cards.add(move3);
+
+        CardMove move4 = new CardMove();
+        move4.setTarget(game.getSpaces().get(1));
+        move4.setText("Move to Go and get 200 kr.");
+        cards.add(move4);
+
+        CardMoveUtility move5 = new CardMoveUtility();
+        move5.setTarget1(game.getSpaces().get(12));
+        move5.setTarget2(game.getSpaces().get(28));
+        move4.setText("Move to nearest Brewery!");
+        cards.add(move5);
 
         PayTax tax = new PayTax();
         tax.setText("Pay 10% income tax!");
         cards.add(tax);
 
+        PayPoorTax poorTax = new PayPoorTax();
+        poorTax.setTaxation(5);
+        poorTax.setText("Pay 5% poor tax!");
+        cards.add(poorTax);
+
         CardReceiveMoneyFromBank b = new CardReceiveMoneyFromBank();
         b.setText("You receive 100$ from the bank.");
         b.setAmount(100);
         cards.add(b);
+
+        CardReceiveMoneyFromBank dividend = new CardReceiveMoneyFromBank();
+        dividend.setText("The bank pays you dividend and you recieve 50 kr.");
+        dividend.setAmount(50);
+        cards.add(dividend);
+
+        CardReceiveMoneyFromBank mortgage = new CardReceiveMoneyFromBank();
+        mortgage.setText("Your building loan matures. You recieve 150.");
+        mortgage.setAmount(150);
+        cards.add(mortgage);
+
+        CardReceiveMoneyFromBank crossword = new CardReceiveMoneyFromBank();
+        crossword.setText("You won a crossword competition. Collect 100.");
+        crossword.setAmount(100);
+        cards.add(crossword);
+
+        GeneralRepairs repairs = new GeneralRepairs();
+        repairs.setText("Your properties are needing repair. Pay 25 for each house and 100 for each hotel.");
+        cards.add(repairs);
+
+        Chairman chairman = new Chairman();
+        chairman.setText("You have been elected chairman. Pay 50 to all players for their troubles.");
+        cards.add(chairman);
+
+
+
         game.setCardDeck(cards);
 
     }

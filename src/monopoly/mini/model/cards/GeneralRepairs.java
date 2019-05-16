@@ -7,7 +7,6 @@ import monopoly.mini.model.Property;
 import monopoly.mini.model.exceptions.PlayerBrokeException;
 import monopoly.mini.model.properties.RealEstate;
 
-import java.util.List;
 import java.util.Set;
 
 /**
@@ -17,35 +16,28 @@ import java.util.Set;
  * @author Ekkart Kindler, ekki@dtu.dk
  *
  */
-public class PayTax extends Card {
+public class GeneralRepairs extends Card {
 
     @Override
     public void doAction(GameController controller, Player player) throws PlayerBrokeException {
         //Tax is calculated by liquid funds plus properties and the buildings one it.
 
         try {
-            int liquidity = player.getBalance();
-            int sumAssets = 0;
+
+            int repairs = 0;
             Set<Property> assets = player.getOwnedProperties();
 
             for (Property item : assets) {
-                if (item.isMortgaged()) {
-                    sumAssets += item.getCost()/2;
-                } else {
-                    sumAssets += item.getCost();
-                    if (item instanceof RealEstate) {
+                    if (item instanceof RealEstate && !item.isMortgaged()) {
                         if (((RealEstate) item).isHotel()) {
-                            sumAssets += 5 * ((RealEstate) item).getHouseprice();
+                            repairs += 100;
                         } else {
-                            sumAssets += ((RealEstate) item).getHouses() * ((RealEstate) item).getHouseprice();
+                            repairs += ((RealEstate) item).getHouses() * 25;
                         }
                     }
                 }
-            }
 
-            int taxedAmount = liquidity + sumAssets;
-
-            controller.paymentToBank(player, taxedAmount / 10);
+            controller.paymentToBank(player, repairs);
         } finally {
             // Make sure that the card is returned to the deck even when
             // an Exception should occur!
