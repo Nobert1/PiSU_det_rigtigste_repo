@@ -562,7 +562,7 @@ public class GameController {
 
     public void mortgageProperty(Property property) {
         property.setMortgaged(true);
-        paymentFromBank(property.getOwner(), property.getMortgageValue());
+        paymentFromBank(property.getOwner(), property.getCost()/2);
     }
 
 
@@ -615,7 +615,7 @@ public class GameController {
                                 }
                             }
                             if(!choice.equals("No")) {
-                                gui.showMessage("You will receive " + property.getMortgageValue() + " dollars.");
+                                gui.showMessage("You will receive " + property.getCost()/2 + " dollars.");
                                 mortgageProperty(property);
                                 gui.showMessage("You have successfully mortgaged " + property.getName());
                             }
@@ -631,7 +631,7 @@ public class GameController {
 
     public void unmortgageProperty(Property property)throws PlayerBrokeException{
         property.setMortgaged(false);
-        paymentToBank(property.getOwner(),property.getMortgageValue()+property.getMortgageValue()/10);
+        paymentToBank(property.getOwner(),property.getCost()/2+property.getMortgageValue()/10);
     }
 
     public void unmortgage(Player player)throws PlayerBrokeException{

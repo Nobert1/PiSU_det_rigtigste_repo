@@ -259,5 +259,5 @@ public class RealEstate extends Property {
     public static Set<RealEstate> getGreenproperties() { return Greenproperties; }
 
     public static Set<RealEstate> getLightredProperties() { return LightredProperties; }
-    <
+
 }
