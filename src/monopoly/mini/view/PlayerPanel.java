@@ -93,9 +93,11 @@ public class PlayerPanel extends JFrame {
                     nameString += property1.getName();
                     if(property1.isMortgaged()){
                         nameString += "   M\n";
+                    } else {
+                        nameString += "\n";
                     }
                 }
-                nameString += "\n";
+
             }
 
             JTextArea textArea = new JTextArea(3, 5);

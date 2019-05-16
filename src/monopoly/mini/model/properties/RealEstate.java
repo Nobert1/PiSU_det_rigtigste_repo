@@ -33,6 +33,12 @@ public class RealEstate extends Property {
     private int houserent;
     private int propertid;
     private int mortgageValue;
+    private int rentHouse1;
+    private int rentHouse2;
+    private int rentHouse3;
+    private int rentHouse4;
+    private int rentHotel;
+
 
     private static Set<RealEstate> Greyproperties = new HashSet<>();
     private static Set<RealEstate> Redproperties = new HashSet<>();
@@ -185,23 +191,70 @@ public class RealEstate extends Property {
      */
 
     public int Computerent(RealEstate realEstate) {
-        //TODO Tilegn den her nogle værdier som faktisk er blevet undersøgt lidt
-        checkforbuildable(realEstate);
-        if (realEstate.isBuildable() && realEstate.isHotel()) {
-            notify();
-            return realEstate.getRent() * 20;
-        } else if (realEstate.isBuildable() && realEstate.getHouses() != 0) {
-            notify();
-            return realEstate.getRent() * 4 * realEstate.getHouses();
-        } else if (realEstate.isBuildable()){
-            notify();
-            return realEstate.getRent() * 2;
+        if (realEstate.isHotel()) {
+            return realEstate.getRentHotel();
+        } else if (realEstate.getHouses() == 1) {
+            return realEstate.getRentHouse1();
+        } else if (realEstate.getHouses() == 2) {
+            return realEstate.getRentHouse2();
+
+        } else if (realEstate.getHouses() == 3) {
+            return realEstate.getRentHouse3();
+        } else if (realEstate.getHouses() == 4) {
+            return realEstate.getRentHouse4();
         }
-        notify();
+
+        Set<RealEstate> estateSet = RealEstate.getcolormap(realEstate);
+        int counter = 0;
+        for (RealEstate r: estateSet) {
+            if (realEstate.getOwner() == r.getOwner()) {
+                counter++;
+            }
+        }
+        if (counter == estateSet.size()){
+            return realEstate.getRent()*2;
+        }
         return realEstate.getRent();
     }
+    public void setRentHouse1(int rentHouse1) {
+        this.rentHouse1 = rentHouse1;
+    }
 
+    public void setRentHouse2(int rentHouse2) {
+        this.rentHouse2 = rentHouse2;
+    }
 
+    public void setRentHouse3(int rentHouse3) {
+        this.rentHouse3 = rentHouse3;
+    }
+
+    public void setRentHouse4(int rentHouse4) {
+        this.rentHouse4 = rentHouse4;
+    }
+
+    public void setRentHotel(int rentHotel) {
+        this.rentHotel = rentHotel;
+    }
+
+    public int getRentHouse1() {
+        return rentHouse1;
+    }
+
+    public int getRentHouse2() {
+        return rentHouse2;
+    }
+
+    public int getRentHouse3() {
+        return rentHouse3;
+    }
+
+    public int getRentHouse4() {
+        return rentHouse4;
+    }
+
+    public int getRentHotel() {
+        return rentHotel;
+    }
 
     public static void insertintoColorMap(RealEstate estate) {
         if (estate.getColor().equals(Colors.getcolor(Colors.RED))) {
