@@ -54,7 +54,9 @@ public class MiniMonopoly {
         p.setCost(60);
         p.setRent(2);
         p.setMortgageValue(30);
+        p.setHousePrice(50);
         p.setColor(Colors.getcolor(Colors.LIGHTBLUE));
+        p.setHousePrice(50);
         p.setRents(10,30,90,160,250);
         RealEstate.insertintoColorMap(p);
         p.setPropertid(i++);
@@ -69,6 +71,7 @@ public class MiniMonopoly {
         p.setCost(60);
         p.setRent(4);
         p.setMortgageValue(30);
+        p.setHousePrice(50);
         p.setColor(Colors.getcolor(Colors.LIGHTBLUE));
         p.setRents(20,60,180,320,450);
         RealEstate.insertintoColorMap(p);
@@ -93,6 +96,7 @@ public class MiniMonopoly {
         p.setName("Roskildevej");
         p.setCost(100);
         p.setRent(6);
+        p.setHousePrice(50);
         p.setColor(Colors.getcolor(Colors.LIGHTRED));
         p.setRents(30,90,270,400,550);
         RealEstate.insertintoColorMap(p);
@@ -117,6 +121,7 @@ public class MiniMonopoly {
         p.setName("Allégade");
         p.setCost(120);
         p.setRent(8);
+        p.setHousePrice(50);
         p.setColor(Colors.getcolor(Colors.LIGHTRED));
         p.setRents(40,100,300,450,600);
         RealEstate.insertintoColorMap(p);
@@ -131,6 +136,7 @@ public class MiniMonopoly {
         p.setName("Frederiksberg Allé");
         p.setCost(140);
         p.setRent(10);
+        p.setHousePrice(100);
         p.setColor(Colors.getcolor(Colors.GREEN));
         p.setRents(50,150,450,625,750);
         RealEstate.insertintoColorMap(p);
@@ -150,6 +156,7 @@ public class MiniMonopoly {
         p.setName("Bülowsvej");
         p.setCost(140);
         p.setRent(10);
+        p.setHousePrice(100);
         p.setColor(Colors.getcolor(Colors.GREEN));
         p.setRents(50,150,450,625,750);
         RealEstate.insertintoColorMap(p);
@@ -160,6 +167,7 @@ public class MiniMonopoly {
         p.setName("Gl. Kongevej"); // TODO Inkonsistens med GUI'en (pris 140, 160)
         p.setCost(160);
         p.setRent(12);
+        p.setHousePrice(100);
         p.setColor(Colors.getcolor(Colors.GREEN));
         p.setRents(60,180,500,700,900);
         RealEstate.insertintoColorMap(p);
@@ -179,6 +187,7 @@ public class MiniMonopoly {
         p.setName("Bernstorffsvej");
         p.setCost(180);
         p.setRent(14);
+        p.setHousePrice(100);
         p.setColor(Colors.getcolor(Colors.GREY));
         p.setRents(70,200,550,750,950);
         RealEstate.insertintoColorMap(p);
@@ -193,6 +202,7 @@ public class MiniMonopoly {
         p.setName("Hellerupvej");
         p.setCost(180);
         p.setRent(14);
+        p.setHousePrice(100);
         p.setColor(Colors.getcolor(Colors.GREY));
         p.setRents(70,200,550,750,950);
         RealEstate.insertintoColorMap(p);
@@ -203,6 +213,7 @@ public class MiniMonopoly {
         p.setName("Strandvejen"); //TODO inkonsistens
         p.setCost(200);
         p.setRent(16);
+        p.setHousePrice(100);
         p.setColor(Colors.getcolor(Colors.GREY));
         p.setRents(80,220,600,800,1000);
         RealEstate.insertintoColorMap(p);
@@ -217,6 +228,7 @@ public class MiniMonopoly {
         p.setName("Trianglen");
         p.setCost(220);
         p.setRent(18);
+        p.setHousePrice(150);
         p.setColor(Colors.getcolor(Colors.RED));
         p.setRents(90,250,700,875,1050);
         RealEstate.insertintoColorMap(p);
@@ -231,6 +243,7 @@ public class MiniMonopoly {
         p.setName("Østerbrogade");
         p.setCost(220);
         p.setRent(18);
+        p.setHousePrice(150);
         p.setColor(Colors.getcolor(Colors.RED));
         p.setRents(90,250,700,875,1050);
         RealEstate.insertintoColorMap(p);
@@ -241,6 +254,7 @@ public class MiniMonopoly {
         p.setName("Grønningen");
         p.setCost(240);
         p.setRent(20);
+        p.setHousePrice(150);
         p.setColor(Colors.getcolor(Colors.RED));
         p.setRents(100,300,750,925,1100);
         RealEstate.insertintoColorMap(p);
@@ -261,6 +275,7 @@ public class MiniMonopoly {
         p.setName("Bredgade");
         p.setCost(260);
         p.setRent(22);
+        p.setHousePrice(150);
         p.setColor(Colors.getcolor(Colors.WHITE));
         p.setRents(110,330,800,975,1150);
         RealEstate.insertintoColorMap(p);
@@ -271,6 +286,7 @@ public class MiniMonopoly {
         p.setName("Kgs. Nytrov");
         p.setCost(260);
         p.setRent(22);
+        p.setHousePrice(150);
         p.setColor(Colors.getcolor(Colors.WHITE));
         p.setRents(110,330,800,975,1150);
         RealEstate.insertintoColorMap(p);
@@ -290,6 +306,7 @@ public class MiniMonopoly {
         p.setName("Østergade");
         p.setCost(280);
         p.setRent(24);
+        p.setHousePrice(150);
         p.setColor(Colors.getcolor(Colors.WHITE));
         p.setRents(120,360,850,1025,1200);
         RealEstate.insertintoColorMap(p);
@@ -304,6 +321,7 @@ public class MiniMonopoly {
         p.setName("Amagertorv");
         p.setCost(300);
         p.setRent(26);
+        p.setHousePrice(200);
         p.setColor(Colors.getcolor(Colors.YELLOW));
         p.setRents(130,390,900,1100,1275);
         RealEstate.insertintoColorMap(p);
@@ -314,6 +332,7 @@ public class MiniMonopoly {
         p.setName("Vimmelskaftet");
         p.setCost(300);
         p.setRent(26);
+        p.setHousePrice(200);
         p.setColor(Colors.getcolor(Colors.YELLOW));
         p.setRents(130,390,900,1100,1275);
         RealEstate.insertintoColorMap(p);
@@ -328,6 +347,7 @@ public class MiniMonopoly {
         p.setName("Nygade");
         p.setCost(320);
         p.setRent(28);
+        p.setHousePrice(200);
         p.setColor(Colors.getcolor(Colors.YELLOW));
         p.setRents(150,450,1000,1200,1400);
         RealEstate.insertintoColorMap(p);
@@ -351,6 +371,7 @@ public class MiniMonopoly {
         p.setName("Frederiksberggade");
         p.setCost(350);
         p.setRent(35);
+        p.setHousePrice(200);
         p.setColor(Colors.getcolor(Colors.PURPLE));
         p.setRents(175,500,100,1300,1500);
         RealEstate.insertintoColorMap(p);
@@ -365,11 +386,25 @@ public class MiniMonopoly {
         p.setName("Rådhuspladsen");
         p.setCost(400);
         p.setRent(50);
+        p.setHousePrice(200);
         p.setColor(Colors.getcolor(Colors.PURPLE));
         p.setRents(200,600,1400,1700,2000);
         RealEstate.insertintoColorMap(p);
         p.setPropertid(i++);
         game.addSpace(p);
+
+        if (p.getColor().equals(Colors.LIGHTBLUE)||(p.getColor().equals(Colors.LIGHTRED))){
+            p.setHousePrice(50);
+        }
+        if (p.getColor().equals(Colors.GREEN)||(p.getColor().equals(Colors.GREY))){
+            p.setHousePrice(100);
+        }
+        if (p.getColor().equals(Colors.RED)||(p.getColor().equals(Colors.WHITE))){
+            p.setHousePrice(150);
+        }
+        if (p.getColor().equals(Colors.YELLOW)||(p.getColor().equals(Colors.PURPLE))){
+            p.setHousePrice(200);
+        }
 
 
         List<Card> cards = new ArrayList<Card>();

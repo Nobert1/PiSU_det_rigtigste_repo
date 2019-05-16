@@ -24,13 +24,12 @@ import java.util.Set;
  */
 public class RealEstate extends Property {
     private int houses = 0;
-    private int houseprice = 1000;
+    private int housePrice;
     private int RealestateRent;
     private boolean hotel = false;
     private boolean buildable = false;
     public int rent;
     private Color color;
-    private int houserent;
     private int propertid;
     private int mortgageValue;
     private int rentHouse1;
@@ -84,12 +83,12 @@ public class RealEstate extends Property {
         return rent;
     }
 
-    public int getHouseprice() {
-        return houseprice;
+    public int getHousePrice() {
+        return housePrice;
     }
 
-    public void setHouseprice(int houseprice) {
-        this.houseprice = houseprice;
+    public void setHousePrice(int houseprice) {
+        this.housePrice = houseprice;
         notifyChange();
     }
 
@@ -259,5 +258,5 @@ public class RealEstate extends Property {
     public static Set<RealEstate> getGreenproperties() { return Greenproperties; }
 
     public static Set<RealEstate> getLightredProperties() { return LightredProperties; }
-    <
+
 }

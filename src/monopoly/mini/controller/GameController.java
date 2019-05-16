@@ -538,9 +538,9 @@ public class GameController {
                 mortgageValue += p.getMortgageValue();
                 if (p instanceof RealEstate) {
                     if (((RealEstate) p).isHotel()) {
-                        houseValue += 5*((RealEstate) p).getHouseprice();
+                        houseValue += 5*((RealEstate) p).getHousePrice();
                     } else {
-                        houseValue += ((RealEstate) p).getHouses()*((RealEstate) p).getHouseprice();
+                        houseValue += ((RealEstate) p).getHouses()*((RealEstate) p).getHousePrice();
                     }
                 }
             }
@@ -701,13 +701,13 @@ public class GameController {
                         String accept = gui.getUserButtonPressed("Are you sure you want to sell " + housesToSell + " houses?",
                                 "Yes", "no");
                         if(accept.equals("Yes")){
-                            paymentFromBank(player,(Integer.valueOf(housesToSell) * (r.getHouseprice() / 2)));
+                            paymentFromBank(player,(Integer.valueOf(housesToSell) * (r.getHousePrice() / 2)));
                             if(r.isHotel()){
                                 r.setHotel(false);
                             }
                             r.setHouses(r.getHouses()-Integer.valueOf(housesToSell));
                             gui.showMessage("You have sold " + housesToSell + " and received " +
-                                    Integer.valueOf(housesToSell) * (r.getHouseprice() / 2) + "dollars");
+                                    Integer.valueOf(housesToSell) * (r.getHousePrice() / 2) + "dollars");
                         }
 
                     }
@@ -738,7 +738,7 @@ public class GameController {
                 r.setHotel(false);
             }
         }
-        int soldHousesValue = counter * (realEstate.getHouseprice()/2);
+        int soldHousesValue = counter * (realEstate.getHousePrice()/2);
         gui.showMessage("You have sold a total of " + counter + " houses. \nYou will receive " + soldHousesValue + " dollars.");
         paymentFromBank(realEstate.getOwner(),soldHousesValue);
     }
@@ -1160,6 +1160,7 @@ public class GameController {
     /**
      * fixed. Evt. can add hotel as the last option instead of "when you have bought 5 houses it will turn into a hotel"
      * @author s175124
+     * Har rettet fra getRent til getHousePrice - Harald
      * @param player
      */
 
@@ -1201,8 +1202,8 @@ public class GameController {
             }
 
             String houseChoice = gui.getUserButtonPressed("How many houses would you like build? Once there is built 5 houses, they will turn into a hotel." +
-                    "\nThere is currently " + property.getHouses() + " houses built. The price per house is " + property.getRent(),houseAmount);
-            paymentToBank(player,property.getRent()*Integer.valueOf(houseChoice));
+                    "\nThere is currently " + property.getHouses() + " houses built. The price per house is " + property.getHousePrice(),houseAmount+"$");
+            paymentToBank(player,property.getHousePrice()*Integer.valueOf(houseChoice));
             if(property.getHouses()+Integer.valueOf(houseChoice) < 5) {
                 property.setHouses(property.getHouses() + Integer.valueOf(houseChoice));
                 gui.showMessage("There have been built " + Integer.valueOf(houseChoice) + " houses.");
