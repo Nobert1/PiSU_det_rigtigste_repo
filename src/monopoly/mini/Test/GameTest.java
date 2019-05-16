@@ -1,5 +1,3 @@
-package monopoly.mini.Test;
-
 import monopoly.mini.model.Player;
 import monopoly.mini.model.Property;
 import org.junit.Test;

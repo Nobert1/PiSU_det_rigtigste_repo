@@ -1,4 +1,3 @@
-package monopoly.mini.Test;
 
 import org.junit.Test;
 
