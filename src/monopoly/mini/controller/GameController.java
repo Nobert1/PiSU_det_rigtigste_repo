@@ -1096,8 +1096,8 @@ public class GameController {
                 }
             } while (tradeOption != "Get approval for trade");
 
-            String givePropertiesString = propArrayStringCreator(giveProperties);
-            String receivePropertiesString = propArrayStringCreator(receiveProperties);
+            String givePropertiesString = propArrayStringCreator(giveProperties, player);
+            String receivePropertiesString = propArrayStringCreator(receiveProperties, tradee);
 
             String s = player.getName() + " you want to trade " + givePropertiesString + " and " + playerMoneyCount + " dollars with "
                     + tradee.getName() + " for " + receivePropertiesString + " and " + tradeeMoneyCount + ".";
@@ -1123,12 +1123,16 @@ public class GameController {
      * @return
      */
 
-    public String propArrayStringCreator(Property[] propArray) {
+    public String propArrayStringCreator(Property[] propArray, Player player) {
         String s = "";
         for (int i = 0; i < propArray.length; i++) {
             if(propArray[i] == null){
                 break;
-            } else if (propArray[i+1] == null) {
+            } else if (i+1 ==  player.getOwnedProperties().size()){
+                s += propArray[i].getName();
+                break;
+            }
+            else if (propArray[i+1] == null) {
                 s += propArray[i].getName();
                 break;
             }
