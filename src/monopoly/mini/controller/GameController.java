@@ -688,54 +688,51 @@ public class GameController {
      * @param player
      */
 
-    public void sellHouses(Player player){
+    public void sellHouses(Player player) {
         ArrayList<RealEstate> estateList;
 
-            estateList = new ArrayList<>();
-            for (Property p : player.getOwnedProperties()) {
-                if (p instanceof RealEstate) {
-                    if (((RealEstate) p).getHouses() > 0 || ((RealEstate) p).isHotel()) {
-                        estateList.add((RealEstate) p);
-                    }
+        estateList = new ArrayList<>();
+        for (Property p : player.getOwnedProperties()) {
+            if (p instanceof RealEstate) {
+                if (((RealEstate) p).getHouses() > 0 || ((RealEstate) p).isHotel()) {
+                    estateList.add((RealEstate) p);
                 }
             }
-            if (estateList.isEmpty()) {
-                gui.showMessage("You have no properties with houses or hotels.");
-
-            } else {
-
-                String[] estateArr = arrayConverterRealestate(estateList);
-                String[] houseArr;
-                String chosenProperty = gui.getUserButtonPressed("Which property would you like to sell houses from?", estateArr);
-                for (RealEstate r : estateList) {
-                    if (r.getName().equals(chosenProperty)) {
-                        if(r.isHotel()){
-                            houseArr = new String[5];
+        }
+        if (estateList.isEmpty()) {
+            gui.showMessage("You have no properties with houses or hotels.");
+        } else {
+            String[] estateArr = arrayConverterRealestate(estateList);
+            String[] houseArr;
+            String chosenProperty = gui.getUserButtonPressed("Which property would you like to sell houses from?", estateArr);
+            for (RealEstate r : estateList) {
+                if (r.getName().equals(chosenProperty)) {
+                    if (r.isHotel()) {
+                        houseArr = new String[5];
+                    } else {
+                        houseArr = new String[r.getHouses()];
+                    }
+                    for (int i = 0; i < houseArr.length; i++) {
+                        houseArr[i] = String.valueOf(i + 1);
+                    }
+                    String housesToSell = gui.getUserButtonPressed("You have chosen " + r.getName() + " where there are " + r.getHouses()
+                            + " built.\n How many would you like to sell? You will receive 50% of what you played", houseArr);
+                    String accept = gui.getUserButtonPressed("Are you sure you want to sell " + housesToSell + " houses?",
+                            "Yes", "no");
+                    if (accept.equals("Yes")) {
+                        paymentFromBank(player, (Integer.valueOf(housesToSell) * (r.getHousePrice() / 2)));
+                        if (r.isHotel()) {
+                            r.setHotel(false);
+                            r.setHouses(5 - Integer.valueOf(housesToSell));
                         } else {
-                            houseArr = new String[r.getHouses()];
+                            r.setHouses(r.getHouses() - Integer.valueOf(housesToSell));
                         }
-                        for (int i = 0; i < houseArr.length; i++) {
-                            houseArr[i] = String.valueOf(i + 1);
-                        }
-                        String housesToSell = gui.getUserButtonPressed("You have chosen " + r.getName() + " where there are " + r.getHouses()
-                                + " built.\n How many would you like to sell? You will receive 50% of what you played", houseArr);
-                        String accept = gui.getUserButtonPressed("Are you sure you want to sell " + housesToSell + " houses?",
-                                "Yes", "no");
-                        if (accept.equals("Yes")) {
-                            paymentFromBank(player, (Integer.valueOf(housesToSell) * (r.getHousePrice() / 2)));
-                            if (r.isHotel()) {
-                                r.setHotel(false);
-                                r.setHouses(5-Integer.valueOf(housesToSell));
-                            } else {
-                                r.setHouses(r.getHouses() - Integer.valueOf(housesToSell));
-                            }
-                            gui.showMessage("You have sold " + housesToSell + " and received " +
-                                    Integer.valueOf(housesToSell) * (r.getHousePrice() / 2) + "dollars");
-                        }
+                        gui.showMessage("You have sold " + housesToSell + " and received " +
+                                Integer.valueOf(housesToSell) * (r.getHousePrice() / 2) + "dollars");
                     }
                 }
-
             }
+        }
     }
 
     /**

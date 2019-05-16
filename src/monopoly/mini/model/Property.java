@@ -141,6 +141,16 @@ public class Property extends Space {
                 rent = ((RealEstate) this).Computerent((RealEstate) this);
             } else {
                 rent = ((Utility) this).Computerent((Utility) this);
+                if(rent == 4){
+                    rent = rent * controller.getDiecount();
+                    controller.getGui().showMessage("Only 1 utility is owned so you pay 4 times your last roll which was"
+                            + controller.getDiecount());
+                } else if (rent == 10){
+                    rent = rent * controller.getDiecount();
+                    controller.getGui().showMessage("Both utilities are owned so you pay 10 times your last roll which was"
+                            + controller.getDiecount());
+
+                }
             }
             try {
                 controller.payment(player, rent, this.getOwner());

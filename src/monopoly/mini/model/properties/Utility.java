@@ -43,13 +43,13 @@ public class Utility extends Property {
         //Burde nok i virkeligheden bare være objekter af to forskellige typer.
 
         int rent = 250;
-        if (utility.getCost() > 1999) {
+        if (utility.getCost() > 199) {
 
             for (Utility ship : ShippingLine) {
                 if (ship.getOwner() == utility.getOwner() && !ship.getName().equals(utility.getName())) {
                     rent = rent * 2;
                 }
-            } } else if (utility.getCost() < 1999) {
+            } } else if (utility.getCost() < 199) {
             rent = 4;
             for (Utility brewery : Breweries) {
                 if (brewery.getOwner() == utility.getOwner() && !brewery.getName().equals(utility.getName())) {
