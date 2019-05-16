@@ -42,14 +42,14 @@ public class Utility extends Property {
         //Noget med at den skal kunne kende forskel. Den her løsning er nok ikke 10/10
         //Burde nok i virkeligheden bare være objekter af to forskellige typer.
 
-        int rent = 250;
-        if (utility.getCost() > 199) {
+        int rent = 50;
+        if (utility.getCost() == 200) {
 
             for (Utility ship : ShippingLine) {
                 if (ship.getOwner() == utility.getOwner() && !ship.getName().equals(utility.getName())) {
                     rent = rent * 2;
                 }
-            } } else if (utility.getCost() < 199) {
+            } } else if (utility.getCost() == 150) {
             rent = 4;
             for (Utility brewery : Breweries) {
                 if (brewery.getOwner() == utility.getOwner() && !brewery.getName().equals(utility.getName())) {

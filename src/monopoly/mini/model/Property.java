@@ -149,7 +149,17 @@ public class Property extends Space {
                     rent = rent * controller.getDiecount();
                     controller.getGui().showMessage("Both utilities are owned so you pay 10 times your last roll which was"
                             + controller.getDiecount());
-
+                } else {
+                    int amountShips = 4;
+                    if(rent == 50){
+                        amountShips = 1;
+                    } else if (rent == 100){
+                        amountShips = 2;
+                    } else if (rent == 200){
+                        amountShips = 3;
+                    }
+                    controller.getGui().showMessage("You have landed on a ferry. " + this.getOwner().getName() + " owns " + amountShips
+                            + " which means the rent is " + rent);
                 }
             }
             try {

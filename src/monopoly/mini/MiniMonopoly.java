@@ -145,7 +145,7 @@ public class MiniMonopoly {
 
         s = new Utility();
         s.setName("Coca-Cola Tapperi");
-        s.setCost(300);
+        s.setCost(150);
         s.setRent(30);
         s.setColor(Colors.getcolor(Colors.DARKGREEN));
         Utility.getBreweries().add(s);
@@ -263,7 +263,7 @@ public class MiniMonopoly {
 
         s = new Utility();
         s.setName("ship");
-        s.setCost(2000);
+        s.setCost(200);
         s.setRent(250);
         s.setColor(Colors.getcolor(Colors.SHIPPINGWHITE));
         s.setPropertyid(j++);
@@ -295,7 +295,7 @@ public class MiniMonopoly {
 
         s = new Utility();
         s.setName("Carlsberg");
-        s.setCost(200);
+        s.setCost(150);
         s.setRent(20);
         s.setColor(Colors.getcolor(Colors.DARKGREEN));
         Utility.getBreweries().add(s);
