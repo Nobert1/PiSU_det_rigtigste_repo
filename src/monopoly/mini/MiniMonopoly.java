@@ -204,7 +204,7 @@ public class MiniMonopoly {
         p.setCost(200);
         p.setRent(16);
         p.setColor(Colors.getcolor(Colors.GREY));
-        p.setRents(80,220,600,800,1000;
+        p.setRents(80,220,600,800,1000);
         RealEstate.insertintoColorMap(p);
         p.setPropertid(i++);
         game.addSpace(p);
