@@ -260,7 +260,6 @@ public class GameController {
                 }
 
                 choice = gui.getUserButtonPressed("What would you like to do " + game.getCurrentPlayer().getName()+"?", "Roll", "Trade", "Build or Sell houses", "Mortgage");
->>>>>>> origin/Chancecards
                 switch(choice) {
                     case "Trade":
                         try {
