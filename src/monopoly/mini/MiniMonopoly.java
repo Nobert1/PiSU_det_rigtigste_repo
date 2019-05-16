@@ -51,10 +51,11 @@ public class MiniMonopoly {
 
         RealEstate p = new RealEstate();
         p.setName("Rødovrevej");
-        p.setCost(1200);
-        p.setRent(50);
-        p.setMortgageValue(750);
+        p.setCost(60);
+        p.setRent(2);
+        p.setMortgageValue(30);
         p.setColor(Colors.getcolor(Colors.LIGHTBLUE));
+        p.setRents(10,30,90,160,250);
         RealEstate.insertintoColorMap(p);
         p.setPropertid(i++);
         game.addSpace(p);
@@ -65,10 +66,11 @@ public class MiniMonopoly {
 
         p = new RealEstate();
         p.setName("Hvidovrevej");
-        p.setCost(1200);
-        p.setRent(50);
-        p.setMortgageValue(75);
+        p.setCost(60);
+        p.setRent(4);
+        p.setMortgageValue(30);
         p.setColor(Colors.getcolor(Colors.LIGHTBLUE));
+        p.setRents(20,60,180,320,450);
         RealEstate.insertintoColorMap(p);
         p.setPropertid(i++);
         game.addSpace(p);
@@ -79,8 +81,8 @@ public class MiniMonopoly {
 
         Utility s = new Utility();
         s.setName("Øresund");
-        s.setCost(4000);
-        s.setRent(500);
+        s.setCost(200);
+        s.setRent(20);
         s.setColor(Colors.getcolor(Colors.SHIPPINGWHITE));
         Utility.getShippingLine().add(s);
         s.setPropertyid(j++);
@@ -89,9 +91,10 @@ public class MiniMonopoly {
 
         p = new RealEstate();
         p.setName("Roskildevej");
-        p.setCost(2000);
-        p.setRent(100);
+        p.setCost(100);
+        p.setRent(6);
         p.setColor(Colors.getcolor(Colors.LIGHTRED));
+        p.setRents(30,90,270,400,550);
         RealEstate.insertintoColorMap(p);
         p.setPropertid(i++);
         game.addSpace(p);
@@ -102,18 +105,20 @@ public class MiniMonopoly {
 
         p = new RealEstate();
         p.setName("Valby Langgade");
-        p.setCost(2000);
-        p.setRent(100);
+        p.setCost(100);
+        p.setRent(6);
         p.setColor(Colors.getcolor(Colors.LIGHTRED));
+        p.setRents(30,90,270,400,550);
         RealEstate.insertintoColorMap(p);
         p.setPropertid(i++);
         game.addSpace(p);
 
         p = new RealEstate();
         p.setName("Allégade");
-        p.setCost(2400);
-        p.setRent(150);
+        p.setCost(120);
+        p.setRent(8);
         p.setColor(Colors.getcolor(Colors.LIGHTRED));
+        p.setRents(40,100,300,450,600);
         RealEstate.insertintoColorMap(p);
         p.setPropertid(i++);
         game.addSpace(p);
@@ -124,17 +129,18 @@ public class MiniMonopoly {
 
         p = new RealEstate();
         p.setName("Frederiksberg Allé");
-        p.setCost(2800);
-        p.setRent(200);
+        p.setCost(140);
+        p.setRent(10);
         p.setColor(Colors.getcolor(Colors.GREEN));
+        p.setRents(50,150,450,625,750);
         RealEstate.insertintoColorMap(p);
         p.setPropertid(i++);
         game.addSpace(p);
 
         s = new Utility();
         s.setName("Coca-Cola Tapperi");
-        s.setCost(3000);
-        s.setRent(300);
+        s.setCost(300);
+        s.setRent(30);
         s.setColor(Colors.getcolor(Colors.DARKGREEN));
         Utility.getBreweries().add(s);
         s.setPropertyid(j++);
@@ -142,26 +148,28 @@ public class MiniMonopoly {
 
         p = new RealEstate();
         p.setName("Bülowsvej");
-        p.setCost(2800);
-        p.setRent(200);
+        p.setCost(140);
+        p.setRent(10);
         p.setColor(Colors.getcolor(Colors.GREEN));
+        p.setRents(50,150,450,625,750);
         RealEstate.insertintoColorMap(p);
         p.setPropertid(i++);
         game.addSpace(p);
 
         p = new RealEstate();
-        p.setName("Gl. Kongevej");
-        p.setCost(3200);
-        p.setRent(250);
+        p.setName("Gl. Kongevej"); // TODO Inkonsistens med GUI'en (pris 140, 160)
+        p.setCost(160);
+        p.setRent(12);
         p.setColor(Colors.getcolor(Colors.GREEN));
+        p.setRents(60,180,500,700,900);
         RealEstate.insertintoColorMap(p);
         p.setPropertid(i++);
         game.addSpace(p);
 
         s = new Utility();
         s.setName("D.F.D.S");
-        s.setCost(2000);
-        s.setRent(250);
+        s.setCost(200);
+        s.setRent(20);
         s.setColor(Colors.getcolor(Colors.SHIPPINGWHITE));
         Utility.getShippingLine().add(s);
         s.setPropertyid(j++);
@@ -169,9 +177,10 @@ public class MiniMonopoly {
 
         p = new RealEstate();
         p.setName("Bernstorffsvej");
-        p.setCost(3800);
-        p.setRent(300);
+        p.setCost(180);
+        p.setRent(14);
         p.setColor(Colors.getcolor(Colors.GREY));
+        p.setRents(70,200,550,750,950);
         RealEstate.insertintoColorMap(p);
         p.setPropertid(i++);
         game.addSpace(p);
@@ -182,18 +191,20 @@ public class MiniMonopoly {
 
         p = new RealEstate();
         p.setName("Hellerupvej");
-        p.setCost(3800);
-        p.setRent(300);
+        p.setCost(180);
+        p.setRent(14);
         p.setColor(Colors.getcolor(Colors.GREY));
+        p.setRents(70,200,550,750,950);
         RealEstate.insertintoColorMap(p);
         p.setPropertid(i++);
         game.addSpace(p);
 
         p = new RealEstate();
-        p.setName("Strandvejen");
-        p.setCost(3800);
-        p.setRent(300);
+        p.setName("Strandvejen"); //TODO inkonsistens
+        p.setCost(200);
+        p.setRent(16);
         p.setColor(Colors.getcolor(Colors.GREY));
+        p.setRents(80,220,600,800,1000;
         RealEstate.insertintoColorMap(p);
         p.setPropertid(i++);
         game.addSpace(p);
@@ -204,9 +215,10 @@ public class MiniMonopoly {
 
         p = new RealEstate();
         p.setName("Trianglen");
-        p.setCost(4000);
-        p.setRent(350);
+        p.setCost(220);
+        p.setRent(18);
         p.setColor(Colors.getcolor(Colors.RED));
+        p.setRents(90,250,700,875,1050);
         RealEstate.insertintoColorMap(p);
         p.setPropertid(i++);
         game.addSpace(p);
@@ -217,18 +229,20 @@ public class MiniMonopoly {
 
         p = new RealEstate();
         p.setName("Østerbrogade");
-        p.setCost(4000);
-        p.setRent(350);
+        p.setCost(220);
+        p.setRent(18);
         p.setColor(Colors.getcolor(Colors.RED));
+        p.setRents(90,250,700,875,1050);
         RealEstate.insertintoColorMap(p);
         p.setPropertid(i++);
         game.addSpace(p);
 
         p = new RealEstate();
         p.setName("Grønningen");
-        p.setCost(4000);
-        p.setRent(350);
+        p.setCost(240);
+        p.setRent(20);
         p.setColor(Colors.getcolor(Colors.RED));
+        p.setRents(100,300,750,925,1100);
         RealEstate.insertintoColorMap(p);
         p.setPropertid(i++);
         game.addSpace(p);
@@ -245,26 +259,28 @@ public class MiniMonopoly {
 
         p = new RealEstate();
         p.setName("Bredgade");
-        p.setCost(4500);
-        p.setRent(400);
+        p.setCost(260);
+        p.setRent(22);
         p.setColor(Colors.getcolor(Colors.WHITE));
+        p.setRents(110,330,800,975,1150);
         RealEstate.insertintoColorMap(p);
         p.setPropertid(i++);
         game.addSpace(p);
 
         p = new RealEstate();
         p.setName("Kgs. Nytrov");
-        p.setCost(4500);
-        p.setRent(400);
+        p.setCost(260);
+        p.setRent(22);
         p.setColor(Colors.getcolor(Colors.WHITE));
+        p.setRents(110,330,800,975,1150);
         RealEstate.insertintoColorMap(p);
         p.setPropertid(i++);
         game.addSpace(p);
 
         s = new Utility();
         s.setName("Carlsberg");
-        s.setCost(2000);
-        s.setRent(250);
+        s.setCost(200);
+        s.setRent(20);
         s.setColor(Colors.getcolor(Colors.DARKGREEN));
         Utility.getBreweries().add(s);
         s.setPropertyid(j++);
@@ -272,9 +288,10 @@ public class MiniMonopoly {
 
         p = new RealEstate();
         p.setName("Østergade");
-        p.setCost(4500);
-        p.setRent(400);
+        p.setCost(280);
+        p.setRent(24);
         p.setColor(Colors.getcolor(Colors.WHITE));
+        p.setRents(120,360,850,1025,1200);
         RealEstate.insertintoColorMap(p);
         p.setPropertid(i++);
         game.addSpace(p);
@@ -285,18 +302,20 @@ public class MiniMonopoly {
 
         p = new RealEstate();
         p.setName("Amagertorv");
-        p.setCost(4800);
-        p.setRent(420);
+        p.setCost(300);
+        p.setRent(26);
         p.setColor(Colors.getcolor(Colors.YELLOW));
+        p.setRents(130,390,900,1100,1275);
         RealEstate.insertintoColorMap(p);
         p.setPropertid(i++);
         game.addSpace(p);
 
         p = new RealEstate();
         p.setName("Vimmelskaftet");
-        p.setCost(4800);
-        p.setRent(420);
+        p.setCost(300);
+        p.setRent(26);
         p.setColor(Colors.getcolor(Colors.YELLOW));
+        p.setRents(130,390,900,1100,1275);
         RealEstate.insertintoColorMap(p);
         p.setPropertid(i++);
         game.addSpace(p);
@@ -307,17 +326,18 @@ public class MiniMonopoly {
 
         p = new RealEstate();
         p.setName("Nygade");
-        p.setCost(4800);
-        p.setRent(420);
+        p.setCost(320);
+        p.setRent(28);
         p.setColor(Colors.getcolor(Colors.YELLOW));
+        p.setRents(150,450,1000,1200,1400);
         RealEstate.insertintoColorMap(p);
         p.setPropertid(i++);
         game.addSpace(p);
 
         s = new Utility();
         s.setName("Bornholm færgen");
-        s.setCost(2000);
-        s.setRent(250);
+        s.setCost(200);
+        s.setRent(20);
         s.setColor(Colors.getcolor(Colors.SHIPPINGWHITE));
         Utility.getShippingLine().add(s);
         s.setPropertyid(j++);
@@ -329,9 +349,10 @@ public class MiniMonopoly {
 
         p = new RealEstate();
         p.setName("Frederiksberggade");
-        p.setCost(5200);
-        p.setRent(450);
+        p.setCost(350);
+        p.setRent(35);
         p.setColor(Colors.getcolor(Colors.PURPLE));
+        p.setRents(175,500,100,1300,1500);
         RealEstate.insertintoColorMap(p);
         p.setPropertid(i++);
         game.addSpace(p);
@@ -342,13 +363,13 @@ public class MiniMonopoly {
 
         p = new RealEstate();
         p.setName("Rådhuspladsen");
-        p.setCost(5500);
-        p.setRent(500);
+        p.setCost(400);
+        p.setRent(50);
         p.setColor(Colors.getcolor(Colors.PURPLE));
+        p.setRents(200,600,1400,1700,2000);
         RealEstate.insertintoColorMap(p);
         p.setPropertid(i++);
         game.addSpace(p);
-
 
 
         List<Card> cards = new ArrayList<Card>();
