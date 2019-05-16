@@ -31,6 +31,13 @@ public class Utility extends Property {
         this.propertyid = propertyid;
     }
 
+    /**
+     *
+     * @author s185031
+     * @param utility
+     * @return
+     */
+
     public int Computerent(Utility utility) {
         //Noget med at den skal kunne kende forskel. Den her løsning er nok ikke 10/10
         //Burde nok i virkeligheden bare være objekter af to forskellige typer.

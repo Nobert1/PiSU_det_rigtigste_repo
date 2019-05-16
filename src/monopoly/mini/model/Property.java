@@ -117,8 +117,9 @@ public class Property extends Space {
     public void doAction(GameController controller, Player player) throws PlayerBrokeException {
         if (owner == null) {
             controller.offerToBuy(this, player);
+        } else if (this.getOwner().isInPrison()){
+            controller.getGui().showMessage(this.getOwner().getName() + " is in prison so you do not have to pay rent.");
         } else if (!owner.equals(player) && !this.isMortgaged()) {
-            controller.getGui().showMessage(this.getName() + " is mortgaged you do not have to pay rent.");
             int rent = 0;
             if (this instanceof RealEstate) {
                 if(((RealEstate) this).isHotel()){
@@ -134,7 +135,7 @@ public class Property extends Space {
                         }
                     }
                     if (counter == estateSet.size()){
-                        controller.getGui().showMessage(this.getName() + "owns all properties of this colour and rent i doubled.");
+                        controller.getGui().showMessage(this.getOwner().getName() + " owns all properties of this colour and rent i doubled.");
                     }
                 }
                 rent = ((RealEstate) this).Computerent((RealEstate) this);
@@ -147,6 +148,10 @@ public class Property extends Space {
                 //TODO do something with exceptions
             }
 
+        } else if(owner.equals(player)) {
+            controller.getGui().showMessage("You have landed on your own property.");
+        } else {
+            controller.getGui().showMessage(this.getName() + " is mortgaged you do not have to pay rent.");
         }
 
     }

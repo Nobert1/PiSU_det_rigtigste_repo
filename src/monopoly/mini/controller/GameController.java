@@ -490,6 +490,8 @@ public class GameController {
 
     public void obtainCash(Player player, int amount){
         boolean solvent = checkIfSolvent(player, amount);
+        int amountBefore;
+        int amountAfter;
         if(!solvent){
             gui.showMessage("You do not have enough assets to get the missing money.\n");
         } else {
@@ -498,21 +500,27 @@ public class GameController {
                         "Trade", "Sell houses", "Mortgage", "Forefit like a bitch");
                 switch (choice) {
                     case "Trade":
-                        int amountBefore = player.getBalance();
+                        amountBefore = player.getBalance();
                         try {
                             trade(player);
                         } catch (PlayerBrokeException e) {
 
                         }
-                        int amountAfter = player.getBalance();
+                        amountAfter = player.getBalance();
                         amount -= (amountAfter - amountBefore);
+                        break;
                     case "Sell Houses":
-
+                        amountBefore = player.getBalance();
+                            sellHouses(player);
+                        amountAfter = player.getBalance();
+                        amount -= (amountAfter - amountBefore);
+                        break;
                     case "Mortgage":
                         amountBefore = player.getBalance();
                         mortgage(player);
                         amountAfter = player.getBalance();
                         amount -= (amountAfter - amountBefore);
+                        break;
                     default:
                 }
             } while (amount > 0);
@@ -535,7 +543,7 @@ public class GameController {
         //checks the value of players houses and properties
         for (Property p : player.getOwnedProperties()) {
             if (!p.isMortgaged()) {
-                mortgageValue += p.getMortgageValue();
+                mortgageValue += p.getCost()/2;
                 if (p instanceof RealEstate) {
                     if (((RealEstate) p).isHotel()) {
                         houseValue += 5*((RealEstate) p).getHouseprice();
@@ -675,46 +683,55 @@ public class GameController {
      */
 
     public void sellHouses(Player player){
-        ArrayList<RealEstate> estateList = new ArrayList<>();
-        for(Property p: player.getOwnedProperties()) {
-            if (p instanceof RealEstate) {
-                if (((RealEstate) p).getHouses() > 0 || ((RealEstate) p).isHotel()) {
-                    estateList.add((RealEstate) p);
+        ArrayList<RealEstate> estateList;
+        do {
+            estateList = new ArrayList<>();
+            for (Property p : player.getOwnedProperties()) {
+                if (p instanceof RealEstate) {
+                    if (((RealEstate) p).getHouses() > 0 || ((RealEstate) p).isHotel()) {
+                        estateList.add((RealEstate) p);
+                    }
                 }
             }
-        }
-        if(estateList.isEmpty()){
-            gui.showMessage("You have no properties with houses or hotels.");
-        } else {
-            do{
-                String[] estateArr = arrayConverterRealestate(estateList);
+            if (estateList.isEmpty()) {
+                gui.showMessage("You have no properties with houses or hotels.");
+                break;
+            } else {
 
-                String chosenProperty = gui.getUserButtonPressed("Which property would you like to sell houses from?",estateArr);
-                for(RealEstate r: estateList){
-                    if(r.getName().equals(chosenProperty)){
-                        String[] houseArr = new String[r.getHouses()];
-                        for(int i = 0; i < houseArr.length; i++){
-                            houseArr[i] = String.valueOf(i+1);
+                String[] estateArr = arrayConverterRealestate(estateList);
+                String[] houseArr;
+                String chosenProperty = gui.getUserButtonPressed("Which property would you like to sell houses from?", estateArr);
+                for (RealEstate r : estateList) {
+                    if (r.getName().equals(chosenProperty)) {
+                        if(r.isHotel()){
+                            houseArr = new String[5];
+                        } else {
+                            houseArr = new String[r.getHouses()];
+                        }
+                        for (int i = 0; i < houseArr.length; i++) {
+                            houseArr[i] = String.valueOf(i + 1);
                         }
                         String housesToSell = gui.getUserButtonPressed("You have chosen " + r.getName() + " where there are " + r.getHouses()
-                                + " built.\n How many would you like to sell? You will receive 50% of what you played",houseArr);
+                                + " built.\n How many would you like to sell? You will receive 50% of what you played", houseArr);
                         String accept = gui.getUserButtonPressed("Are you sure you want to sell " + housesToSell + " houses?",
                                 "Yes", "no");
-                        if(accept.equals("Yes")){
-                            paymentFromBank(player,(Integer.valueOf(housesToSell) * (r.getHouseprice() / 2)));
-                            if(r.isHotel()){
+                        if (accept.equals("Yes")) {
+                            paymentFromBank(player, (Integer.valueOf(housesToSell) * (r.getHouseprice() / 2)));
+                            if (r.isHotel()) {
                                 r.setHotel(false);
+                                r.setHouses(5-Integer.valueOf(housesToSell));
+                            } else {
+                                r.setHouses(r.getHouses() - Integer.valueOf(housesToSell));
                             }
-                            r.setHouses(r.getHouses()-Integer.valueOf(housesToSell));
                             gui.showMessage("You have sold " + housesToSell + " and received " +
                                     Integer.valueOf(housesToSell) * (r.getHouseprice() / 2) + "dollars");
                         }
 
                     }
                 }
-            }while(!estateList.isEmpty());
-        }
 
+            }
+        }while(true);
 
     }
 
@@ -802,11 +819,13 @@ public class GameController {
      */
     public void payment(Player payer, int amount, Player receiver) throws PlayerBrokeException {
         if (payer.getBalance() < amount) {
-            obtainCash(payer, amount);
-            if (payer.getBalance() < amount) {
+            String s = gui.getUserButtonPressed("You do not have enough cash to pay. Would you like to sell assets to get" +
+                    "enough cash?", "Yes", "No");
+            if(s.equals("Yes")) {
+                obtainCash(payer, amount - payer.getBalance());
+            } else
                 playerBrokeTo(payer, receiver);
                 throw new PlayerBrokeException(payer);
-            }
         }
         gui.showMessage("Player " + payer.getName() + " pays " + amount + "$ to player " + receiver.getName() + ".");
         payer.payMoney(amount);
