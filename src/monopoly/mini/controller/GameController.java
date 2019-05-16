@@ -1221,4 +1221,8 @@ public class GameController {
     public int getDiecount() {
         return Diecount;
     }
+
+    public GUI getGui() {
+        return gui;
+    }
 }
