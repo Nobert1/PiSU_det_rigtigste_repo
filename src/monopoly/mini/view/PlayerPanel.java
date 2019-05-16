@@ -41,8 +41,8 @@ public class PlayerPanel extends JFrame {
     public void update(Player player) {
         contentPane.removeAll();
         JPanel playerPanel = new JPanel();
-        playerPanel.setMinimumSize(new Dimension(80, 60));
-        playerPanel.setPreferredSize(new Dimension(80, 80));
+        playerPanel.setMinimumSize(new Dimension(85, 60));
+        playerPanel.setPreferredSize(new Dimension(85, 80));
         playerPanel.setMaximumSize(new Dimension(120, 100));
         playerPanel.setLayout(new BoxLayout(playerPanel, BoxLayout.Y_AXIS));
         playerPanel.setBackground(player.getColor());
@@ -55,8 +55,10 @@ public class PlayerPanel extends JFrame {
         JLabel k = new JLabel("Jail status:\n");
         JLabel m = new JLabel("In jail");
         JLabel n = new JLabel("Not in jail");
+        JLabel a = new JLabel("Jailcards:" + player.getGetOutOfJailCards());
         playerPanel.add(l);
         playerPanel.add(j);
+        playerPanel.add(a);
         //playerPanel.add(k);
 
         boolean inPrison = player.isInPrison();
@@ -67,22 +69,6 @@ public class PlayerPanel extends JFrame {
             playerPanel.add(n);
         }
         contentPane.add(playerPanel);
-
-        JPanel jailPanel = new JPanel();
-        jailPanel.setMinimumSize(new Dimension(80, 60));
-        jailPanel.setPreferredSize(new Dimension(80, 80));
-        jailPanel.setMaximumSize(new Dimension(120, 100));
-        jailPanel.setLayout(new BoxLayout(jailPanel, BoxLayout.Y_AXIS));
-        jailPanel.setBackground(player.getColor());
-        jailPanel.setBorder(new CompoundBorder(
-                new CompoundBorder(BorderFactory.createEmptyBorder(2, 2, 2, 2),
-                        LineBorder.createBlackLineBorder()),
-                BorderFactory.createEmptyBorder(5, 5, 5, 5)));
-        JLabel o = new JLabel("Get out of jail cards:");
-        JLabel p = new JLabel("" + player.getGetOutOfJailCards());
-        jailPanel.add(o);
-        jailPanel.add(p);
-        contentPane.add(jailPanel);
 
         ArrayList<Color> colorArrayList = new ArrayList<>();
         for (Property property2 : player.getOwnedProperties()) {

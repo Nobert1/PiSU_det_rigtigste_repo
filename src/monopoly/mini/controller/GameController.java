@@ -60,6 +60,13 @@ public class GameController {
 
     private GameDAO database;
 
+    private PlayerController playerController;
+
+    private PaymentController paymentController;
+
+    private PropertyController propertyController;
+
+
 
     /**
      * General TODO - find ud af hvorfor fanden hustingen ikke virker som den skal, optimer panels så den ikke laver et panel for hver ejendom.
@@ -77,6 +84,9 @@ public class GameController {
         this.game = game;
         gui = new GUI();
         database = new GameDAO(game);
+        playerController = new PlayerController();
+        propertyController = new PropertyController();
+        paymentController = new PaymentController();
     }
 
     /**
@@ -103,7 +113,7 @@ public class GameController {
                 e.printStackTrace();
             }
         } else if (selection.equals("create game")) {
-            createPlayers(game);
+            playerController.createPlayers(game,this);
         }
         view.createplayers();
         view.createFields();
@@ -117,82 +127,7 @@ public class GameController {
      */
 
 
-    public void createPlayers(Game game) {
-        int players = 0;
-        do {
-            players = gui.getUserInteger(" How many players? Max 6 players.\n Remember youngest goes first!");
-            if (players > 1 && players < 7) {
-                break;
-            } else {
-                gui.showMessage("Not a valid number");
-            }
-        }while(players < 2 || players > 6);
 
-        ArrayList<String> iconList = new ArrayList<>();
-        iconList.add("CAR");
-        iconList.add("Racecar");
-        iconList.add("UFO");
-        iconList.add("Tractor");
-        ArrayList<String> colourList = new ArrayList<>();
-        colourList.add("Blue");
-        colourList.add("Red");
-        colourList.add("White");
-        colourList.add("Yellow");
-        colourList.add("Magneta");
-        colourList.add("Green");
-
-        int i = 1;
-        int j = 0;
-        do{
-            Player p = new Player();
-            String name = "";
-            while(name.equals("")) {
-                name = gui.getUserString("What would you like your name to be?");
-            }
-            String[] iconArr = arrayConverterString(iconList);
-            String[] colourArr = arrayConverterString(colourList);
-            String icon = gui.getUserButtonPressed("Which icon would you like to have?", iconArr);
-            String colour = gui.getUserButtonPressed("Which colour would you like?", colourArr);
-            Color c;
-            switch (colour){
-                case "Blue":
-                    c = Color.BLUE;
-                    break;
-                case "Red":
-                    c = Color.RED;
-                    break;
-                case "White":
-                    c = Color.WHITE;
-                    break;
-                case "Yellow":
-                    c = Color.YELLOW;
-                    break;
-                case "Magneta":
-                    c = Color.magenta;
-                    break;
-                case "Green":
-                    c = Color.GREEN;
-                    break;
-                default:
-                    c = Color.GREEN;
-
-            }
-
-
-            p.setName(name);
-            p.setCurrentPosition(game.getSpaces().get(0));
-            p.setColor(c);
-            p.setIcon(icon.toUpperCase());
-            p.setPlayerID(i++);
-            game.addPlayer(p);
-
-            iconList.remove(name);
-            colourList.remove(colour);
-
-        }while(i <= players);
-
-
-    }
 
     public String[] arrayConverterString(ArrayList<String> list){
         String[] array = new String[list.size()];
@@ -238,7 +173,7 @@ public class GameController {
             String choice;
             String jailChoice;
             do{
-                choice = gui.getUserButtonPressed("What would you like to do " + game.getCurrentPlayer().getName()+"?",  "Trade", "Build or Sell houses", "Mortgaging", "Roll");
+
 
                 if (player.isInPrison()) {
 
@@ -258,8 +193,7 @@ public class GameController {
                         //Needs testing, does it cost 500? - Gustav
                     }
                 }
-
-                choice = gui.getUserButtonPressed("What would you like to do " + game.getCurrentPlayer().getName()+"?", "Roll", "Trade", "Build or Sell houses", "Mortgage");
+                choice = gui.getUserButtonPressed("What would you like to do " + game.getCurrentPlayer().getName()+"?",  "Trade", "Build or Sell houses", "Mortgaging", "Roll");
                 switch(choice) {
                     case "Trade":
                         try {
@@ -378,14 +312,9 @@ public class GameController {
         boolean isNotInJail = true;
 
         do {
-            // TODO right now the dice are limited to the numbers 1, 2 and 3
-            // for making the game faster. Eventually, this should be set
-            // to 1 - 6 again (to this end, the constants 3.0 below should
-            // be set to 6.0 again.
-            //int die1 = (int) (1 + 6 * Math.random());
-            //int die2 = (int) (1 + 6 * Math.random());
-            int die1 = 10;
-            int die2 = 20;
+            int die1 = (int) (1 + 6 * Math.random());
+            int die2 = (int) (1 + 6 * Math.random());
+
 
 
             setDiecount(die1, die2);
