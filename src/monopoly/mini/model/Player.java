@@ -30,6 +30,8 @@ public class Player extends Subject {
 
     private int balance = 40000;
 
+    private int getOutOfJailCards = 1;
+
     private boolean inPrison = false;
 
     private boolean broke = false;
@@ -285,4 +287,11 @@ public class Player extends Subject {
         }
     }
 
+    public int getGetOutOfJailCards() {
+        return getOutOfJailCards;
+    }
+
+    public void setGetOutOfJailCards(int getOutOfJailCards) {
+        this.getOutOfJailCards = getOutOfJailCards;
+    }
 }

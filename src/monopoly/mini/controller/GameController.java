@@ -3,6 +3,7 @@ import gui_main.GUI;
 import monopoly.mini.database.dal.DALException;
 import monopoly.mini.database.dal.GameDAO;
 import monopoly.mini.model.*;
+import monopoly.mini.model.cards.GoToJail;
 import monopoly.mini.model.exceptions.PlayerBrokeException;
 import monopoly.mini.model.properties.RealEstate;
 import monopoly.mini.model.Game;
@@ -231,7 +232,28 @@ public class GameController {
             //The player choses which function they would like to do, which then calls the method
             Player player = players.get(current);
             String choice;
+            String jailChoice;
             do{
+
+                if (player.isInPrison()) {
+
+                    if (player.getGetOutOfJailCards() > 0) {
+                        jailChoice = gui.getUserSelection("You have a get out of jail card. Would you like to use it?", "Yes", "No");
+                        if (jailChoice.equals("Yes")) {
+                            player.setInPrison(false);
+                            player.setGetOutOfJailCards(player.getGetOutOfJailCards() - 1);
+                        }
+                        else if (jailChoice.equals("No")){
+                            jailChoice = gui.getUserSelection("Would you like to pay your way out of prison?", "yes", "no");
+                            if (jailChoice.equals("yes")) {
+                                player.setInPrison(false);
+                                player.setBalance(player.getBalance() - 500);
+                        }
+                    }
+                        //Needs testing, does it cost 500? - Gustav
+                    }
+                }
+
                 choice = gui.getUserButtonPressed("What would you like to do " + game.getCurrentPlayer().getName()+"?", "Roll", "Trade", "Build or Sell houses", "Mortgage");
                 switch(choice) {
                     case "Trade":
@@ -317,6 +339,14 @@ public class GameController {
         dispose();
     }
 
+    public List<Player> getPlayerList (){
+        return game.getPlayers();
+    }
+
+    public List<Space> getSpacesList (){
+        return game.getSpaces();
+    }
+
 
     /**
      * This method implements a activity of a single move of the given player.
@@ -337,23 +367,16 @@ public class GameController {
             // for making the game faster. Eventually, this should be set
             // to 1 - 6 again (to this end, the constants 3.0 below should
             // be set to 6.0 again.
-            int die1 = (int) (1 + 6 * Math.random());
-            int die2 = (int) (1 + 6 * Math.random());
+            //int die1 = (int) (1 + 6 * Math.random());
+            //int die2 = (int) (1 + 6 * Math.random());
+            int die1 = 10;
+            int die2 = 20;
+
 
             setDiecount(die1, die2);
             castDouble = (die1 == die2);
             gui.setDice(die1, die2);
 
-
-            if (player.isInPrison()) {
-                String choice = gui.getUserSelection("Would you like to pay your way out of prison?", "yes", "no");
-                if (choice.equals("yes")) {
-                    player.setInPrison(false);
-                    player.setBalance(player.getBalance() - 500);
-                }
-                //Needs testing, does it cost 500? - Gustav
-
-            }
             if (player.isInPrison() && castDouble) {
                 player.setInPrison(false);
                 gui.showMessage("Player " + player.getName() + " leaves prison now since he cast a double!");
