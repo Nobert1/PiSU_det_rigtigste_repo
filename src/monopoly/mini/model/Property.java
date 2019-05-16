@@ -149,8 +149,5 @@ public class Property extends Space {
         return mortgaged;
     }
 
-    public int Computerent(Property property) {
 
-        return 1;
-    }
 }

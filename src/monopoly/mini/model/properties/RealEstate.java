@@ -181,11 +181,9 @@ public class RealEstate extends Property {
 
 
     /**
-     * Hvordan huslejen skal skrues sammen ved jeg ikke helt endnu, jeg vil gerne
-     * have noget dynamisk husleje uden at den skal være hardcoded.
-     * Alle tal her er vejledende
-     * - s185031 Gustav Emil Nobert
-     *
+     *Method that returns rent depending on the amount of houses. If there are no houses the method looks
+     * if the player has a monopoly (all properties of that colour owned) and returns double rent
+     * @s175124
      * @param realEstate
      * @return
      */
@@ -197,7 +195,6 @@ public class RealEstate extends Property {
             return realEstate.getRentHouse1();
         } else if (realEstate.getHouses() == 2) {
             return realEstate.getRentHouse2();
-
         } else if (realEstate.getHouses() == 3) {
             return realEstate.getRentHouse3();
         } else if (realEstate.getHouses() == 4) {
@@ -216,24 +213,13 @@ public class RealEstate extends Property {
         }
         return realEstate.getRent();
     }
-    public void setRentHouse1(int rentHouse1) {
-        this.rentHouse1 = rentHouse1;
-    }
 
-    public void setRentHouse2(int rentHouse2) {
-        this.rentHouse2 = rentHouse2;
-    }
-
-    public void setRentHouse3(int rentHouse3) {
-        this.rentHouse3 = rentHouse3;
-    }
-
-    public void setRentHouse4(int rentHouse4) {
-        this.rentHouse4 = rentHouse4;
-    }
-
-    public void setRentHotel(int rentHotel) {
-        this.rentHotel = rentHotel;
+    public void setRents(int one, int two, int three, int four, int hotel){
+        this.rentHouse1 = one;
+        this.rentHouse2 = two;
+        this.rentHouse3 = three;
+        this.rentHouse4 = four;
+        this.rentHotel = hotel;
     }
 
     public int getRentHouse1() {
