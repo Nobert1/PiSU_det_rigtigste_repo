@@ -35,9 +35,9 @@ public class PayTax extends Card {
                     sumAssets += item.getCost();
                     if (item instanceof RealEstate) {
                         if (((RealEstate) item).isHotel()) {
-                            sumAssets += 5 * ((RealEstate) item).getHouseprice();
+                            sumAssets += 5 * ((RealEstate) item).getHousePrice();
                         } else {
-                            sumAssets += ((RealEstate) item).getHouses() * ((RealEstate) item).getHouseprice();
+                            sumAssets += ((RealEstate) item).getHouses() * ((RealEstate) item).getHousePrice();
                         }
                     }
                 }

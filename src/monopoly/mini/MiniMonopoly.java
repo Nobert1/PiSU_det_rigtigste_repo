@@ -391,7 +391,6 @@ public class MiniMonopoly {
         p.setPropertid(i++);
         game.addSpace(p);
 
-<<<<<<< HEAD
         if (p.getColor().equals(Colors.LIGHTBLUE)||(p.getColor().equals(Colors.LIGHTRED))){
             p.setHousePrice(50);
         }
@@ -405,9 +404,7 @@ public class MiniMonopoly {
             p.setHousePrice(200);
         }
 
-=======
         //TODO Make sure all cards are implemented
->>>>>>> origin/Chancecards
 
         List<Card> cards = new ArrayList<Card>();
 
