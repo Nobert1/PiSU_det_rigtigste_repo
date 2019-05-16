@@ -218,6 +218,11 @@ public class Player extends Subject {
         return Collections.unmodifiableList(ownedCards);
     }
 
+    public void addOwnedCard(Card card) {
+        ownedCards.add(card);
+        notifyChange();
+    }
+
     /**
      * Sets the currently owned cards of the player to the provided
      * list. Note that the provided list is copied.

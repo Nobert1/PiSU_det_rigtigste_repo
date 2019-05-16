@@ -68,13 +68,27 @@ public class PlayerPanel extends JFrame {
         }
         contentPane.add(playerPanel);
 
+        JPanel jailPanel = new JPanel();
+        jailPanel.setMinimumSize(new Dimension(80, 60));
+        jailPanel.setPreferredSize(new Dimension(80, 80));
+        jailPanel.setMaximumSize(new Dimension(120, 100));
+        jailPanel.setLayout(new BoxLayout(jailPanel, BoxLayout.Y_AXIS));
+        jailPanel.setBackground(player.getColor());
+        jailPanel.setBorder(new CompoundBorder(
+                new CompoundBorder(BorderFactory.createEmptyBorder(2, 2, 2, 2),
+                        LineBorder.createBlackLineBorder()),
+                BorderFactory.createEmptyBorder(5, 5, 5, 5)));
+        JLabel o = new JLabel("Get out of jail cards:");
+        JLabel p = new JLabel("" + player.getGetOutOfJailCards());
+        jailPanel.add(o);
+        jailPanel.add(p);
+        contentPane.add(jailPanel);
 
         ArrayList<Color> colorArrayList = new ArrayList<>();
         for (Property property2 : player.getOwnedProperties()) {
             if (!colorArrayList.contains(property2.getColor()))
                 colorArrayList.add(property2.getColor());
         }
-
 
         for (Color color : colorArrayList) {
             JPanel estatepanel = new JPanel();
