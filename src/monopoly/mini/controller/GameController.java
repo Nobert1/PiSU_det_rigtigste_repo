@@ -105,39 +105,48 @@ public class GameController {
      * @throws DALException
      */
     public void databaseinteraction () throws DALException {
-        String selection = gui.getUserButtonPressed("What you wanna do ","create game", "load game", "delete game");
+        String selection = gui.getUserButtonPressed("What you wanna do ", "create game", "load game", "delete game");
 
         if (selection.equals("delete game")) {
-            SaveName = gui.getUserSelection("what game would you like to load", database.generategameIDs());
-            Matcher matcher = Pattern.compile("\\d+").matcher(SaveName);
-            matcher.find();
-            int i = Integer.valueOf(matcher.group());
-        try {
-            database.deleteSave(i);
-            databaseinteraction();
-        } catch (DALException e) {
-            e.printStackTrace();
-        }
+            String[] arr = database.generategameIDs();
+            if (arr.length == 0) {
+                gui.showMessage("there are no saved games");
+            } else {
+                SaveName = gui.getUserSelection("what game would you like to load", arr);
+                Matcher matcher = Pattern.compile("\\d+").matcher(SaveName);
+                matcher.find();
+                int i = Integer.valueOf(matcher.group());
+                try {
+                    database.deleteSave(i);
+                    databaseinteraction();
+                } catch (DALException e) {
+                    e.printStackTrace();
+                }
+            }
         }
 
-        if (selection.equals("load game")) {
-            SaveName = gui.getUserSelection("what game would you like to load", database.generategameIDs());
-            Matcher matcher = Pattern.compile("\\d+").matcher(SaveName);
-            matcher.find();
-            int i = Integer.valueOf(matcher.group());
-            try {
-                database.getGame(i);
-            } catch (DALException e) {
-                e.printStackTrace();
+            else if (selection.equals("load game")) {
+            String[] arr = database.generategameIDs();
+            if (arr.length == 0) {
+                gui.showMessage("there are no saved games");
+            } else {
+                SaveName = gui.getUserSelection("what game would you like to load", arr);
+                Matcher matcher = Pattern.compile("\\d+").matcher(SaveName);
+                matcher.find();
+                int i = Integer.valueOf(matcher.group());
+                try {
+                    database.getGame(i);
+                } catch (DALException e) {
+                    e.printStackTrace();
+                }
+            }} else if (selection.equals("create game")) {
+                playerController.createPlayers(game, this);
+                SaveName = gui.getUserString("what would you like to call your save? The game auto saves the game state after each turn");
+                database.savegame(SaveName);
             }
-        } else if (selection.equals("create game")) {
-            playerController.createPlayers(game,this);
-            SaveName = gui.getUserString("what would you like to call your save? The game auto saves the game state after each turn");
-            database.savegame(SaveName);
+            view.createplayers();
+            view.createFields();
         }
-        view.createplayers();
-        view.createFields();
-    }
 
     /**
      * Method which allows the players to chose which icon and colour they would like. Colour is unique so is removed
