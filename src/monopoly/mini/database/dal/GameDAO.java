@@ -3,6 +3,7 @@ package monopoly.mini.database.dal;
 import monopoly.mini.model.Game;
 import monopoly.mini.model.Player;
 import monopoly.mini.model.Space;
+import monopoly.mini.model.properties.Colors;
 import monopoly.mini.model.properties.RealEstate;
 import monopoly.mini.model.properties.Utility;
 import java.awt.*;
@@ -18,12 +19,9 @@ public class GameDAO implements IGameDAO {
      * Indtil videre har vi ikke noget at gøre med chancekort. Lav evt forbindelsen til din egen database.
      */
 
-//TODO - fix alle de der milliarder af forbindelser der bliver åbnet og lukket. Udover det skal der også laves nye skemaer, som rent faktisk giver mening.
-// TODO Mulige fixes kan være en metode der opretter en forbindelse, hvis der allerede er en sund forbindelse returnerer den forbindelsen i stedet for.
-// TODO lav et statement der kører "create if not exists" med tabellerne.
-
     private Game game;
-
+    int ID;
+    //This int contins the ID of the current game, the purpose of the int it to keep track of the game so it can be updated on the run.
 
     public GameDAO (Game game) {
         this.game = game;
@@ -41,9 +39,9 @@ public class GameDAO implements IGameDAO {
     public void savegame(String saveName) throws DALException {
         try (Connection c = DataSource.getConnection()) {
             c.setAutoCommit(false);
-            int ID = insertIntoGame(saveName, c);
+            ID = insertIntoGame(saveName, c);
             insertintoPlayers(ID, c);
-            insertintoproperties(ID, c);
+            insertintoUtilities(ID, c);
             insertintoRealEstates(ID, c);
             c.commit();
             //Grunden til vi bruger en forbindelse er både for performance og for atomicity.
@@ -51,6 +49,8 @@ public class GameDAO implements IGameDAO {
             throw new DALException(e.getMessage());
         }
     }
+
+
 
     /**
      * Not in scope for the first iteration.
@@ -68,6 +68,19 @@ public class GameDAO implements IGameDAO {
             int row = preparedStatement.executeUpdate();
             c.commit();
 
+        } catch (SQLException e) {
+            throw new DALException(e.getMessage());
+        }
+    }
+
+    @Override
+    public void updateGame() throws DALException {
+        try (Connection c = DataSource.getConnection()) {
+            c.setAutoCommit(false);
+            updatePlayers(ID, c);
+            updateUtilities(ID, c);
+            updateRealEstates(ID, c);
+            c.commit();
         } catch (SQLException e) {
             throw new DALException(e.getMessage());
         }
@@ -92,6 +105,7 @@ public class GameDAO implements IGameDAO {
         try (Connection c = DataSource.getConnection()) {
             game.setPlayers(getPlayers(gameId, c));
             game.setSpaces(getspaces(gameId, c));
+            ID = gameId;
         } catch (SQLException e) {
             throw new DALException(e.getMessage());
         }
@@ -132,7 +146,7 @@ public class GameDAO implements IGameDAO {
     public List<Utility> getUtilites(int gameID, Connection c) throws DALException {
         try {
             // try (Connection c = DataSource.getConnection()) {
-            PreparedStatement statement = c.prepareStatement("SELECT * FROM Properties WHERE gameID=?");
+            PreparedStatement statement = c.prepareStatement("SELECT * FROM Utilities WHERE gameID=?");
 
             statement.setInt(1, gameID);
             ResultSet resultSet = statement.executeQuery();
@@ -231,7 +245,7 @@ public class GameDAO implements IGameDAO {
         //For at der skal kunne sættes en ejer kræver det han er oprettet først.
         Utility utility = new Utility();
         for (Utility utility1 : game.getUtilites()) {
-            if (utility1.getPropertyid() == resultSet.getInt("PropertyID")) {
+            if (utility1.getPropertyid() == resultSet.getInt("utilityID")) {
                 utility = utility1;
                 //Det her kan godt virke, men aner det ikke.
                 for (Player player : game.getPlayers()) {
@@ -263,9 +277,10 @@ public class GameDAO implements IGameDAO {
         player.setBalance(resultSet.getInt("balance"));
         player.setCurrentPosition(game.getSpaces().get(resultSet.getInt("position")));
         player.setInPrison(resultSet.getBoolean("injail"));
-        player.setBroke(resultSet.getBoolean("broke"));
-        Color color = new Color(resultSet.getInt("r"),resultSet.getInt("g"),resultSet.getInt("b"));
-        player.setColor(color);
+        String color = resultSet.getString("color");
+
+        Color color1 = new Color(Colors.getcolorName(color).getRed(), Colors.getcolorName(color).getGreen(), Colors.getcolorName(color).getBlue());
+        player.setColor(color1);
         player.setIcon(resultSet.getString("tokentype"));
         return player;
     }
@@ -278,24 +293,49 @@ public class GameDAO implements IGameDAO {
     @Override
     public void insertintoPlayers(int gameID, Connection c) throws DALException {
 
-        //try (Connection c = DataSource.getConnection()) {
         try {
-            PreparedStatement statement = c.prepareStatement("INSERT INTO Player VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+            PreparedStatement statement = c.prepareStatement("INSERT INTO Player VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
 
             for (Player player : game.getPlayers()) {
 
-                //TODO Regex this perhaps?
                 statement.setInt(1, player.getPlayerID());
-                statement.setString(2, player.getName());
-                statement.setInt(3, gameID);
+                statement.setInt(2, gameID);
+                statement.setString(3, player.getName());
                 statement.setInt(4, player.getBalance());
                 statement.setInt(5, player.getCurrentPosition().getIndex());
                 statement.setBoolean(6, player.isInPrison());
-                statement.setBoolean(7, player.isBroke());
-                statement.setInt(8, player.getColor().getRed());
-                statement.setInt(9, player.getColor().getGreen());
-                statement.setInt(10, player.getColor().getBlue());
-                statement.setString(11, player.getIcon());
+                statement.setString(7, Colors.getcolorName(player.getColor()));
+                statement.setString(8, player.getIcon());
+                statement.setBoolean(9, false);
+                if (game.getCurrentPlayer() == player) {
+                    statement.setBoolean(9, true);
+                }
+                statement.addBatch();
+            }
+
+            int[] rows = statement.executeBatch();
+        } catch (SQLException e) {
+            throw new DALException(e.getMessage());
+        }
+    }
+    @Override
+    public void updatePlayers(int gameID, Connection c) throws DALException {
+
+        //try (Connection c = DataSource.getConnection()) {
+        try {
+            PreparedStatement statement = c.prepareStatement("UPDATE Player SET balance = ?, position = ?, injail = ?, " +
+                    "Currentplayer = ? WHERE gameID = ? AND playerID = ?;");
+            statement.setInt(5, gameID);
+            for (Player player : game.getPlayers()) {
+                //TODO Regex this perhaps?
+                statement.setInt(1, player.getBalance());
+                statement.setInt(2, player.getCurrentPosition().getIndex());
+                statement.setBoolean(3, player.isInPrison());
+                statement.setBoolean(4, false);
+                if (game.getCurrentPlayer() == player) {
+                    statement.setBoolean(4, true);
+                }
+                statement.setInt(6, player.getPlayerID());
                 statement.addBatch();
             }
 
@@ -311,10 +351,10 @@ public class GameDAO implements IGameDAO {
      * @throws DALException
      */
     @Override
-    public void insertintoproperties(int gameID, Connection c) throws DALException {
+    public void insertintoUtilities(int gameID, Connection c) throws DALException {
         try {
             //try (Connection c = DataSource.getConnection()) {
-            PreparedStatement statement = c.prepareStatement("INSERT INTO Properties VALUES (?, ?, ?, ?)");
+            PreparedStatement statement = c.prepareStatement("INSERT INTO Utilities VALUES (?, ?, ?, ?)");
             for (Utility utility : game.getUtilites()) {
                 statement.setInt(1, gameID);
                 if (utility.getOwner() != null) {
@@ -332,8 +372,31 @@ public class GameDAO implements IGameDAO {
         }
     }
 
+    @Override
+    public void updateUtilities(int gameID, Connection c) throws DALException {
+        try {
+            //try (Connection c = DataSource.getConnection()) {
+            PreparedStatement statement = c.prepareStatement("UPDATE Utilities SET ownerID = ?, mortgaged = ? WHERE gameID = ? " +
+                    "AND utilityID = ?;");
+            statement.setInt(3, gameID);
+            for (Utility utility : game.getUtilites()) {
+                if (utility.getOwner() != null) {
+                    statement.setInt(1, utility.getOwner().getPlayerID());
+                } else {
+                    statement.setNull(1, Types.INTEGER);
+                }
+                statement.setBoolean(2, utility.isMortgaged());
+                statement.setInt(4, utility.getPropertyid());
+                statement.addBatch();
+            }
+            int[] Propertiesrow = statement.executeBatch();
+        } catch (SQLException e) {
+            throw new DALException(e.getMessage());
+        }
+    }
+
     /**
-     * Only insert the non persistent attributes.
+     * Only inserts the non persistent attributes.
      * @param gameID
      * @throws DALException
      */
@@ -363,7 +426,41 @@ public class GameDAO implements IGameDAO {
     }
 
     /**
-     * Inserts into game.
+     * One of the update methods.
+     * @param gameID
+     * @param c
+     * @throws DALException
+     */
+    @Override
+    public void updateRealEstates(int gameID, Connection c) throws DALException {
+        try {
+            PreparedStatement statement = c.prepareStatement("UPDATE RealEstate SET ownerID = ?, mortgaged = ?, houses = ?," +
+                    " hotel = ? WHERE gameID = ? AND RealEstateId = ?;");
+            statement.setInt(5, gameID);
+            for (RealEstate realEstate : game.getRealestates()) {
+                if (realEstate.getOwner() != null) {
+                    statement.setInt(1, realEstate.getOwner().getPlayerID());
+                } else {
+                    statement.setNull(1, Types.INTEGER);
+                }
+                statement.setBoolean(2, realEstate.isMortgaged());
+                statement.setInt(3, realEstate.getHouses());
+                statement.setBoolean(4,realEstate.isHotel());
+                statement.setInt(6, realEstate.getPropertid());
+                statement.addBatch();
+            }
+
+            int[] Realestaterow = statement.executeBatch();
+        } catch (SQLException e) {
+            throw new DALException(e.getMessage());
+        }
+    }
+
+    /**
+     * @param gameName
+     * @param c
+     * @return gameID, so that the other insert methods can have a matching gameID.
+     * @throws DALException
      */
     @Override
     public int insertIntoGame(String gameName, Connection c) throws DALException{
@@ -376,7 +473,7 @@ public class GameDAO implements IGameDAO {
                 if (generatedKeys.next()) {
                     ID = generatedKeys.getInt(1);
                 } else {
-                    throw new SQLException("Creating user failed, no ID obtained.");
+                    throw new SQLException("Creating game failed, no ID obtained.");
                 }
             } catch (SQLException e) {
                 e.getMessage();
@@ -398,7 +495,7 @@ public class GameDAO implements IGameDAO {
             ResultSet resultSet = statement.executeQuery("SELECT * FROM Game");
             while (resultSet.next()) {
                 int gameid = resultSet.getInt("gameID");
-                String games = gameid + " " + resultSet.getString("SaveName");
+                String games = gameid + ".  " + resultSet.getString("SaveName");
                 gameIDsList.add(games);
             }
             String[] gameIdsArray = new String[gameIDsList.size()];
@@ -407,7 +504,6 @@ public class GameDAO implements IGameDAO {
                 gameIdsArray[i] = name;
                 i++;
             }
-
             return gameIdsArray;
         } catch (SQLException e) {
             throw new DALException(e.getMessage());

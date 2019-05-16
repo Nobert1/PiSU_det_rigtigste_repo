@@ -1,7 +1,7 @@
 package monopoly.mini.view;
 
-import designpatterns.Observer;
-import designpatterns.Subject;
+import monopoly.mini.designpatterns.Observer;
+import monopoly.mini.designpatterns.Subject;
 import monopoly.mini.model.Game;
 import monopoly.mini.model.Player;
 import monopoly.mini.model.Property;
@@ -54,6 +54,9 @@ public class View implements Observer {
         this.playerPanel = playerPanel;
     }
 
+    /**
+     * Author of changes to this class : Gustav Emil Nobert s185031
+     */
 
 
     public void createFields() {

@@ -2,6 +2,7 @@ package monopoly.mini.controller;
 
 import monopoly.mini.model.Game;
 import monopoly.mini.model.Player;
+import monopoly.mini.model.properties.Colors;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -29,11 +30,10 @@ public class PlayerController {
         colourList.add("Red");
         colourList.add("White");
         colourList.add("Yellow");
-        colourList.add("Magneta");
+        colourList.add("Magenta");
         colourList.add("Green");
 
         int i = 1;
-        int j = 0;
         do{
             Player p = new Player();
             String name = "";
@@ -47,22 +47,22 @@ public class PlayerController {
             Color c;
             switch (colour){
                 case "Blue":
-                    c = Color.BLUE;
+                    c = Colors.getcolor(Colors.LIGHTBLUE);
                     break;
                 case "Red":
-                    c = Color.RED;
+                    c = Colors.getcolor(Colors.RED);
                     break;
                 case "White":
-                    c = Color.WHITE;
+                    c = Colors.getcolor(Colors.WHITE);
                     break;
                 case "Yellow":
-                    c = Color.YELLOW;
+                    c = Colors.getcolor(Colors.YELLOW);
                     break;
-                case "Magneta":
-                    c = Color.magenta;
+                case "Magenta":
+                    c = Colors.getcolor(Colors.MAGENTA);
                     break;
                 case "Green":
-                    c = Color.GREEN;
+                    c = Colors.getcolor(Colors.GREEN);
                     break;
                 default:
                     c = Color.GREEN;

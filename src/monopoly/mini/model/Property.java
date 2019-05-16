@@ -112,7 +112,8 @@ public class Property extends Space {
      * @param player the involved player
      * @throws PlayerBrokeException
      */
-
+        //TODO drenge det kan vi ikke det her, flyt det ned i klsaserne i stedet for at behandle det i super klassen.
+    //TODO det virkeligt alt for roddet det der.
     @Override
     public void doAction(GameController controller, Player player) throws PlayerBrokeException {
         if (owner == null) {
@@ -184,6 +185,7 @@ public class Property extends Space {
         return mortgageValue;
     }
 
+    //TODO den her skal vel slettes?
     public void setMortgaged(boolean mortgaged) {
         this.mortgaged = mortgaged;
         if (mortgaged)

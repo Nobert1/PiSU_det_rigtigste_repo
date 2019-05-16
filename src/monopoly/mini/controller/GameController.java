@@ -35,8 +35,6 @@ import java.util.regex.Pattern;
  * to add more of these basic actions in this class.
  *
  * The <code>doAction()</code> methods of the
- * {@link dk.dtu.compute.se.pisd.monopoly.mini.model.Space} and
- * the {@link dk.dtu.compute.se.pisd.monopoly.mini.model.Card}
  * can be implemented based on the basic actions and activities
  * of this game controller.
  *
@@ -65,6 +63,8 @@ public class GameController {
     private PaymentController paymentController;
 
     private PropertyController propertyController;
+
+    private String SaveName;
 
 
 
@@ -100,11 +100,29 @@ public class GameController {
         this.view = new View(game, gui, playerpanel);
     }
 
+    /**
+     * @author Gustav Emil Nobert s185031
+     * @throws DALException
+     */
     public void databaseinteraction () throws DALException {
-        String selection = gui.getUserSelection("What you wanna do ","create game", "load game");
+        String selection = gui.getUserButtonPressed("What you wanna do ","create game", "load game", "delete game");
+
+        if (selection.equals("delete game")) {
+            SaveName = gui.getUserSelection("what game would you like to load", database.generategameIDs());
+            Matcher matcher = Pattern.compile("\\d+").matcher(SaveName);
+            matcher.find();
+            int i = Integer.valueOf(matcher.group());
+        try {
+            database.deleteSave(i);
+            databaseinteraction();
+        } catch (DALException e) {
+            e.printStackTrace();
+        }
+        }
+
         if (selection.equals("load game")) {
-            String s = gui.getUserButtonPressed("what game would you like to load", database.generategameIDs());
-            Matcher matcher = Pattern.compile("\\d+").matcher(s);
+            SaveName = gui.getUserSelection("what game would you like to load", database.generategameIDs());
+            Matcher matcher = Pattern.compile("\\d+").matcher(SaveName);
             matcher.find();
             int i = Integer.valueOf(matcher.group());
             try {
@@ -114,6 +132,8 @@ public class GameController {
             }
         } else if (selection.equals("create game")) {
             playerController.createPlayers(game,this);
+            SaveName = gui.getUserString("what would you like to call your save? The game auto saves the game state after each turn");
+            database.savegame(SaveName);
         }
         view.createplayers();
         view.createFields();
@@ -123,7 +143,7 @@ public class GameController {
      * Method which allows the players to chose which icon and colour they would like. Colour is unique so is removed
      * from list each time it is chosen
      * @author.
-     * @param game
+     * @param
      */
 
 
@@ -261,15 +281,10 @@ public class GameController {
                 break;
 
             }
-
-
-
-
-
-            // TODO offer all players the options to trade etc.
-
+            database.updateGame();
             current = (current + 1) % players.size();
             game.setCurrentPlayer(players.get(current));
+
             if (current == 0) {
                 String selection = gui.getUserSelection(
                         "A round is finished. Do you want to continue the game?",
@@ -277,9 +292,6 @@ public class GameController {
                         "no");
 
                 if (selection.equals("no")) {
-                    String name = gui.getUserString("What would you like to save the game name as?");
-                    database.savegame(name);
-                    gui.showMessage("game saved");
                     terminated = true;
                 }
             }
@@ -298,7 +310,7 @@ public class GameController {
 
     /**
      * This method implements a activity of a single move of the given player.
-     * It throws a {@link dk.dtu.compute.se.pisd.monopoly.mini.model.exceptions.PlayerBrokeException}
+     * It throws a
      * if the player goes broke in this move. Note that this is still a very
      * basic implementation of the move of a player; many aspects are still
      * missing.
