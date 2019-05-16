@@ -109,17 +109,10 @@ public class Property extends Space {
         } else if (!owner.equals(player) && !this.isMortgaged()) {
             int rent = 0;
             if (this instanceof RealEstate) {
-                rent = ((RealEstate) this).Computerent(this);
+                rent = ((RealEstate) this).Computerent((RealEstate) this);
             } else {
-                rent = ((Utility) this).Computerent(this);
+                rent = ((Utility) this).Computerent((Utility) this);
             }
-            // TODO also check whether the property is mortgaged
-            // TODO the computation of the actual rent could be delegated
-            //      the subclasses of Property, which can take the specific
-            //      individual conditions into account. Note that the
-            //      groups of properties (which are not part of the model
-            //      yet also need to be taken into account).
-
             try {
                 controller.payment(player, rent, this.getOwner());
             } catch (PlayerBrokeException e) {

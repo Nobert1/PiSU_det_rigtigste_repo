@@ -69,20 +69,9 @@ public class RealEstate extends Property {
         notifyChange();
     }
 
-    public int getHotelRent(int hotelrent) {
-        return hotelrent;
-    }
 
     public int getHouses() {
         return houses;
-    }
-
-    public int getHouserent() {
-        return houserent;
-    }
-
-    public void setHouserent(int houserent) {
-        this.houserent = houserent;
     }
 
     @Override
@@ -101,15 +90,6 @@ public class RealEstate extends Property {
 
     public void setHouseprice(int houseprice) {
         this.houseprice = houseprice;
-        notifyChange();
-    }
-
-    public int getRealestateRent() {
-        return RealestateRent;
-    }
-
-    public void setRealestateRent(int realestateRent) {
-        this.RealestateRent = realestateRent;
         notifyChange();
     }
 
@@ -279,19 +259,5 @@ public class RealEstate extends Property {
     public static Set<RealEstate> getGreenproperties() { return Greenproperties; }
 
     public static Set<RealEstate> getLightredProperties() { return LightredProperties; }
-
-    public static void checkforbuildable(RealEstate estate) {
-        Set<RealEstate> estateSet = getcolormap(estate);
-        int counter = 0;
-        for (RealEstate realEstate : estateSet) {
-            if (realEstate.getOwner() == estate.getOwner()) {
-                counter++;
-            }
-        }
-        if (counter == estateSet.size()) {
-            estate.setBuildable(true);
-        } else {
-            estate.setBuildable(false);
-        }
-    }
+    <
 }
