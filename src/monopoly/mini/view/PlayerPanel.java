@@ -92,7 +92,7 @@ public class PlayerPanel extends JFrame {
                 if (color.equals(property1.getColor())) {
                     nameString += property1.getName();
                     if(property1.isMortgaged()){
-                        nameString += "   M\n";
+                        nameString += " M\n";
                     } else {
                         nameString += "\n";
                     }
