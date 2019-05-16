@@ -1,5 +1,7 @@
 package designpatterns;
 
+import monopoly.mini.view.View;
+
 import java.util.HashSet;
 import java.util.Set;
 
@@ -20,7 +22,7 @@ public abstract class Subject {
      *
      * @param observer the observer who registers
      */
-    final public void attach(Observer observer) {
+    final public void attach(View observer) {
         observers.add(observer);
     }
 
@@ -30,7 +32,7 @@ public abstract class Subject {
      *
      * @param observer the observer who unregisters
      */
-    final public void detach(Observer observer) {
+    final public void detach(View observer) {
         observers.remove(observer);
     }
 
