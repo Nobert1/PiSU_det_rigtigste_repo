@@ -290,9 +290,9 @@ public class GameController {
                 break;
 
             }
-            database.updateGame();
             current = (current + 1) % players.size();
             game.setCurrentPlayer(players.get(current));
+            database.updateGame();
 
             if (current == 0) {
                 String selection = gui.getUserSelection(

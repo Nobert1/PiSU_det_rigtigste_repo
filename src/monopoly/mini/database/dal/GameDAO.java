@@ -1,5 +1,7 @@
 package monopoly.mini.database.dal;
 
+import monopoly.mini.database.dto.GameDTO;
+import monopoly.mini.database.dto.IGameDTO;
 import monopoly.mini.model.Game;
 import monopoly.mini.model.Player;
 import monopoly.mini.model.Space;
@@ -39,7 +41,7 @@ public class GameDAO implements IGameDAO {
     public void savegame(String saveName) throws DALException {
         try (Connection c = DataSource.getConnection()) {
             c.setAutoCommit(false);
-            ID = insertIntoGame(saveName, c);
+            insertIntoGame(saveName, c);
             insertintoPlayers(ID, c);
             insertintoUtilities(ID, c);
             insertintoRealEstates(ID, c);
@@ -465,7 +467,6 @@ public class GameDAO implements IGameDAO {
     @Override
     public int insertIntoGame(String gameName, Connection c) throws DALException{
         try {
-            int ID = 0;
             PreparedStatement statement = c.prepareStatement("INSERT INTO Game VALUES (default, ?)", Statement.RETURN_GENERATED_KEYS);
             statement.setString(1, gameName);
             int row = statement.executeUpdate();
