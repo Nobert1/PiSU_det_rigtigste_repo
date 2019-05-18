@@ -10,6 +10,9 @@ import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.util.ArrayList;
 
+/**
+ * Authors Gustav Emil Nobert s185031 and Martin Wassman s185033
+ */
 public class PlayerPanel extends JFrame {
 
     private Game game;

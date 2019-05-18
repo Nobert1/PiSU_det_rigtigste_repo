@@ -12,12 +12,13 @@ import java.util.List;
 
 public interface IGameDAO {
 
-    //Jeg er ikke sikker på de her ting
-    //GameId er det id der kommer fra databasen så den ved hvilket save den skal have informationen fra. Det er en henvisning til databasen.
-    //Delete save laver vi hvis vi får tid, det er ikke en høj priotet.
+
+    /** The CRUD operations of the class.
+     */
     public void savegame(String saveName) throws DALException;
     void getGame (int gameId) throws DALException;
     void deleteSave(int gameId) throws DALException;
+    public void updateGame() throws DALException;
 
 
     /**
@@ -28,7 +29,7 @@ public interface IGameDAO {
      */
     public int insertIntoGame(String gameName, Connection c) throws DALException;
     public void insertintoRealEstates(int gameID, Connection c) throws DALException;
-    public void insertintoproperties(int gameID, Connection c) throws DALException;
+    public void insertintoUtilities(int gameID, Connection c) throws DALException;
     public void insertintoPlayers(int gameID, Connection c) throws DALException;
 
 
@@ -43,6 +44,18 @@ public interface IGameDAO {
     public List<Player> getPlayers(int gameID, Connection c) throws DALException;
 
     /**
+     * Methods for saving the game while it's running.
+     * @param gameID
+     * @param c
+     * @throws DALException
+     */
+
+    public void updateRealEstates(int gameID, Connection c) throws DALException;
+    public void updateUtilities(int gameID, Connection c) throws DALException;
+    public void updatePlayers(int gameID, Connection c) throws DALException;
+
+
+    /**
      * Basic methods to make objects from resultsets.
      * @param resultSet
      * @return
@@ -52,4 +65,5 @@ public interface IGameDAO {
     public Player makePlayerFromResultset(ResultSet resultSet) throws SQLException;
     public Utility makeUtilityFromResultset(ResultSet resultSet) throws SQLException;
 
-}
+
+    }

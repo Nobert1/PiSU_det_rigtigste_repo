@@ -1,0 +1,52 @@
+
+Before interaction with a new database, create the following schemas and the trigger:
+
+DROP TABLE Game;
+CREATE TABLE if not exists Game (
+gameID int auto_increment PRIMARY KEY,
+SaveName varchar(45) UNIQUE
+);
+
+CREATE TABLE if not exists Player (
+playerID int NOT NULL,
+gameID int references Game.gameID,
+PlayerName varchar(45),
+balance int NOT NULL,
+position int,
+injail boolean,
+color varchar(45),
+tokentype varchar(45),
+Currentplayer boolean,
+CONSTRAINT pk primary key (playerID, gameID),
+CONSTRAINT fk FOREIGN KEY (gameID) REFERENCES Game (gameID) ON DELETE CASCADE
+);
+
+
+CREATE TABLE if not exists Utilities (
+gameID int references Game.gameID,
+ownerID int references Player.playerID,
+utilityID int NOT NULL,
+mortgaged boolean,
+CONSTRAINT pk primary key (gameID, utilityID)
+);
+
+CREATE TABLE if not exists RealEstate  (
+gameID int references Game.gameID,
+ownerID int references Player.playerID ON DELETE CASCADE,
+mortgaged boolean,
+RealEstateId INT NOT NULL,
+houses INT,
+hotel boolean,
+CONSTRAINT pk primary key (gameID, RealEstateId)
+);
+
+
+DELIMITER $$
+CREATE TRIGGER delete_trigger BEFORE DELETE ON Game
+FOR EACH ROW
+BEGIN
+DELETE FROM RealEstate WHERE RealEstate.gameID = old.gameID;
+DELETE FROM Player WHERE Player.gameID = old.gameID;
+DELETE FROM Utilities WHERE Utilities.gameID = old.gameID;
+END $$
+DELIMITER ;

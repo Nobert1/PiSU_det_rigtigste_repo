@@ -1,6 +1,6 @@
 package monopoly.mini.model;
 
-import designpatterns.Subject;
+import monopoly.mini.designpatterns.Subject;
 import monopoly.mini.controller.GameController;
 import monopoly.mini.model.exceptions.PlayerBrokeException;
 

@@ -1,7 +1,6 @@
 package monopoly.mini.model;
 
-import designpatterns.Subject;
-import gui_fields.GUI_Car;
+import monopoly.mini.designpatterns.Subject;
 
 import java.awt.*;
 import java.util.List;
