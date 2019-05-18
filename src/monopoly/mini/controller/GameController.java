@@ -125,10 +125,6 @@ public class GameController {
      * @author.
      * @param game
      */
-
-
-
-
     public String[] arrayConverterString(ArrayList<String> list){
         String[] array = new String[list.size()];
         int i = 0;
@@ -147,13 +143,11 @@ public class GameController {
         return array;
     }
 
-
     /**
      * The main method to start the game. The game is started with the
      * current player of the game; this makes it possible to resume a
      * game at any point.
      */
-
     public void play() throws DALException {
         List<Player> players = game.getPlayers();
         Player c = game.getCurrentPlayer();
@@ -165,7 +159,7 @@ public class GameController {
                 current = i;
             }
         }
-
+//TODO: right now to pay out of jail is in card loop which means you can only pay your way out if you have a card and say no?
         boolean terminated = false;
         while (!terminated) {
             //The player choses which function they would like to do, which then calls the method
@@ -173,10 +167,7 @@ public class GameController {
             String choice;
             String jailChoice;
             do{
-
-
                 if (player.isInPrison()) {
-
                     if (player.getGetOutOfJailCards() > 0) {
                         jailChoice = gui.getUserSelection("You have a get out of jail card. Would you like to use it?", "Yes", "No");
                         if (jailChoice.equals("Yes")) {
@@ -206,32 +197,31 @@ public class GameController {
                         String h = gui.getUserButtonPressed("Would you like to build or sell?","Build","Sell");
                         if(h.equals("Build")){
                             try {
-                                buildHouses(game.getCurrentPlayer());
+                                propertyController.buildHouses(game.getCurrentPlayer(),this);
                             } catch (PlayerBrokeException e) {
                             }
                         } else {
-                            sellHouses(game.getCurrentPlayer());
+                            propertyController.sellHouses(game.getCurrentPlayer(),this);
                         }
                         break;
                     case "Mortgaging":
                         String m = gui.getUserButtonPressed("Would you like to mortgage or unmortgage?", "Mortgage","Unmortgage");
                         if(m.equals("Mortgage")) {
-                            mortgage(game.getCurrentPlayer());
+                            propertyController.mortgage(game.getCurrentPlayer(),this);
                         } else {
                             try {
-                                unmortgage(game.getCurrentPlayer());
+                                propertyController.unmortgage(game.getCurrentPlayer(),this);
                             }catch (PlayerBrokeException e){
 
                             }
                         }
                         break;
-
                     default:
                 }
             }while(choice != "Roll");
             if (!player.isBroke()) {
                 try {
-                    this.makeMove(player);
+                    playerController.makeMove(player,this);
                 } catch (PlayerBrokeException e) {
                     // We could react to the player having gone broke
                 }
@@ -295,115 +285,6 @@ public class GameController {
         return game.getSpaces();
     }
 
-
-    /**
-     * This method implements a activity of a single move of the given player.
-     * It throws a {@link dk.dtu.compute.se.pisd.monopoly.mini.model.exceptions.PlayerBrokeException}
-     * if the player goes broke in this move. Note that this is still a very
-     * basic implementation of the move of a player; many aspects are still
-     * missing.
-     *
-     * @param player the player making the move
-     * @throws PlayerBrokeException if the player goes broke during the move
-     */
-    public void makeMove(Player player) throws PlayerBrokeException {
-        boolean castDouble;
-        int doublesCount = 0;
-        boolean isNotInJail = true;
-
-        do {
-            int die1 = (int) (1 + 6 * Math.random());
-            int die2 = (int) (1 + 6 * Math.random());
-
-
-
-            setDiecount(die1, die2);
-            castDouble = (die1 == die2);
-            gui.setDice(die1, die2);
-
-            if (player.isInPrison() && castDouble) {
-                player.setInPrison(false);
-                gui.showMessage("Player " + player.getName() + " leaves prison now since he cast a double!");
-            } else if (player.isInPrison()) {
-                gui.showMessage("Player " + player.getName() + " stays in prison since he did not cast a double!");
-            }
-            // TODO note that the player could also pay to get out of prison,
-            //      which is not yet implemented
-            if (castDouble) {
-                doublesCount++;
-                if (doublesCount > 2) {
-                    gui.showMessage("Player " + player.getName() + " has cast the third double and goes to jail!");
-                    gotoJail(player);
-                    return;
-                }
-            }
-            if (!player.isInPrison()) {
-                // make the actual move by computing the new position and then
-                // executing the action moving the player to that space
-                int pos = player.getCurrentPosition().getIndex();
-                List<Space> spaces = game.getSpaces();
-                int newPos = (pos + die1 + die2) % spaces.size();
-                Space space = spaces.get(newPos);
-                moveToSpace(player, space);
-                checkForGoToJail(player);
-
-                if (player.getCurrentPosition().getIndex() == 10) {
-                    isNotInJail = false;
-                } else isNotInJail = true;
-
-                if (castDouble && isNotInJail) {
-                    gui.showMessage("Player " + player.getName() + " cast a double and makes another move.");
-                }
-            }
-        } while (castDouble && isNotInJail);
-    }
-
-    public void checkForGoToJail (Player player) throws PlayerBrokeException {
-        int pos = player.getCurrentPosition().getIndex();
-        if (pos == 30) {
-            gotoJail(player);
-        }
-    }
-
-    /**
-     * This method implements the activity of moving the player to the new position,
-     * including all actions associated with moving the player to the new position.
-     *
-     * @param player the moved player
-     * @param space  the space to which the player moves
-     * @throws PlayerBrokeException when the player goes broke doing the action on that space
-     */
-    public void moveToSpace(Player player, Space space) throws PlayerBrokeException {
-        int posOld = player.getCurrentPosition().getIndex();
-        player.setCurrentPosition(space);
-
-        if (posOld > player.getCurrentPosition().getIndex()) {
-            // Note that this assumes that the game has more than 12 spaces here!
-            // TODO: the amount of 2000$ should not be a fixed constant here (could also
-            //       be configured in the Game class.
-            gui.showMessage("Player " + player.getName() + " receives " + game.getPassstartbonus() + " for passing Go!");
-            this.paymentFromBank(player, game.getPassstartbonus());
-        }
-        gui.showMessage("Player " + player.getName() + " arrives at " + space.getIndex() + ": " + space.getName() + ".");
-
-        // Execute the action associated with the respective space. Note
-        // that this is delegated to the field, which implements this action
-        space.doAction(this, player);
-    }
-
-    /**
-     * The method implements the action of a player going directly to jail.
-     *
-     * @param player the player going to jail
-     */
-    public void gotoJail(Player player) {
-        // Field #10 is in the default game board of Monopoly the field
-        // representing the prison.
-        // TODO the 10 should not be hard coded
-        player.setCurrentPosition(game.getSpaces().get(10));
-        player.setInPrison(true);
-    }
-
     /**
      * The method implementing the activity of taking a chance card.
      *
@@ -432,7 +313,6 @@ public class GameController {
         game.returnCardToDeck(card);
     }
 
-
     /**
      * TODO: Not finished
      * @author s175124 &s185031
@@ -440,8 +320,6 @@ public class GameController {
      * @param amount: Needs amount missing to be input which then is used to check if the player has enough
      *                total value to get the missing amount.
      */
-
-
     public boolean obtainCash(Player player, int amount){
         boolean solvent = checkIfSolvent(player, amount);
         int amountBefore;
@@ -465,13 +343,13 @@ public class GameController {
                         break;
                     case "Sell Houses":
                         amountBefore = player.getBalance();
-                        sellHouses(player);
+                        propertyController.sellHouses(player,this);
                         amountAfter = player.getBalance();
                         amount -= (amountAfter - amountBefore);
                         break;
                     case "Mortgage":
                         amountBefore = player.getBalance();
-                        mortgage(player);
+                        propertyController.mortgage(player,this);
                         amountAfter = player.getBalance();
                         amount -= (amountAfter - amountBefore);
                         break;
@@ -520,310 +398,6 @@ public class GameController {
         return solvent;
     }
 
-
-    /**
-     * I need a method here, just not sure yet how to do it. Could also be a boolean status, probably easier to work with
-     * Gustav Emil Nobert
-     *
-     * @param property
-     */
-
-    public void mortgageProperty(Property property) {
-        property.setMortgaged(true);
-        paymentFromBank(property.getOwner(), property.getCost()/2);
-    }
-
-
-    /**
-     * Just need to implement gui so that you can see which properties are mortgaged.
-     * @author s175124
-     * @param player
-     */
-
-    public void mortgage(Player player) {
-
-        if(player.getOwnedProperties().isEmpty()) {
-            gui.showMessage("You have no properties to mortgage");
-        } else {
-
-            String choice;
-            do {
-                ArrayList<String> propList = new ArrayList<>();
-
-                for (Property p : player.getOwnedProperties()) {
-                    if (!p.isMortgaged()) {
-                        propList.add(p.getName());
-                    }
-                }
-
-                if (!propList.isEmpty()) {
-                    String[] p = arrayConverterString(propList);
-                    String[] propArray = Arrays.copyOf(p,p.length+1);
-                    propArray[propList.size()] = "Back";
-
-                    //The player chooses which property they would like to mortgage. The system then checks
-                    //If there are any houses built.
-
-                    choice = gui.getUserButtonPressed(player.getName() + " which property would you like to mortgage?", propArray);
-                    if(choice.equals("Back")){
-                        break;
-                    }
-                    for (Property property : player.getOwnedProperties()) {
-                        if (property.getName().equals(choice)) {
-                            if (property instanceof RealEstate) {
-                                Set<RealEstate> estateSet = RealEstate.getcolormap((RealEstate) property);
-                                for (RealEstate realEstate : estateSet) {
-                                    if (realEstate.getHouses() > 0 || realEstate.isHotel()) {
-                                        choice = gui.getUserButtonPressed("You are unable to mortgage this property as there are houses on one or more of the same colour. " +
-                                                "\nWould you like to sell these houses for 50% of what you payed, and then mortgage?", "Yes", "No");
-                                        if(!choice.equals("No")) {
-                                            sellHousesMortgage((RealEstate) property);
-                                        }
-                                    }
-                                }
-                            }
-                            if(!choice.equals("No")) {
-                                gui.showMessage("You will receive " + property.getCost()/2 + " dollars.");
-                                mortgageProperty(property);
-                                gui.showMessage("You have successfully mortgaged " + property.getName());
-                            }
-                        }
-                    }
-                } else {
-                    gui.showMessage("All of your properties are now mortgaged.");
-                    break;
-                }
-            }while(!choice.equals("Back"));
-        }
-    }
-
-    public void unmortgageProperty(Property property)throws PlayerBrokeException{
-        property.setMortgaged(false);
-        paymentToBank(property.getOwner(),property.getCost()/2+property.getMortgageValue()/10);
-    }
-
-    public void unmortgage(Player player)throws PlayerBrokeException{
-        String choice = "";
-        do{
-            ArrayList<Property> mortgagedProperties = new ArrayList<>();
-            for(Property p: player.getOwnedProperties()){
-                if(p.isMortgaged()){
-                    mortgagedProperties.add(p);
-                }
-            } if(mortgagedProperties.isEmpty()){
-                gui.showMessage("You have no mortgaged properties.");
-                choice = "Back";
-            } else {
-                String[] mortgagedPropertiesArr = new String[mortgagedProperties.size() + 1];
-                int i = 0;
-                for (Property p : mortgagedProperties) {
-                    mortgagedPropertiesArr[i++] = p.getName();
-                }
-                mortgagedPropertiesArr[mortgagedProperties.size()] = "Back";
-
-                choice = gui.getUserButtonPressed("Which property would you like to unmortgage." +
-                        "\nIt will cost what you received to mortgage plus 10%.", mortgagedPropertiesArr);
-
-                for (Property p : mortgagedProperties) {
-                    if (p.getName() == choice) {
-                        unmortgageProperty(p);
-                        gui.showMessage("You have successfully unmortgaged " + p.getName());
-                        choice = "Back";
-                    }
-                }
-
-            }
-        }while(choice != "Back");
-    }
-
-    /**
-     * Method that sells houses. Evt. can add that selling 5 houses when hotel just says hotel.
-     * @author s175124
-     * @param player
-     */
-
-    public void sellHouses(Player player) {
-        ArrayList<RealEstate> estateList;
-
-        estateList = new ArrayList<>();
-        for (Property p : player.getOwnedProperties()) {
-            if (p instanceof RealEstate) {
-                if (((RealEstate) p).getHouses() > 0 || ((RealEstate) p).isHotel()) {
-                    estateList.add((RealEstate) p);
-                }
-            }
-        }
-        if (estateList.isEmpty()) {
-            gui.showMessage("You have no properties with houses or hotels.");
-        } else {
-            String[] estateArr = arrayConverterRealestate(estateList);
-            String[] houseArr;
-            String chosenProperty = gui.getUserButtonPressed("Which property would you like to sell houses from?", estateArr);
-            for (RealEstate r : estateList) {
-                if (r.getName().equals(chosenProperty)) {
-                    if (r.isHotel()) {
-                        houseArr = new String[5];
-                    } else {
-                        houseArr = new String[r.getHouses()];
-                    }
-                    for (int i = 0; i < houseArr.length; i++) {
-                        houseArr[i] = String.valueOf(i + 1);
-                    }
-                    String housesToSell = gui.getUserButtonPressed("You have chosen " + r.getName() + " where there are " + r.getHouses()
-                            + " built.\n How many would you like to sell? You will receive 50% of what you played", houseArr);
-                    String accept = gui.getUserButtonPressed("Are you sure you want to sell " + housesToSell + " houses?",
-                            "Yes", "no");
-                    if (accept.equals("Yes")) {
-                        paymentFromBank(player, (Integer.valueOf(housesToSell) * (r.getHousePrice() / 2)));
-                        if (r.isHotel()) {
-                            r.setHotel(false);
-                            r.setHouses(5 - Integer.valueOf(housesToSell));
-                        } else {
-                            r.setHouses(r.getHouses() - Integer.valueOf(housesToSell));
-                        }
-                        gui.showMessage("You have sold " + housesToSell + " and received " +
-                                Integer.valueOf(housesToSell) * (r.getHousePrice() / 2) + "dollars");
-                    }
-                }
-            }
-        }
-    }
-
-    /**
-     * Method which sells all the houses on a colourset so the player can mortgage a property. Fixed gui problem. Is done.
-     * @author s175124
-     * @param realEstate
-     */
-
-    public void sellHousesMortgage(RealEstate realEstate){
-
-        //Goes through the properties and removes the houses while adding up how many there are.
-        Set<RealEstate> estateSet = RealEstate.getcolormap(realEstate);
-        int counter = 0;
-        for (RealEstate r : estateSet) {
-            if (r.getHouses() > 0) {
-                counter += r.getHouses();
-                r.setHouses(0);
-            } else if (r.isHotel()){
-                counter += 5;
-                r.setHotel(false);
-            }
-        }
-        int soldHousesValue = counter * (realEstate.getHousePrice()/2);
-        gui.showMessage("You have sold a total of " + counter + " houses. \nYou will receive " + soldHousesValue + " dollars.");
-        paymentFromBank(realEstate.getOwner(),soldHousesValue);
-    }
-
-
-    /**
-     * This method implements the activity of offering a player to buy
-     * a property. This is typically triggered by a player arriving on
-     * an property that is not sold yet. If the player chooses not to
-     * buy, the property will be set for auction.
-     *
-     * @param property the property to be sold
-     * @param player   the player the property is offered to
-     * @throws PlayerBrokeException when the player chooses to buy but could not afford it
-     */
-    public void offerToBuy(Property property, Player player) throws PlayerBrokeException {
-        // TODO We might also allow the player to obtainCash before
-        // the actual offer, to see whether he can free enough cash
-        // for the sale.
-        if (player.getBalance() > property.getCost()) {
-            String choice = gui.getUserSelection(
-                    "Player " + player.getName() +
-                            ": Do you want to buy " + property.getName() +
-                            " for " + property.getCost() + "$?",
-                    "yes",
-                    "no");
-
-            if (choice.equals("yes")) {
-                try {
-                    paymentToBank(player, property.getCost());
-                } catch (PlayerBrokeException e) {
-                    // if the payment fails due to the player being broke,
-                    // an auction (among the other players is started
-                    auction(property);
-                    // then the current move is aborted by casting the
-                    // PlayerBrokeException again
-                    throw e;
-                }
-                player.addOwnedProperty(property);
-                property.setOwner(player);
-                property.setOwned(true);
-                return;
-            }
-        }
-        // In case the player does not buy the property,
-        // an auction is started
-        auction(property);
-    }
-
-
-    /**
-     * This method implements a payment activity to another player,
-     * which involves the player to obtain some cash on the way, in case he does
-     * not have enough cash available to pay right away. If he cannot free
-     * enough money in the process, the player will go bankrupt.
-     *
-     * @param payer    the player making the payment
-     * @param amount   the payed amount
-     * @param receiver the beneficiary of the payment
-     * @throws PlayerBrokeException when the payer goes broke by this payment
-     */
-    public void payment(Player payer, int amount, Player receiver) throws PlayerBrokeException {
-        boolean paid = false;
-        if (payer.getBalance() < amount) {
-            String s = gui.getUserButtonPressed("You do not have enough cash to pay. Would you like to sell assets to get" +
-                    " enough cash?", "Yes", "No");
-            if (s.equals("Yes")) {
-                paid = obtainCash(payer, amount - payer.getBalance());
-            }
-            if (s.equals("No") || !paid) {
-                playerBrokeTo(payer, receiver);
-                throw new PlayerBrokeException(payer);
-            }
-        }
-        gui.showMessage("Player " + payer.getName() + " pays " + amount + "$ to player " + receiver.getName() + ".");
-        payer.payMoney(amount);
-        receiver.receiveMoney(amount);
-    }
-
-
-    /**
-     * This method implements the action of a player receiving money from
-     * the bank.
-     *
-     * @param player the player receiving the money
-     * @param amount the amount
-     */
-    public void paymentFromBank(Player player, int amount) {
-        player.receiveMoney(amount);
-    }
-
-    /**
-     * This method implements the activity of a player making a payment to
-     * the bank. Note that this might involve the player to obtain some
-     * cash; in case he cannot free enough cash, he will go bankrupt
-     * to the bank.
-     *
-     * @param player the player making the payment
-     * @param amount the amount
-     * @throws PlayerBrokeException when the player goes broke by the payment
-     */
-    public void paymentToBank(Player player, int amount) throws PlayerBrokeException {
-        if (amount > player.getBalance()) {
-            obtainCash(player, amount-player.getBalance());
-            if (amount > player.getBalance()) {
-                playerBrokeToBank(player);
-                throw new PlayerBrokeException(player);
-            }
-
-        }
-        gui.showMessage("Player " + player.getName() + " pays " + amount + "$ to the bank.");
-        player.payMoney(amount);
-    }
-
     /**
      * This method implements the activity of auctioning a property. Works rn
      * TODO: needs to be looked at again and optimised with obtain cash
@@ -835,7 +409,7 @@ public class GameController {
      */
     public void auction(Property property) {
         // TODO give player option to bid whatever they want and obtainCash after if they do not have enough
-        int currentBid;
+        int currentBid = -1;
         int highestBid = 0;
 
         ArrayList<Player> bidList = new ArrayList<>(game.getPlayers());
@@ -858,12 +432,14 @@ public class GameController {
                 String option = gui.getUserButtonPressed("The highest bid is " + highestBid + " by " + highestBidder.getName() + ".\n"
                         + bidList.get(i).getName() + " Do you want to bid? ", "yes", "no");
                 if (option.equals("yes")) {
-                    do {
+                    while(currentBid <= highestBid) {
                         currentBid = gui.getUserInteger("The highest bid is " + highestBid + " by " + highestBidder.getName() + ".\n" +
-                                bidList.get(i).getName() + ", how much would you like to bid? Must be between more that");
+                                bidList.get(i).getName() + ", how much would you like to bid? Must be more than the highest bid");
+                        if(currentBid > highestBid) {
+                            highestBid = currentBid;
+                        }
                         gui.showMessage("The bid must be higher than the highest bid!");
-                    }while(currentBid <= highestBid);
-                    highestBid = currentBid;
+                    }
                     highestBidder = bidList.get(i);
                     counter = 0;
                 } else if (option.equals("no")) {
@@ -1063,8 +639,8 @@ public class GameController {
             if (tradeAccept == "Deny") {
                 choosePlayer = gui.getUserButtonPressed(tradee.getName() + " has denied the trade. Would you like to renegotiate?", "Yes", "No");
             } else {
-                payment(tradee, tradeeMoneyCount, player);
-                payment(player, playerMoneyCount, tradee);
+                paymentController.payment(tradee, tradeeMoneyCount, player,this);
+                paymentController.payment(player, playerMoneyCount, tradee,this);
                 tradeProperties(tradee, player, receiveProperties);
                 tradeProperties(player, tradee, giveProperties);
                 gui.showMessage("Trade is complete.");
@@ -1120,82 +696,6 @@ public class GameController {
         }
     }
 
-    /**
-     * Done. Fixed problem with mortgaged properties.
-     * @author s175124 & s185031
-     * @param estate
-     */
-
-    public void checkforbuildable(RealEstate estate) {
-        Set<RealEstate> estateSet = RealEstate.getcolormap(estate);
-        int counter = 0;
-        for (RealEstate realEstate : estateSet) {
-            if (realEstate.getOwner() == estate.getOwner() && !realEstate.isMortgaged()) {
-                counter++;
-            }
-        }
-        if (counter == estateSet.size())
-            estate.setBuildable(true);
-    }
-
-    /**
-     * fixed. Evt. can add hotel as the last option instead of "when you have bought 5 houses it will turn into a hotel"
-     * @author s175124
-     * Har rettet fra getRent til getHousePrice - Harald
-     * @param player
-     */
-
-    public void buildHouses(Player player) throws PlayerBrokeException{
-        int counter = 0;
-        //Checks how many buildable properties the player has.
-        for(Property p: player.getOwnedProperties()){
-            if(p instanceof RealEstate){
-                checkforbuildable((RealEstate) p);
-                if(((RealEstate) p).isBuildable() && !((RealEstate) p).isHotel()){
-                    counter++;
-                }
-            }
-        }
-        //Creates array with properties that the player is able to build on
-        int counter2 = 0;
-        String[] buildList = new String[counter];
-        for(Property p: player.getOwnedProperties()){
-            if(p instanceof RealEstate){
-                if(((RealEstate) p).isBuildable() && !((RealEstate) p).isHotel()){
-                    buildList[counter2] = p.getName();
-                    counter2++;
-                }
-            }
-        }
-        if(counter == 0){
-            gui.showMessage("You are unable to build on any properties");
-        } else {
-            String propertyChoice = gui.getUserButtonPressed("Which property would you like to build on?", buildList);
-            RealEstate property = new RealEstate();
-            for(Property p: player.getOwnedProperties()){
-                if (p.getName() == propertyChoice) {
-                    property = (RealEstate) p;
-                }
-            }
-            String[] houseAmount = new String[5-property.getHouses()];
-            for(int i = 1; i <= houseAmount.length; i++){
-                houseAmount[i-1] = String.valueOf(i);
-            }
-
-            String houseChoice = gui.getUserButtonPressed("How many houses would you like build? Once there is built 5 houses, they will turn into a hotel." +
-                    "\nThere is currently " + property.getHouses() + " houses built. The price per house is " + property.getHousePrice()+"$",houseAmount);
-            paymentToBank(player,property.getHousePrice()*Integer.valueOf(houseChoice));
-            if(property.getHouses()+Integer.valueOf(houseChoice) < 5) {
-                property.setHouses(property.getHouses() + Integer.valueOf(houseChoice));
-                gui.showMessage("There have been built " + Integer.valueOf(houseChoice) + " houses.");
-            } else {
-                property.setHotel(true);
-                gui.showMessage("You have now built a hotel.");
-            }
-        }
-    }
-
-
     public void setDiecount(int diecount1, int diecount2) {
         Diecount = diecount1 + diecount2;
     }
@@ -1206,5 +706,21 @@ public class GameController {
 
     public GUI getGui() {
         return gui;
+    }
+
+    public PaymentController getPaymentController() {
+        return paymentController;
+    }
+
+    public PlayerController getPlayerController() {
+        return playerController;
+    }
+
+    public PropertyController getPropertyController() {
+        return propertyController;
+    }
+
+    public Game getGame() {
+        return game;
     }
 }

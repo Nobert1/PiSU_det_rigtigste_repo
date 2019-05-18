@@ -51,17 +51,12 @@ public class CardMoveUtility extends Card {
     @Override
     public void doAction(GameController controller, Player player) throws PlayerBrokeException {
         try {
-
-            if (player.getCurrentPosition().getIndex() < 12) {
-                controller.moveToSpace(player, target1);
+            if (player.getCurrentPosition().getIndex() < 12 || player.getCurrentPosition().getIndex() >= 28) {
+                controller.getPlayerController().moveToSpace(player, target1,controller);
             }
             if (player.getCurrentPosition().getIndex() < 28) {
-                controller.moveToSpace(player, target2);
+                controller.getPlayerController().moveToSpace(player, target2,controller);
             }
-            if (player.getCurrentPosition().getIndex() >= 28) {
-                controller.moveToSpace(player, target1);
-            }
-
         } finally {
             // Make sure that the card is returned to the deck even when
             // an Exception should occur!

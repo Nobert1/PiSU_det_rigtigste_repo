@@ -45,7 +45,7 @@ public class PayTax extends Card {
 
             int taxedAmount = liquidity + sumAssets;
 
-            controller.paymentToBank(player, taxedAmount / 10);
+            controller.getPaymentController().paymentToBank(player, taxedAmount / 10,controller);
         } finally {
             // Make sure that the card is returned to the deck even when
             // an Exception should occur!

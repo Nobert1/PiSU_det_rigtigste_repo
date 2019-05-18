@@ -36,7 +36,7 @@ public class CardReceiveMoneyFromBank extends Card {
     @Override
     public void doAction(GameController controller, Player player) throws PlayerBrokeException {
         try {
-            controller.paymentFromBank(player, amount);
+            controller.getPaymentController().paymentFromBank(player, amount);
         } finally {
             // Make sure that the card is returned to the deck even when
             // an Exception should occur!

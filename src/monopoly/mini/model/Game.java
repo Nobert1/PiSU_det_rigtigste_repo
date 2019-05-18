@@ -29,7 +29,7 @@ public class Game extends Subject {
 
     private Player current;
 
-    private int passstartbonus = 2000;
+    private int passstartbonus = 200;
 
     /**
      * Returns a list of all the games spaces.

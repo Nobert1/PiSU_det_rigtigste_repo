@@ -25,7 +25,7 @@ public class Chairman extends Card {
         try {
 
             for (Player reciever : controller.getPlayerList()) {
-                controller.payment(player, 50, reciever);
+                controller.getPaymentController().payment(player, 50, reciever,controller);
             }
 
         } finally {

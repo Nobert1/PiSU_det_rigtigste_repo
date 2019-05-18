@@ -34,7 +34,7 @@ public class PayPoorTax extends Card {
 
         try {
             double liquidity = player.getBalance();
-            controller.paymentToBank(player, player.getBalance() / taxation);
+            controller.getPaymentController().paymentToBank(player, player.getBalance() / taxation,controller);
         } finally {
             // Make sure that the card is returned to the deck even when
             // an Exception should occur!

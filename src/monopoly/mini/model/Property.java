@@ -106,7 +106,6 @@ public class Property extends Space {
     /**
      * Updated so it computes the right rent for properties, while informing if property is mortgaged, houses or
      * if the player has a monopoly.
-     * TODO: Price for ferry and utility
      * @author s175124 & Ekkart Kindler
      * @param controller the controller in charge of the game
      * @param player the involved player
@@ -116,7 +115,7 @@ public class Property extends Space {
     @Override
     public void doAction(GameController controller, Player player) throws PlayerBrokeException {
         if (owner == null) {
-            controller.offerToBuy(this, player);
+            controller.getPropertyController().offerToBuy(this,player,controller);
         } else if (this.getOwner().isInPrison()){
             controller.getGui().showMessage(this.getOwner().getName() + " is in prison so you do not have to pay rent.");
         } else if (!owner.equals(player) && !this.isMortgaged()) {
@@ -163,7 +162,7 @@ public class Property extends Space {
                 }
             }
             try {
-                controller.payment(player, rent, this.getOwner());
+                controller.getPaymentController().payment(player, rent, this.getOwner(),controller);
             } catch (PlayerBrokeException e) {
                 //TODO do something with exceptions
             }

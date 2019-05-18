@@ -39,7 +39,7 @@ public class GoToJail extends Card {
         try {
 
             player.setInPrison(true);
-            controller.moveToSpace(player, controller.getSpacesList().get(10));
+            controller.getPlayerController().moveToSpace(player, controller.getSpacesList().get(10),controller);
 
         } finally {
             // Make sure that the card is returned to the deck even when

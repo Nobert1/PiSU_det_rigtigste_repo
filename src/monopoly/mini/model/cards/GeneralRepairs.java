@@ -37,7 +37,7 @@ public class GeneralRepairs extends Card {
                     }
                 }
 
-            controller.paymentToBank(player, repairs);
+            controller.getPaymentController().paymentToBank(player, repairs,controller);
         } finally {
             // Make sure that the card is returned to the deck even when
             // an Exception should occur!
