@@ -127,7 +127,7 @@ public class RealEstate extends Property {
 
     /**
      * Denne løsning knytter sig til klassen Color og er bare en måde at finde ud af hvad folk ejer i stedet for at iterere til højre og venstre.
-     * Kan godt være den mangler arbejde, jegh ar ikke erfaring med Enums og det er derfor ikke helt til at sige om det virker som det skal.
+     * Kan godt være den mangler arbejde, jeg har ikke erfaring med Enums og det er derfor ikke helt til at sige om det virker som det skal.
      * @Author Gustav
      * @param estate
      * @return
@@ -242,21 +242,4 @@ public class RealEstate extends Property {
             WhiteProperties.add(estate);
         }
     }
-
-    public static Set<RealEstate> getGreyproperties() { return Greyproperties; }
-
-    public static Set<RealEstate> getYellowProperties() { return YellowProperties; }
-
-    public static Set<RealEstate> getRedproperties() { return Redproperties; }
-
-    public static Set<RealEstate> getWhiteProperties() { return WhiteProperties; }
-
-    public static Set<RealEstate> getPurpleproperties() { return Purpleproperties; }
-
-    public static Set<RealEstate> getLightblueproperties() { return Lightblueproperties; }
-
-    public static Set<RealEstate> getGreenproperties() { return Greenproperties; }
-
-    public static Set<RealEstate> getLightredProperties() { return LightredProperties; }
-
 }

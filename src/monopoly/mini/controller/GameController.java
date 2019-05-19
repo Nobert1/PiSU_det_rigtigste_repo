@@ -19,26 +19,10 @@ import java.util.regex.Pattern;
 
 /**
  * The overall controller of a Monopoly game. It provides access
- * to all basic actions and activities for the game. All other
- * activities of the game, should be implemented by referring
- * to the basic actions and activities in this class.
+ * to alot of the basic actions and activities for the game.
  *
- * Note that this controller is far from being finished and many
- * things could be done in a much nicer and cleaner way! But, it
- * shows the general idea of how the model, view (GUI), and the
- * controller could work with each other, and how different parts
- * of the game's activities can be separated from each other, so
- * that different parts can be added and extended independently
- * from each other.
- *
- * For fully implementing the game, it will probably be necessary
- * to add more of these basic actions in this class.
- *
- * The <code>doAction()</code> methods of the
- * can be implemented based on the basic actions and activities
- * of this game controller.
- *
- * @author Ekkart Kindler, ekki@dtu.dk
+ * There are other smaller controllers with different responsibilites, to limit the size of this controller.
+ * This controller calls the other controllers.
  *
  */
 @SuppressWarnings("Duplicates")
@@ -68,10 +52,6 @@ public class GameController {
 
 
 
-    /**
-     * Kig på database når Alex pusher, snak med nogen om den smarteste måde at få fat i terningernes værdi på, det er vidst nok imod vmc at hente terningens værdi fra gamecontroller.
-     * Chancekort skal udvides. Payment from player skal også gennemtestest. Der skal skrives test cases.
-     */
 
     /**
      * Constructor for a controller of a game.
@@ -89,18 +69,15 @@ public class GameController {
     }
 
     /**
-     * This method will initialize the GUI. It should be called after
-     * the players of the game are created. As of now, the initialization
-     * assumes that the spaces of the game fit to the fields of the GUI;
-     * this could eventually be changed, by creating the GUI fields
-     * based on the underlying game's spaces (fields).
+     * Method initalizes the gui-
      */
     public void initializeGUI() {
         this.view = new View(game, gui, playerpanel);
     }
 
     /**
-     * @author Gustav Emil Nobert s185031
+     * @author Gustav Emil Nobert s185031.
+     * Method for interacting with the database.
      * @throws DALException
      */
     public void databaseinteraction () throws DALException {
@@ -115,6 +92,7 @@ public class GameController {
                 Matcher matcher = Pattern.compile("\\d+").matcher(SaveName);
                 matcher.find();
                 int i = Integer.valueOf(matcher.group());
+                //USes to find the ID of the game. The ID of the game is given as a number.
                 try {
                     database.deleteSave(i);
                     databaseinteraction();
@@ -123,11 +101,11 @@ public class GameController {
                 }
             }
         }
-
             else if (selection.equals("load game")) {
             String[] arr = database.generategameIDs();
             if (arr.length == 0) {
                 gui.showMessage("there are no saved games");
+                databaseinteraction();
             } else {
                 SaveName = gui.getUserSelection("what game would you like to load", arr);
                 Matcher matcher = Pattern.compile("\\d+").matcher(SaveName);
@@ -246,8 +224,7 @@ public class GameController {
                         "no");
 
                 if (selection.equals("no")) {
-                    String name = gui.getUserString("What would you like to save the game name as?");
-                    database.savegame(name);
+                    database.updateGame();
                     gui.showMessage("game saved");
                     terminated = true;
                     System.exit(0);

@@ -10,7 +10,7 @@ public class DataSource {
 
 
     /**
-     * Simple class for connection pooling.
+     * Simple class for connection pooling, uses Hikari's connection pooling framework.
      */
 
     private static HikariConfig config = new HikariConfig();
