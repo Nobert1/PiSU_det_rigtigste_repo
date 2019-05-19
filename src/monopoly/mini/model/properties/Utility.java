@@ -46,9 +46,10 @@ public class Utility extends Property {
                     if(numberofowned > 1) {
                         rent = rent * 2;
                     }
-                    controller.getGui().showMessage("The rent is " + rent + " since that the owner has " + numberofowned + " ships.");
                 }
-            } } else if (this.getCost() == 150) {
+            }
+            controller.getGui().showMessage("The rent is " + rent + " since that the owner has " + numberofowned + " ships.");
+        } else if (this.getCost() == 150) {
             rent = 4 * controller.getDiecount();
             int counter = 0;
             for (Utility brewery : Breweries) {
