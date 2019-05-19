@@ -1,11 +1,14 @@
-package monopoly.mini.Test;
-
 import monopoly.mini.model.Space;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
 
 public class SpaceTest {
+
+    /**
+     * @author s180557
+     * @return
+     */
 
     @Test
     public void getName() {
@@ -20,6 +23,11 @@ public class SpaceTest {
     @Test
     public void setName() {
     }
+
+    /**
+     * @author s180557
+     * @return
+     */
 
     @Test
     public void getIndex() {

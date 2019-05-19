@@ -1,11 +1,15 @@
-package monopoly.mini.Test;
-
 import monopoly.mini.model.Player;
 import monopoly.mini.model.Property;
 
 import static org.junit.Assert.*;
 
 public class PlayerTest {
+
+    /**
+     * Get/set test of player name
+     * @author s180557
+     * @return
+     */
 
     @org.junit.Test
     public void getName() {
@@ -15,6 +19,12 @@ public class PlayerTest {
 
         assertEquals("Per", test.getName());
     }
+
+    /**
+     * Get/set test of player name
+     * @author s180557
+     * @return
+     */
 
     @org.junit.Test
     public void setName() {
@@ -50,6 +60,12 @@ public class PlayerTest {
     public void setBalance() {
     }
 
+    /**
+     * Test if player can recieve money
+     * @author s180557
+     * @return
+     */
+
     @org.junit.Test
     public void receiveMoney() {
 
@@ -60,6 +76,12 @@ public class PlayerTest {
         assertEquals(1500,receiver.getBalance());
 
     }
+
+    /**
+     * Test if player can pay money
+     * @author s180557
+     * @return
+     */
 
     @org.junit.Test
     public void payMoney() {
@@ -83,6 +105,12 @@ public class PlayerTest {
     public void setOwnedProperties() {
     }
 
+    /**
+     * Test if property can be added to player.
+     * @author s180557
+     * @return
+     */
+
     @org.junit.Test
     public void addOwnedProperty() {
 
@@ -95,6 +123,12 @@ public class PlayerTest {
 
     }
 
+    /**
+     * Test if owned property can be removed from player.
+     * @author s180557
+     * @return
+     */
+
     @org.junit.Test
     public void removeOwnedProperty() {
 
@@ -106,6 +140,12 @@ public class PlayerTest {
         assertEquals(true, owner.getOwnedProperties().isEmpty());
 
     }
+
+    /**
+     * Test if all properties are removed
+     * @author s180557
+     * @return
+     */
 
     @org.junit.Test
     public void removeAllProperties() {
@@ -133,6 +173,11 @@ public class PlayerTest {
     public void removeOwnedCard() {
     }
 
+    /**
+     * @author s180557
+     * @return
+     */
+
     @org.junit.Test
     public void isBroke() {
 
@@ -147,6 +192,11 @@ public class PlayerTest {
     @org.junit.Test
     public void setBroke() {
     }
+
+    /**
+     * @author s180557
+     * @return
+     */
 
     @org.junit.Test
     public void isInPrison() {

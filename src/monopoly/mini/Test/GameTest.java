@@ -12,6 +12,12 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class GameTest {
 
+    /**
+     * Test if spaces are set as expected and can be fetched.
+     * @author s180557
+     * @return
+     */
+
     @Test
     void getSpaces() {
 
@@ -60,6 +66,12 @@ class GameTest {
         //test is performed for setCardDeck.
     }
 
+    /**
+     * Test if a card can be drawn from the deck.
+     * @author s180557
+     * @return
+     */
+
     @Test
     void drawCardFromDeck() {
 
@@ -106,6 +118,12 @@ class GameTest {
         assertEquals(tax, spil.getCardDeck().iterator().next());
 
     }
+
+    /**
+     * Test if a card can be returned to the deck.
+     * @author s180557
+     * @return
+     */
 
     @Test
     void returnCardToDeck() {
@@ -158,6 +176,12 @@ class GameTest {
 
     }
 
+    /**
+     * Test if a card deck can be instansiated.
+     * @author s180557
+     * @return
+     */
+
     @Test
     void setCardDeck() {
 
@@ -200,6 +224,12 @@ class GameTest {
         assertEquals(testarr, spil.getCardDeck());
 
     }
+
+    /**
+     * Test by iteration if the deck can be shuffled.
+     * @author s180557
+     * @return
+     */
 
     @Test
     void shuffleCardDeck() {
@@ -258,6 +288,12 @@ class GameTest {
 
     }
 
+    /**
+     * Test if player list can be set and fetched.
+     * @author s180557
+     * @return
+     */
+
     @Test
     void getPlayers() {
 
@@ -281,6 +317,12 @@ class GameTest {
         //test is performed for getPlayers.
     }
 
+    /**
+     * Test if a player can be added.
+     * @author s180557
+     * @return
+     */
+
     @Test
     void addPlayer() {
 
@@ -291,6 +333,12 @@ class GameTest {
         assertEquals(spiller1, spil.getPlayers().iterator().next());
 
     }
+
+    /**
+     * Test if current player can be fetched.
+     * @author s180557
+     * @return
+     */
 
     @Test
     void getCurrentPlayer() {
@@ -318,6 +366,6 @@ class GameTest {
     }
 
     @Test
-    void getPassstartbonus() {
+    void getPassStartbonus() {
     }
 }
