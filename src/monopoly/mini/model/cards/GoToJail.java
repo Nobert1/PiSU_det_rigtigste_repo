@@ -29,6 +29,7 @@ public class GoToJail extends Card {
      *
      * @param target the new target of the move
      */
+
     public void setTarget(Space target) {
         this.target = target;
     }
@@ -38,7 +39,9 @@ public class GoToJail extends Card {
         try {
 
             player.setInPrison(true);
+            player.setNotPassingGo(true);
             controller.getPlayerController().moveToSpace(player, controller.getSpacesList().get(10),controller);
+            player.setNotPassingGo(false);
 
         } finally {
             // Make sure that the card is returned to the deck even when

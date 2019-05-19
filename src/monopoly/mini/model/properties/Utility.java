@@ -61,7 +61,7 @@ public class Utility extends Property {
                 rent = 10 * controller.getDiecount();
                 controller.getGui().showMessage("Since the owner has two breweries, the rent is " + rent + " which is the diecount * 10");
             } else {
-                controller.getGui().showMessage("Since the owner has one breweries, the rent is " + rent + " which is the diecount * 4");
+                controller.getGui().showMessage("Since the owner has one brewery, the rent is " + rent + " which is the diecount * 4");
             }
         }
         return rent;

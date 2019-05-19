@@ -15,6 +15,11 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class CardTest {
 
+    /**
+     * @author s180557
+     * @return
+     */
+
     void setupTestGame(Game spil, Player spiller1, Player spiller2){
 
         MiniMonopoly mon = new MiniMonopoly();
@@ -40,6 +45,12 @@ class CardTest {
     void setText() {
     }
 
+    /**
+     * Test move card
+     * @author s180557
+     * @return
+     */
+
     @Test
     void doAction() {
 
@@ -63,6 +74,12 @@ class CardTest {
         assertEquals(spil.getSpaces().get(9), spiller1.getCurrentPosition());
 
     }
+
+    /**
+     * Test move backwards card
+     * @author s180557
+     * @return
+     */
 
     @Test
     void doActionMoveBackwards() {
@@ -88,6 +105,12 @@ class CardTest {
 
     }
 
+    /**
+     * Test move to nearest utility card
+     * @author s180557
+     * @return
+     */
+
     @Test
     void doActionMoveUtility() {
 
@@ -111,6 +134,12 @@ class CardTest {
         assertEquals(spil.getSpaces().get(12), spiller1.getCurrentPosition());
 
     }
+
+    /**
+     * Test receive money from bank card
+     * @author s180557
+     * @return
+     */
 
     @Test
     void doActionReceiveMoneyFromBank() {
@@ -136,6 +165,12 @@ class CardTest {
 
     }
 
+    /**
+     * Test elected chairman card
+     * @author s180557
+     * @return
+     */
+
     @Test
     void doActionChairman() {
 
@@ -159,6 +194,12 @@ class CardTest {
         assertEquals(balanceTemp-50, spiller1.getBalance());
 
     }
+
+    /**
+     * Test chairman card by direct instanziation card
+     * @author s180557
+     * @return
+     */
 
     @Test
     void doActionChairman2() {
@@ -184,6 +225,12 @@ class CardTest {
         assertEquals(balanceTemp-50, spiller1.getBalance());
 
     }
+
+    /**
+     * Test pay repairs card
+     * @author s180557
+     * @return
+     */
 
     @Test
     void doActionRepairs() {
@@ -212,6 +259,12 @@ class CardTest {
 
     }
 
+    /**
+     * Test getoutofjail card
+     * @author s180557
+     * @return
+     */
+
     @Test
     void doActionGetOutOfJailCards() {
 
@@ -236,11 +289,19 @@ class CardTest {
 
     }
 
+    /**
+     * Test go to jail card
+     * @author s180557
+     * @return
+     */
+
     @Test
     void doActionGoToJail() {
 
         Game spil = new Game(); Player spiller1 = new Player(); Player spiller2 = new Player();
         setupTestGame(spil, spiller1, spiller2);
+
+        spil.getCurrentPlayer().setCurrentPosition(spil.getSpaces().get(20));
 
         GameController cont = new GameController(spil);
 
@@ -259,6 +320,12 @@ class CardTest {
         assertEquals(true, spiller1.isInPrison());
 
     }
+    /**
+     * Test "poor tax" card
+     * @author s180557
+     * @return
+     */
+
 
     @Test
     void doActionPoorTax() {
@@ -285,6 +352,12 @@ class CardTest {
         assertEquals(balanceTemp-(balanceTemp/5), spiller1.getBalance());
 
     }
+
+    /**
+     * Test regular tax card
+     * @author s180557
+     * @return
+     */
 
     @Test
     void doActionTax() {

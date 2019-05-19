@@ -41,6 +41,8 @@ public class Player extends Subject {
 
     private int playerID;
 
+    private  boolean isNotPassingGo;
+
 
     /**
      * Returns the name of the player.
@@ -297,5 +299,13 @@ public class Player extends Subject {
 
     public void setGetOutOfJailCards(int getOutOfJailCards) {
         this.getOutOfJailCards = getOutOfJailCards;
+    }
+
+    public boolean isNotPassingGo() {
+        return isNotPassingGo;
+    }
+
+    public void setNotPassingGo(boolean notPassingGo) {
+        isNotPassingGo = notPassingGo;
     }
 }
