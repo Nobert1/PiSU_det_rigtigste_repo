@@ -3,15 +3,12 @@ import gui_main.GUI;
 import monopoly.mini.database.dal.DALException;
 import monopoly.mini.database.dal.GameDAO;
 import monopoly.mini.model.*;
-import monopoly.mini.model.cards.GoToJail;
+import monopoly.mini.model.cards.GetOutOfJail;
 import monopoly.mini.model.exceptions.PlayerBrokeException;
 import monopoly.mini.model.properties.RealEstate;
 import monopoly.mini.model.Game;
 import monopoly.mini.view.PlayerPanel;
 import monopoly.mini.view.View;
-
-
-import java.awt.*;
 import java.util.*;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -25,6 +22,7 @@ import java.util.regex.Pattern;
  * This controller calls the other controllers.
  *
  */
+
 @SuppressWarnings("Duplicates")
 public class GameController {
 
@@ -52,14 +50,11 @@ public class GameController {
 
     private int bailJail = 50;
 
-
-
-
     /**
      * Constructor for a controller of a game.
-     *
      * @param game the game
      */
+
     public GameController(Game game) {
         super();
         this.game = game;
@@ -71,7 +66,7 @@ public class GameController {
     }
 
     /**
-     * Method initalizes the gui-
+     * Method initalizes the GUI.
      */
     public void initializeGUI() {
         this.view = new View(game, gui, playerpanel);
@@ -83,15 +78,15 @@ public class GameController {
      * @throws DALException
      */
     public void databaseinteraction () throws DALException {
-        String selection = gui.getUserButtonPressed("What you wanna do ", "create game", "load game", "delete game");
+        String selection = gui.getUserButtonPressed("What do you want to do?", "Create game", "Load game", "Delete game");
 
-        if (selection.equals("delete game")) {
+        if (selection.equals("Delete game")) {
             String[] arr = database.generategameIDs();
             if (arr.length == 0) {
-                gui.showMessage("there are no saved games");
+                gui.showMessage("There are no saved games");
                 databaseinteraction();
             } else {
-                SaveName = gui.getUserSelection("what game would you like to delete", arr);
+                SaveName = gui.getUserSelection("Which game would you like to delete?", arr);
                 Matcher matcher = Pattern.compile("\\d+").matcher(SaveName);
                 matcher.find();
                 int i = Integer.valueOf(matcher.group());
@@ -103,13 +98,13 @@ public class GameController {
                     e.printStackTrace();
                 }
             }
-        } else if (selection.equals("load game")) {
+        } else if (selection.equals("Load game")) {
             String[] arr = database.generategameIDs();
             if (arr.length == 0) {
-                gui.showMessage("there are no saved games");
+                gui.showMessage("There are no saved games");
                 databaseinteraction();
             } else {
-                SaveName = gui.getUserSelection("what game would you like to load", arr);
+                SaveName = gui.getUserSelection("Which game would you like to load?", arr);
                 Matcher matcher = Pattern.compile("\\d+").matcher(SaveName);
                 matcher.find();
                 int i = Integer.valueOf(matcher.group());
@@ -118,21 +113,20 @@ public class GameController {
                 } catch (DALException e) {
                     e.printStackTrace();
                 }
-            }} else if (selection.equals("create game")) {
+            }} else if (selection.equals("Create game")) {
                 playerController.createPlayers(game, this);
-                SaveName = gui.getUserString("what would you like to call your save? The game auto saves the game state after each turn");
+                SaveName = gui.getUserString("What would you like to call your save? The game auto saves the game state after each turn");
                 database.savegame(SaveName);
             }
-        //The view creates theese are it has been identified, if there is going to be comming any information from the database.
+        //The view creates these are it has been identified, if there is going to be coming any information from the database.
             view.createplayers();
             view.createFields();
         }
 
     /**
-     * Method which allows the players to chose which icon and colour they would like. Colour is unique so is removed
-     * from list each time it is chosen
-     * @author.
-     * @param
+     * Converts an array to a list of strings is used when having to display buttons.
+     * @author s175124
+     * @param list
      */
     public String[] arrayConverterString(ArrayList<String> list){
         String[] array = new String[list.size()];
@@ -143,8 +137,11 @@ public class GameController {
         return array;
     }
 
-
-
+    /**
+     * Converts an array of real estates to an array of strings.
+     * @author s175124
+     * @param list
+     */
     public String[] arrayConverterRealestate(ArrayList<RealEstate> list){
         String[] array = new String[list.size()];
         int i = 0;
@@ -158,7 +155,9 @@ public class GameController {
      * The main method to start the game. The game is started with the
      * current player of the game; this makes it possible to resume a
      * game at any point.
+     * @author s175124
      */
+
     public void play() throws DALException {
         List<Player> players = game.getPlayers();
         Player c = game.getCurrentPlayer();
@@ -180,7 +179,7 @@ public class GameController {
                 jailHandler(player);
                 choice = gui.getUserButtonPressed("What would you like to do " + game.getCurrentPlayer().getName()+"?",  "Trade", "Build or Sell houses", "Mortgaging", "Roll");
                 //Switch statement for player choices.
-                choiceSwitch(player, choice);
+                choiceSwitch(choice);
             }while(choice != "Roll");
 
             if (!player.isBroke()) {
@@ -230,9 +229,12 @@ public class GameController {
         dispose();
     }
 
+    /**
+     * Switch for selecting build, mortgage, sell or roll.
+     * @author s175124
+     */
 
-
-    public String choiceSwitch (Player player, String choice) {
+    public String choiceSwitch (String choice) {
         switch(choice) {
             case "Trade":
                 try {
@@ -269,9 +271,9 @@ public class GameController {
         return choice;
     }
     /**
-     * The method that checks if it is possible to obtain enough cash.
+     * Offers selections depending on situation when in prison.
      * @author s180557
-     * @return
+     * @param player
      */
     public void jailHandler (Player player) {
         String jailChoice;
@@ -281,16 +283,17 @@ public class GameController {
                 if (jailChoice.equals("Yes")) {
                     player.setInPrison(false);
                     player.setGetOutOfJailCards(player.getGetOutOfJailCards() - 1);
+                    GetOutOfJail getOutOfJail = new GetOutOfJail();
+                    getOutOfJail.setText("Your dad made a deal with the prison-guard. Get out of jail.");
+                    returnChanceCardToDeck(getOutOfJail);
                 }
                 else if (jailChoice.equals("No")){
-                    jailChoice = gui.getUserSelection("Would you like to pay your way out of prison?", "yes", "no");
+                    jailChoice = gui.getUserSelection("Would you like to pay your way out of prison?", "Yes", "No");
                     if (jailChoice.equals("yes")) {
                         player.setInPrison(false);
                         player.setBalance(player.getBalance() - bailJail);
                     }
                 }
-
-                //Redundant code - Martin
             }
             else if (player.getGetOutOfJailCards() == 0) {
                 jailChoice = gui.getUserSelection("Would you like to pay your way out of prison?", "yes", "no");
@@ -305,7 +308,7 @@ public class GameController {
     /**
      * The method that checks if it is possible to obtain enough cash.
      * @author s180557
-     * @return
+     * @return List<Player>
      */
     public List<Player> getPlayerList (){
         return game.getPlayers();
@@ -348,7 +351,7 @@ public class GameController {
     }
 
     /**
-     * @author s175124 &s185031
+     * @author s175124 & s185031
      * @param player
      * @param amount: Needs amount missing to be input which then is used to check if the player has enough
      *                total value to get the missing amount.
@@ -362,7 +365,7 @@ public class GameController {
         } else {
             do {
                 String choice = gui.getUserButtonPressed("You are missing " + amount + " dollars. How would you like to get the money?",
-                        "Trade", "Sell Houses", "Mortgage", "Forefit the game");
+                        "Trade", "Sell Houses", "Mortgage", "Forfeit the game");
                 switch (choice) {
                     case "Trade":
                         amountBefore = player.getBalance();
@@ -458,11 +461,11 @@ public class GameController {
                 String option = "";
                 if (highestBid != 0) {
                     option = gui.getUserButtonPressed("The highest bid is " + highestBid + " by " + highestBidder.getName() + ".\n"
-                        + bidList.get(i).getName() + " Do you want to bid? ", "yes", "no");
+                        + bidList.get(i).getName() + " Do you want to bid? ", "Yes", "No");
                 } else if (highestBid == 0) {
-                    option = gui.getUserButtonPressed(bidList.get(i).getName() + " there is no highest bid yet, do you want to bid? ", "yes", "no");
+                    option = gui.getUserButtonPressed(bidList.get(i).getName() + " there is no highest bid yet, do you want to bid? ", "Yes", "No");
                 }
-                if (option.equals("yes")) {
+                if (option.equals("Yes")) {
                     do {
                         if (highestBidder.getName() != null) {
                         currentBid = gui.getUserInteger("The highest bid is " + highestBid + " by " + highestBidder.getName() + ".\n" +
@@ -479,7 +482,7 @@ public class GameController {
                     highestBid = currentBid;
                     highestBidder = bidList.get(i);
                     counter = 0;
-                } else if (option.equals("no")) {
+                } else if (option.equals("No")) {
                     gui.showMessage("You are removed from the auction ");
                     bidList.remove(i);
                     counter++;
@@ -492,7 +495,7 @@ public class GameController {
             highestBidder.addOwnedProperty(property);
             property.setOwner(highestBidder);
         } else {
-            gui.showMessage("there were no bidders so it remains unowned!");
+            gui.showMessage("There were no bidders so it remains unowned!");
         }
     }
 

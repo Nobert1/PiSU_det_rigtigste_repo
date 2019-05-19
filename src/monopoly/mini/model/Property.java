@@ -14,7 +14,7 @@ import java.util.Set;
  * @author Ekkart Kindler, ekki@dtu.dk
  *
  */
-public class Property extends Space {
+public abstract class Property extends Space {
 
     private int cost;
     private int rent;

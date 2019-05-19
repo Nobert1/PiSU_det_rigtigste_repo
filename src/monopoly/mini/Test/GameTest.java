@@ -2,6 +2,7 @@ import monopoly.mini.model.*;
 import monopoly.mini.model.cards.CardMove;
 import monopoly.mini.model.cards.CardReceiveMoneyFromBank;
 import monopoly.mini.model.cards.PayTax;
+import monopoly.mini.model.properties.RealEstate;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -27,7 +28,7 @@ class GameTest {
         go.setName("Go");
         spil.addSpace(go);
 
-        Property p = new Property();
+        Property p = new RealEstate();
         p.setName("Rødovrevej");
         p.setCost(1200);
         p.setRent(50);
@@ -81,7 +82,7 @@ class GameTest {
         go.setName("Go");
         spil.addSpace(go);
 
-        Property p = new Property();
+        Property p = new RealEstate();
         p.setName("Rødovrevej");
         p.setCost(1200);
         p.setRent(50);
@@ -134,7 +135,7 @@ class GameTest {
         go.setName("Go");
         spil.addSpace(go);
 
-        Property p = new Property();
+        Property p = new RealEstate();
         p.setName("Rødovrevej");
         p.setCost(1200);
         p.setRent(50);
@@ -191,7 +192,7 @@ class GameTest {
         go.setName("Go");
         spil.addSpace(go);
 
-        Property p = new Property();
+        Property p = new RealEstate();
         p.setName("Rødovrevej");
         p.setCost(1200);
         p.setRent(50);
@@ -242,7 +243,7 @@ class GameTest {
         go.setName("Go");
         spil.addSpace(go);
 
-        Property p = new Property();
+        Property p = new RealEstate();
         p.setName("Rødovrevej");
         p.setCost(1200);
         p.setRent(50);

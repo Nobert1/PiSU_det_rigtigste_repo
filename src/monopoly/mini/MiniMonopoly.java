@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Main class for setting up and running a (Mini-)Monoploy game.
+ * Main class for setting up and running a (Mini-)Monopoly game.
  *
  * @author Ekkart Kindler, ekki@dtu.dk
  *
@@ -38,6 +38,13 @@ public class MiniMonopoly {
         Game game = new Game();
         return game;
     }
+
+    /**
+     * Creates specific spaces.
+     * @author s185014
+     * @param game
+     */
+
     public static void createSpaces(Game game) {
 
         int i = 0;
@@ -387,20 +394,13 @@ public class MiniMonopoly {
         p.setPropertid(i++);
         game.addSpace(p);
 
-        if (p.getColor().equals(Colors.LIGHTBLUE) || (p.getColor().equals(Colors.LIGHTRED))) {
-            p.setHousePrice(50);
-        }
-        if (p.getColor().equals(Colors.GREEN) || (p.getColor().equals(Colors.GREY))) {
-            p.setHousePrice(100);
-        }
-        if (p.getColor().equals(Colors.RED) || (p.getColor().equals(Colors.WHITE))) {
-            p.setHousePrice(150);
-        }
-        if (p.getColor().equals(Colors.YELLOW) || (p.getColor().equals(Colors.PURPLE))) {
-            p.setHousePrice(200);
-        }
-
     }
+
+    /**
+     * Creates specific cards.
+     * @author s180557
+     * @param game
+     */
 
     public static void createCardDeck (Game game) {
 

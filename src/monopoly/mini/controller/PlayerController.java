@@ -15,9 +15,7 @@ import java.util.List;
  * @author s175124
  */
 
-
 public class PlayerController {
-
 
     /**
      * Method which creates players interactively
@@ -86,7 +84,6 @@ public class PlayerController {
 
             }
 
-
             p.setName(name);
             p.setCurrentPosition(game.getSpaces().get(0));
             p.setColor(c);
@@ -98,8 +95,6 @@ public class PlayerController {
             colourList.remove(colour);
 
         }while(i <= players);
-
-
     }
 
     /**
@@ -161,6 +156,12 @@ public class PlayerController {
         } while (castDouble && isNotInJail);
     }
 
+    /**
+     * Checks if player is on GoToJail space.
+     * @author s185033
+     * @param player the player going to jail
+     */
+
     public void checkForGoToJail (Player player, GameController gameController) throws PlayerBrokeException {
         int pos = player.getCurrentPosition().getIndex();
         if (pos == 30) {
@@ -170,7 +171,7 @@ public class PlayerController {
 
     /**
      * The method implements the action of a player going directly to jail.
-     *
+     * @author s185033
      * @param player the player going to jail
      */
     public void gotoJail(Player player, GameController gameController) {
@@ -203,5 +204,4 @@ public class PlayerController {
         // that this is delegated to the field, which implements this action
         space.doAction(gameController, player);
     }
-
 }

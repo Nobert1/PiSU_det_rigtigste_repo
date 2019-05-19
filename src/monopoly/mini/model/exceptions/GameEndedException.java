@@ -6,16 +6,11 @@ package monopoly.mini.model.exceptions;
  *
  */
 
-
 public class GameEndedException extends Exception {
-
-
-
+//TODO Implement this
     public GameEndedException() {
 //Is the gui message here or in the catch clause?
         super("Everyone except is broke");
-
     }
-
 
 }

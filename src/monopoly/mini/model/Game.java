@@ -22,13 +22,9 @@ public class Game extends Subject {
     private List<Space> spaces = new ArrayList<Space>();
     private List<Utility> Utilities = new ArrayList<>();
     private List<RealEstate> Realestates = new ArrayList<>();
-
     private List<Card> cardDeck = new ArrayList<Card>();
-
     private List<Player> players = new ArrayList<Player>();
-
     private Player current;
-
     private int passstartbonus = 200;
 
     /**
@@ -118,7 +114,6 @@ public class Game extends Subject {
         this.cardDeck = new ArrayList<Card>(cardDeck);
         notifyChange();
     }
-
 
     /**
      * Shuffles the cards in the deck.

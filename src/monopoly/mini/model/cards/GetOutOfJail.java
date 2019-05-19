@@ -8,11 +8,9 @@ import monopoly.mini.model.exceptions.PlayerBrokeException;
 
 /**
  * A card that helps the player get out of jail.
- * @author s180557
+ * @author s180557 & s185033
  * @return
  */
-
-//TODO Karl This card should not go back in the stack until used.
 
 public class GetOutOfJail extends Card {
 

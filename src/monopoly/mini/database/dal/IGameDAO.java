@@ -12,14 +12,12 @@ import java.util.List;
 
 public interface IGameDAO {
 
-
     /** The CRUD operations of the class.
      */
     public void savegame(String saveName) throws DALException;
     void getGame (int gameId) throws DALException;
     void deleteSave(int gameId) throws DALException;
     public void updateGame() throws DALException;
-
 
     /**
      * Insert methods, theese are used when you save the game.
@@ -31,7 +29,6 @@ public interface IGameDAO {
     public void insertintoRealEstates(int gameID, Connection c) throws DALException;
     public void insertintoUtilities(int gameID, Connection c) throws DALException;
     public void insertintoPlayers(int gameID, Connection c) throws DALException;
-
 
     /**
      * Load methods, returns the game.
@@ -65,6 +62,5 @@ public interface IGameDAO {
     public RealEstate makeRealestateFromResultset(ResultSet resultSet) throws SQLException;
     public Player makePlayerFromResultset(ResultSet resultSet) throws SQLException;
     public Utility makeUtilityFromResultset(ResultSet resultSet) throws SQLException;
-
 
     }

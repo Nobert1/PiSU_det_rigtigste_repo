@@ -11,6 +11,8 @@ import java.util.Set;
  *
  * @author Ekkart Kindler, ekki@dtu.dk
  *
+ * Extended by: s180557: Revisited tax calculation.
+ *
  */
 public class Tax extends Space {
 

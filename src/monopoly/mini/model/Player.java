@@ -16,6 +16,8 @@ import java.util.*;
  *
  * @author Ekkart Kindler, ekki@dtu.dk
  *
+ * Extended by s180557 & s185031: added broke boolean, isNotPassingGo boolean, playerID int.
+ *
  */
 public class Player extends Subject {
 

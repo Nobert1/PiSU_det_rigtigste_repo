@@ -9,7 +9,6 @@ import monopoly.mini.model.exceptions.PlayerBrokeException;
 /**
  * A card that moves the player backwards by three
  * @author s180557
- * @return
  */
 
 public class CardMoveBackwards extends Card {

@@ -8,7 +8,6 @@ import monopoly.mini.model.exceptions.PlayerBrokeException;
  * @author s175124
  */
 
-
 public class PaymentController {
 
     /**

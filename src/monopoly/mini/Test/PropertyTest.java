@@ -3,6 +3,7 @@ import monopoly.mini.controller.GameController;
 import monopoly.mini.model.Card;
 import monopoly.mini.model.Game;
 import monopoly.mini.model.exceptions.PlayerBrokeException;
+import monopoly.mini.model.properties.RealEstate;
 import org.junit.Test;
 
 import monopoly.mini.model.Player;
@@ -41,7 +42,7 @@ public class PropertyTest {
     @Test
     public void getCost() {
 
-        Property test = new Property();
+        Property test = new RealEstate();
         test.setCost(500);
 
         assertEquals(500, test.getCost());
@@ -68,7 +69,7 @@ public class PropertyTest {
     @Test
     public void getOwner() {
 
-        Property test = new Property();
+        Property test = new RealEstate();
         test.setCost(500);
         Player owner = new Player();
         test.setOwner(owner);
@@ -95,7 +96,7 @@ public class PropertyTest {
         cont.setDiecount(4, 5);
 
         //Testing that the current player position changed.
-        assertEquals(100, spil.getUtilites().get(0).Computerent(cont));
+        assertEquals(400, spil.getUtilites().get(0).Computerent(cont));
     }
 
     @Test

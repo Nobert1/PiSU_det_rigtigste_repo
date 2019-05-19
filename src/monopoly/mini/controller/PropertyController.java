@@ -17,7 +17,6 @@ import java.util.Set;
 
 public class PropertyController {
 
-
     /**
      * This method implements the activity of offering a player to buy
      * a property. This is typically triggered by a player arriving on
@@ -29,18 +28,15 @@ public class PropertyController {
      * @throws PlayerBrokeException when the player chooses to buy but could not afford it
      */
     public void offerToBuy(Property property, Player player, GameController gameController) throws PlayerBrokeException {
-        // TODO Alex: We might also allow the player to obtainCash before
-        // the actual offer, to see whether he can free enough cash
-        // for the sale.
         if (player.getBalance() > property.getCost()) {
             String choice = gameController.getGui().getUserSelection(
                     "Player " + player.getName() +
                             ": Do you want to buy " + property.getName() +
                             " for " + property.getCost() + "$?",
-                    "yes",
-                    "no");
+                    "Yes",
+                    "No");
 
-            if (choice.equals("yes")) {
+            if (choice.equals("Yes")) {
                 try {
                     gameController.getPaymentController().paymentToBank(player, property.getCost(), gameController);
                 } catch (PlayerBrokeException e) {
@@ -63,8 +59,8 @@ public class PropertyController {
     }
 
     /**
-     * I need a method here, just not sure yet how to do it. Could also be a boolean status, probably easier to work with
-     * Gustav Emil Nobert
+     * Mortgages property.
+     * @author s185031 & s175124
      *
      * @param property
      */
@@ -74,9 +70,10 @@ public class PropertyController {
     }
 
     /**
-     * Just need to implement gui so that you can see which properties are mortgaged.
+     * Method which allows player to mortgage property.
      *
      * @param player
+     * @param gameController
      * @author s175124
      */
     public void mortgage(Player player, GameController gameController) {
@@ -136,10 +133,26 @@ public class PropertyController {
         }
     }
 
+    /**
+     * Method which unmortgages property.
+     *
+     * @param property
+     * @param gameController
+     * @author s175124
+     */
+
     public void unmortgageProperty(Property property, GameController gameController) throws PlayerBrokeException {
         property.setMortgaged(false);
         gameController.getPaymentController().paymentToBank(property.getOwner(), (property.getCost()/2) + ((property.getCost()/2)/10), gameController);
     }
+
+    /**
+     * Method which allows player to unmortgage property.
+     *
+     * @param player
+     * @param gameController
+     * @author s175124
+     */
 
     public void unmortgage(Player player, GameController gameController) throws PlayerBrokeException {
         String choice = "";
@@ -177,7 +190,7 @@ public class PropertyController {
     }
 
     /**
-     * Method which sells all the houses on a colourset so the player can mortgage a property. Fixed gui problem. Is done.
+     * Method which sells all the houses on a colourset so the player can mortgage a property.
      * @author s175124
      * @param realEstate
      */
@@ -201,10 +214,10 @@ public class PropertyController {
     }
 
     /**
-     * fixed. Evt. can add hotel as the last option instead of "when you have bought 5 houses it will turn into a hotel"
-     * @author s175124
-     * Har rettet fra getRent til getHousePrice - Harald
+     * Builds houses.
+     * @author s175124 & s185014
      * @param player
+     * @param gameController
      */
     public void buildHouses(Player player, GameController gameController) throws PlayerBrokeException{
         int counter = 0;
@@ -262,7 +275,7 @@ public class PropertyController {
     }
 
     /**
-     * Done. Fixed problem with mortgaged properties.
+     * Checks which properties can be build on.
      * @author s175124 & s185031
      * @param estate
      */
@@ -280,7 +293,7 @@ public class PropertyController {
     }
 
     /**
-     * Method that sells houses. Evt. can add that selling 5 houses when hotel just says hotel.
+     * Method that sells houses.
      * @author s175124
      * @param player
      */
@@ -330,6 +343,4 @@ public class PropertyController {
             }
         }
     }
-
-
 }

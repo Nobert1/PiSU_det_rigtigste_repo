@@ -11,7 +11,7 @@ import java.awt.*;
 import java.util.ArrayList;
 
 /**
- * Authors Gustav Emil Nobert s185031 and Martin Wassman s185033
+ * @Authors Gustav Emil Nobert s185031 and Martin Wassman s185033
  * Creates additional panel for the GUI, which cointains information about the player.
  */
 public class PlayerPanel extends JFrame {
@@ -19,8 +19,6 @@ public class PlayerPanel extends JFrame {
     private Game game;
     private Player currentPlayer;
     private JPanel contentPane;
-
-
 
     @Override
     public Container getContentPane() {

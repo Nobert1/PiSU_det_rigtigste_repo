@@ -1,5 +1,6 @@
 import monopoly.mini.model.Player;
 import monopoly.mini.model.Property;
+import monopoly.mini.model.properties.RealEstate;
 
 import static org.junit.Assert.*;
 
@@ -115,7 +116,7 @@ public class PlayerTest {
     public void addOwnedProperty() {
 
         Player owner = new Player();
-        Property CityHall = new Property();
+        Property CityHall = new RealEstate();
         owner.addOwnedProperty(CityHall);
         Property owned = owner.getOwnedProperties().iterator().next();
 
@@ -133,7 +134,7 @@ public class PlayerTest {
     public void removeOwnedProperty() {
 
         Player owner = new Player();
-        Property CityHall = new Property();
+        Property CityHall = new RealEstate();
         owner.addOwnedProperty(CityHall);
         owner.removeOwnedProperty(CityHall);
 
@@ -151,9 +152,9 @@ public class PlayerTest {
     public void removeAllProperties() {
 
         Player owner = new Player();
-        Property CityHall = new Property();
+        Property CityHall = new RealEstate();
         owner.addOwnedProperty(CityHall);
-        Property Museum = new Property();
+        Property Museum = new RealEstate();
         owner.addOwnedProperty(Museum);
         owner.removeAllProperties();
 

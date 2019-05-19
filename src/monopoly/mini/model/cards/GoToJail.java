@@ -8,7 +8,7 @@ import monopoly.mini.model.exceptions.PlayerBrokeException;
 
 /**
  * A card that sends the player to jail without passing Go.
- * @author s180557
+ * @author s180557 & s185033
  * @return
  */
 public class GoToJail extends Card {
@@ -49,7 +49,4 @@ public class GoToJail extends Card {
             super.doAction(controller, player);
         }
     }
-
-
-
 }

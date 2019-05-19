@@ -9,7 +9,6 @@ import monopoly.mini.model.exceptions.PlayerBrokeException;
 /**
  * A card that moves the player to the next nearest utility space.
  * @author s180557
- * @return
  */
 
 public class CardMoveUtility extends Card {
