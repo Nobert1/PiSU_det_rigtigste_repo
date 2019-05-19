@@ -295,6 +295,7 @@ public class GameController {
                     database.savegame(name);
                     gui.showMessage("game saved");
                     terminated = true;
+                    System.exit(0);
                 }
             }
         }
