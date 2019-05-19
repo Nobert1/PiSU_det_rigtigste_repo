@@ -40,12 +40,14 @@ public class Utility extends Property {
     @Override
     public int Computerent(GameController controller) {
 
+        int numberofowned = 0;
         int rent = 50;
         if (this.getCost() == 200) {
-
             for (Utility ship : ShippingLine) {
                 if (ship.getOwner() == this.getOwner() && !ship.getName().equals(this.getName()) && !ship.isMortgaged()) {
                     rent = rent * 2;
+                    numberofowned++;
+                    controller.getGui().showMessage("The rent is " + rent + " since that the owner has " + numberofowned + " ships.");
                 }
             } } else if (this.getCost() == 150) {
             rent = 4 * controller.getDiecount();
@@ -57,6 +59,9 @@ public class Utility extends Property {
             }
             if (counter == 2) {
                 rent = 10 * controller.getDiecount();
+                controller.getGui().showMessage("Since the owner has two breweries, the rent is " + rent + " which is the diecount * 10");
+            } else {
+                controller.getGui().showMessage("Since the owner has one breweries, the rent is " + rent + " which is the diecount * 4");
             }
         }
         return rent;
