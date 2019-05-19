@@ -1,6 +1,5 @@
 package monopoly.mini.controller;
 
-import monopoly.mini.model.Game;
 import monopoly.mini.model.Player;
 import monopoly.mini.model.Property;
 import monopoly.mini.model.exceptions.PlayerBrokeException;

@@ -7,7 +7,6 @@ import monopoly.mini.model.Property;
 import monopoly.mini.model.exceptions.PlayerBrokeException;
 import monopoly.mini.model.properties.RealEstate;
 
-import java.util.List;
 import java.util.Set;
 
 /**

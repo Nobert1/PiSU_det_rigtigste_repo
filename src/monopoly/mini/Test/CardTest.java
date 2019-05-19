@@ -1,6 +1,5 @@
 import monopoly.mini.MiniMonopoly;
 import monopoly.mini.controller.GameController;
-import monopoly.mini.database.dal.DALException;
 import monopoly.mini.model.Card;
 import monopoly.mini.model.Game;
 import monopoly.mini.model.Player;
@@ -11,7 +10,7 @@ import org.junit.jupiter.api.Test;
 import java.awt.*;
 
 import static monopoly.mini.MiniMonopoly.createSpaces;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class CardTest {
 

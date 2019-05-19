@@ -2,11 +2,8 @@ package monopoly.mini.model;
 
 import monopoly.mini.controller.GameController;
 import monopoly.mini.model.exceptions.PlayerBrokeException;
-import monopoly.mini.model.properties.RealEstate;
-import monopoly.mini.model.properties.Utility;
 
 import java.awt.*;
-import java.util.Set;
 
 /**
  * A property which is a space that can be owned by a player.

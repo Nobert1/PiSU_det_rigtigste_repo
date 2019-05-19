@@ -2,13 +2,8 @@ package monopoly.mini.model.cards;
 
 import monopoly.mini.controller.GameController;
 import monopoly.mini.model.Card;
-import monopoly.mini.model.Game;
 import monopoly.mini.model.Player;
-import monopoly.mini.model.Property;
 import monopoly.mini.model.exceptions.PlayerBrokeException;
-import monopoly.mini.model.properties.RealEstate;
-
-import java.util.Set;
 
 /**
  * A card that pays out money to all other players.

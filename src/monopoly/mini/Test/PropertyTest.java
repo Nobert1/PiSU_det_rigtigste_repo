@@ -1,18 +1,13 @@
 import monopoly.mini.MiniMonopoly;
 import monopoly.mini.controller.GameController;
-import monopoly.mini.model.Card;
 import monopoly.mini.model.Game;
-import monopoly.mini.model.exceptions.PlayerBrokeException;
+import monopoly.mini.model.Player;
+import monopoly.mini.model.Property;
 import monopoly.mini.model.properties.RealEstate;
 import org.junit.Test;
 
-import monopoly.mini.model.Player;
-import monopoly.mini.model.Property;
-
 import java.awt.*;
 
-import static monopoly.mini.MiniMonopoly.createSpaces;
-import static org.junit.Assert.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class PropertyTest {

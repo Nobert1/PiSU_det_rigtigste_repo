@@ -9,7 +9,6 @@ package monopoly.mini.controller;
 //ByteArrayOutputStream output = new ByteArrayOutputStream();
 //byte[] byteArray = output.toByteArray();
 
-import gui_main.GUI;
 import monopoly.mini.MiniMonopoly;
 import monopoly.mini.database.dal.DALException;
 import monopoly.mini.model.Card;
@@ -17,15 +16,13 @@ import monopoly.mini.model.Game;
 import monopoly.mini.model.Player;
 import monopoly.mini.model.cards.CardMoveUtility;
 import monopoly.mini.model.exceptions.PlayerBrokeException;
-import monopoly.mini.model.properties.Colors;
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 
 import java.awt.*;
-import java.io.*;
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 
-import static monopoly.mini.MiniMonopoly.createGame;
 import static monopoly.mini.MiniMonopoly.createSpaces;
 import static org.junit.jupiter.api.Assertions.*;
 

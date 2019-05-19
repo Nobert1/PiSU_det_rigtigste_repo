@@ -8,7 +8,6 @@ import monopoly.mini.model.properties.Colors;
 import monopoly.mini.model.properties.RealEstate;
 import monopoly.mini.model.properties.Utility;
 
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
