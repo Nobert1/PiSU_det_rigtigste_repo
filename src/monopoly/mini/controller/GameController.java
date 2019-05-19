@@ -390,7 +390,7 @@ public class GameController {
         } else {
             do {
                 String choice = gui.getUserButtonPressed("You are missing " + amount + " dollars. How would you like to get the money?",
-                        "Trade", "Sell Houses", "Mortgage", "Forefit like a bitch");
+                        "Trade", "Sell Houses", "Mortgage", "Forefit the game");
                 switch (choice) {
                     case "Trade":
                         amountBefore = player.getBalance();

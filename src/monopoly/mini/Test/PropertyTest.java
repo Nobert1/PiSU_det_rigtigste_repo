@@ -1,5 +1,3 @@
-package monopoly.mini.Test;
-
 import org.junit.Test;
 
 import monopoly.mini.model.Player;
@@ -8,6 +6,11 @@ import monopoly.mini.model.Property;
 import static org.junit.Assert.*;
 
 public class PropertyTest {
+
+    /**
+     * @author s180557
+     * @return
+     */
 
     @Test
     public void getCost() {
@@ -30,6 +33,11 @@ public class PropertyTest {
     @Test
     public void setRent() {
     }
+
+    /**
+     * @author s180557
+     * @return
+     */
 
     @Test
     public void getOwner() {
