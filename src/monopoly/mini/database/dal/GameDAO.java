@@ -548,6 +548,13 @@ public class GameDAO implements IGameDAO {
         }
     }
 
+    /**
+     * Schema statement for when it's the first time using the program on a new database.
+     * It drops the trigger every time and recreates it, because triggers don't have anything that's similar to
+     * "Create table if not exists", which tables have. 
+     * @param c
+     * @throws DALException
+     */
     public void CreateSchemas(Connection c) throws DALException {
         try {
 
@@ -622,6 +629,13 @@ public class GameDAO implements IGameDAO {
         }
     }
 
+    /**
+     * Method to set the current player. Since the game states saves after everytime a player has made a move the current player
+     * is not always just player 1.
+     * @param gameID
+     * @param c
+     * @throws DALException
+     */
     @Override
     public void setCurrentplayer(int gameID, Connection c) throws DALException{
         try {
