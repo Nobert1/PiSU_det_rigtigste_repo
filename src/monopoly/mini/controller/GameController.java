@@ -87,6 +87,7 @@ public class GameController {
             String[] arr = database.generategameIDs();
             if (arr.length == 0) {
                 gui.showMessage("there are no saved games");
+                databaseinteraction();
             } else {
                 SaveName = gui.getUserSelection("what game would you like to load", arr);
                 Matcher matcher = Pattern.compile("\\d+").matcher(SaveName);
