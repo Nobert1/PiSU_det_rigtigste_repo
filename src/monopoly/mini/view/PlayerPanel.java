@@ -12,6 +12,7 @@ import java.util.ArrayList;
 
 /**
  * Authors Gustav Emil Nobert s185031 and Martin Wassman s185033
+ * Creates additional panel for the GUI, which cointains information about the player.
  */
 public class PlayerPanel extends JFrame {
 
@@ -19,10 +20,16 @@ public class PlayerPanel extends JFrame {
     private Player currentPlayer;
     private JPanel contentPane;
 
+
+
     @Override
     public Container getContentPane() {
         return super.getContentPane();
     }
+
+    /**
+     * Creates the background panel, which contains the additional panels with information on player and properties
+     */
 
     public PlayerPanel(Game game, Player currentPlayer) {
 
@@ -40,6 +47,10 @@ public class PlayerPanel extends JFrame {
 
     }
 
+    /**
+     * This method both creates additional panels for the players and properties, and updates said panels whenever it's
+     * called, so the information is always correct.
+     */
     @SuppressWarnings("Duplicates")
     public void update(Player player) {
         contentPane.removeAll();

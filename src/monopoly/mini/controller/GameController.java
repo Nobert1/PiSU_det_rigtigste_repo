@@ -143,6 +143,8 @@ public class GameController {
         return array;
     }
 
+
+
     public String[] arrayConverterRealestate(ArrayList<RealEstate> list){
         String[] array = new String[list.size()];
         int i = 0;
@@ -227,6 +229,8 @@ public class GameController {
         }
         dispose();
     }
+
+
 
     public String choiceSwitch (Player player, String choice) {
         switch(choice) {

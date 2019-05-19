@@ -56,9 +56,8 @@ public class View implements Observer {
 
     /**
      * Author of changes to this class : Gustav Emil Nobert s185031
+     * Creates the fields on the GUI.
      */
-
-
     public void createFields() {
         GUI_Field[] guiFields = gui.getFields();
         int i = 0;
@@ -70,6 +69,9 @@ public class View implements Observer {
         // create the players in the GUI
     }
 
+    /**
+     * Creates the players and gives them a color, a token and the player panels.
+     */
     public void createplayers() {
         for (Player player : game.getPlayers()) {
             GUI_Car car = new GUI_Car(player.getColor(), Color.black, GUI_Car.Type.getTypeFromString(player.getIcon()), Pattern.FILL);
