@@ -22,8 +22,9 @@ public class CardMoveBackwards extends Card {
 
             int newPos = player.getCurrentPosition().getIndex()-3;
             Space newSpace = controller.getSpacesList().get(newPos);
-
+            player.setNotPassingGo(true);
             controller.getPlayerController().moveToSpace(player, newSpace,controller);
+            player.setNotPassingGo(false);
         } finally {
             // Make sure that the card is returned to the deck even when
             // an Exception should occur!

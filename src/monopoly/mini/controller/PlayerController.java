@@ -196,7 +196,8 @@ public class PlayerController {
         int posOld = player.getCurrentPosition().getIndex();
         player.setCurrentPosition(space);
 
-        if (posOld > player.getCurrentPosition().getIndex()) {
+        //TODO Money should not be awarded when moving backwards from a card og moving to jail.
+        if (posOld > player.getCurrentPosition().getIndex() && !player.isNotPassingGo()) {
             // Note that this assumes that the game has more than 12 spaces here!
             // TODO: the amount of 2000$ should not be a fixed constant here (could also
             //       be configured in the Game class.
