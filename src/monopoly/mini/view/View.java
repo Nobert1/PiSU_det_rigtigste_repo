@@ -92,21 +92,7 @@ public class View implements Observer {
             player.attach(this);
             updatePlayer(player);
         }
-    }/**
-     public void loadplayers() {
-     for (Player player : game.getPlayers()) {
-     GUI_Car car = new GUI_Car(player.getColor(), Color.black, Type.CAR, Pattern.FILL);
-     GUI_Player gui_player = new GUI_Player(player.getName(), player.getBalance(), car);
-     PlayerPanel panel = new PlayerPanel(game, player);
-     playerPanelMap.put(player, panel);
-     player2GuiPlayer.put(player, gui_player);
-     gui.addPlayer(gui_player);
-     player2position.put(player, player.getCurrentPosition().getIndex());
-     player.attach(this);
-     update(player);
-     }
-     }
-     **/
+    }
 
     @Override
     public void update(Subject subject) {

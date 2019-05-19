@@ -69,7 +69,6 @@ public class GameController {
 
 
     /**
-     * General TODO - find ud af hvorfor fanden hustingen ikke virker som den skal, optimer panels så den ikke laver et panel for hver ejendom.
      * Kig på database når Alex pusher, snak med nogen om den smarteste måde at få fat i terningernes værdi på, det er vidst nok imod vmc at hente terningens værdi fra gamecontroller.
      * Chancekort skal udvides. Payment from player skal også gennemtestest. Der skal skrives test cases.
      */
@@ -180,7 +179,6 @@ public class GameController {
     public void play() throws DALException {
         List<Player> players = game.getPlayers();
         Player c = game.getCurrentPlayer();
-
         int current = 0;
         for (int i = 0; i < players.size(); i++) {
             Player p = players.get(i);
@@ -535,7 +533,6 @@ public class GameController {
         benificiary.receiveMoney(amount);
         brokePlayer.setBalance(0);
         brokePlayer.setBroke(true);
-
         // TODO We assume here, that the broke player has already sold all his houses! But, if
         // not, we could make sure at this point that all houses are removed from
         // properties (properties with houses on are not supposed to be transferred, neither

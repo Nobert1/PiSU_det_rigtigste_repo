@@ -17,11 +17,15 @@ public class GameDAO implements IGameDAO {
 
 
     private Game game;
-    int ID;
+    private static int ID;
     //This int contins the ID of the current game, the purpose of the int it to keep track of the game so it can be updated on the run.
 
     public GameDAO (Game game) {
         this.game = game;
+    }
+
+    public static int getID() {
+        return ID;
     }
 
 
