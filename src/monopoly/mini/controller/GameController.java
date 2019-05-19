@@ -91,7 +91,7 @@ public class GameController {
                 gui.showMessage("there are no saved games");
                 databaseinteraction();
             } else {
-                SaveName = gui.getUserSelection("what game would you like to load", arr);
+                SaveName = gui.getUserSelection("what game would you like to delete", arr);
                 Matcher matcher = Pattern.compile("\\d+").matcher(SaveName);
                 matcher.find();
                 int i = Integer.valueOf(matcher.group());

@@ -110,6 +110,7 @@ public class GameDAO implements IGameDAO {
         try (Connection c = DataSource.getConnection()) {
             game.setPlayers(getPlayers(gameId, c));
             game.setSpaces(getspaces(gameId, c));
+            setCurrentplayer(gameId, c);
             ID = gameId;
         } catch (SQLException e) {
             throw new DALException(e.getMessage());
@@ -199,7 +200,7 @@ public class GameDAO implements IGameDAO {
     @Override
     public List<Player> getPlayers(int gameID, Connection c) throws DALException {
         try {
-            //  try (Connection c = DataSource.getConnection()) {
+
             Statement statement = c.createStatement();
             ResultSet resultSet = statement.executeQuery("SELECT * FROM Player WHERE gameID=" + gameID);
             ArrayList<Player> playerList = new ArrayList<>();
@@ -374,7 +375,6 @@ public class GameDAO implements IGameDAO {
     @Override
     public void insertintoRealEstates(int gameID, Connection c) throws DALException {
         try {
-            // try (Connection c = DataSource.getConnection()) {
             PreparedStatement statement = c.prepareStatement("INSERT INTO RealEstate VALUES (?, ?, ?, ?, ?, ?)");
             for (RealEstate realEstate : game.getRealestates()) {
                 statement.setInt(1, gameID);
@@ -444,7 +444,7 @@ public class GameDAO implements IGameDAO {
                 statement.setInt(2, player.getCurrentPosition().getIndex());
                 statement.setBoolean(3, player.isInPrison());
                 statement.setBoolean(4, false);
-                if (game.getCurrentPlayer() == player) {
+                if (game.getCurrentPlayer().getPlayerID() == player.getPlayerID()) {
                     statement.setBoolean(4, true);
                 }
                 statement.setInt(6, player.getPlayerID());
@@ -618,6 +618,27 @@ public class GameDAO implements IGameDAO {
             statement4.executeUpdate();
             statement5.executeUpdate();
 
+
+        } catch (SQLException e) {
+            throw new DALException(e.getMessage());
+        }
+    }
+    public void setCurrentplayer(int gameID, Connection c) throws DALException{
+        try {
+            c.setAutoCommit(false);
+
+            PreparedStatement statement = c.prepareStatement("SELECT * FROM Player WHERE gameID = ? AND Currentplayer = ?");
+            statement.setInt(1, gameID);
+            statement.setBoolean(2, true);
+
+            ResultSet resultSet = statement.executeQuery();
+
+            if (resultSet.next()) {
+                for (Player player :game.getPlayers())
+                    if (player.getPlayerID() ==  resultSet.getInt("playerID")){
+                        game.setCurrentPlayer(player);
+                    }
+            }
 
         } catch (SQLException e) {
             throw new DALException(e.getMessage());

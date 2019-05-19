@@ -240,7 +240,7 @@ public class PropertyController {
             }
             String[] houseAmount = new String[property.checkMaxHouses()];
             if (houseAmount.length == 0) {
-                gameController.getGui().showMessage("You can't build since you have hotels on everything in this strip!");
+                gameController.getGui().showMessage("You can't build on this real estate");
             } else {
             for(int i = 1; i <= houseAmount.length; i++){
                 houseAmount[i-1] = String.valueOf(i);
