@@ -469,11 +469,12 @@ public class GameController {
                         } else {
                             currentBid = gui.getUserInteger("How much would you like to bid?");
                         }
-                        if(currentBid < highestBid) {
+                        if(currentBid > highestBid) {
                             gui.showMessage(bidList.get(i).getName() + " you are now the highest bidder!");
                         } else {
-                        gui.showMessage("The bid must be higher than the highest bid!");
-                    }} while(currentBid <= highestBid);
+                            gui.showMessage("The bid must be higher than the highest bid!");
+                        }
+                    } while(currentBid <= highestBid);
                     highestBid = currentBid;
                     highestBidder = bidList.get(i);
                     counter = 0;
@@ -581,7 +582,6 @@ public class GameController {
                 count++;
             }
         }
-
         choosePlayer = gui.getUserButtonPressed("Who would you like to trade with?", tradeListString);
         Player tradee = new Player();
         for (int i = 0; i < game.getPlayers().size(); i++) {
@@ -589,7 +589,6 @@ public class GameController {
                 tradee = game.getPlayers().get(i);
             }
         }
-
         //First part of trade where the player chooses what they want to trade away
         //As owned properties is a HashSet there is made and arrayList and a String[] to use for I/O
         do {
@@ -603,7 +602,6 @@ public class GameController {
             Property[] giveProperties = new Property[playerPropertiesList.size()];
             do {
                 String[] playerPropertiesArr = playerPropertiesList.toArray(new String[playerPropertiesList.size()]);
-
                 tradeOption = gui.getUserButtonPressed("What would you like to give in the trade? \nYou have chosen " + playerPropertyCount + " properties, " +
                         "and " + playerMoneyCount + " dollars", "Properties", "Money", "Pick what you want to trade for");
                 if (tradeOption == "Properties") {
@@ -629,14 +627,12 @@ public class GameController {
 
             //Second part where the player chooses what to receive from trade
             ArrayList<String> tradeePropertiesList = new ArrayList<>(tradee.getOwnedProperties().size());
-
             for (Property p : tradee.getOwnedProperties()) {
                 tradeePropertiesList.add(p.getName());
             }
             Property[] receiveProperties = new Property[tradeePropertiesList.size()];
             int tradeePropertyCount = 0;
             int tradeeMoneyCount = 0;
-
             do {
                 String[] tradeePropertiesArr = tradeePropertiesList.toArray(new String[tradeePropertiesList.size()]);
                 tradeOption = gui.getUserButtonPressed("What would you like to receive in the trade? \nYou have chosen " + tradeePropertyCount + " properties, " +
@@ -659,12 +655,11 @@ public class GameController {
                     }
                 } else if (tradeOption == "Money") {
                     tradeeMoneyCount = gui.getUserInteger("How much money would like to add to the trade?");
-                }
+                } //Getting approval for trade followed by swapping properties and paying eachother. If the player denies and wants to
+                  // renegotiate the method will start again.
             } while (tradeOption != "Get approval for trade");
-
             String givePropertiesString = propArrayStringCreator(giveProperties, player);
             String receivePropertiesString = propArrayStringCreator(receiveProperties, tradee);
-
             String s = player.getName() + " you want to trade " + givePropertiesString + " and " + playerMoneyCount + " dollars with "
                     + tradee.getName() + " for " + receivePropertiesString + " and " + tradeeMoneyCount + ".";
             String tradeAccept = gui.getUserButtonPressed(s, "Accept Trade", "Deny");
