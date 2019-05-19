@@ -257,6 +257,7 @@ public class GameController {
         dispose();
     }
 
+
     public String choiceSwitch (Player player, String choice) {
         switch(choice) {
             case "Trade":
@@ -315,10 +316,9 @@ public class GameController {
                     }
                 }
 
-                //Needs testing, does it cost 500? - Gustav
                 //Redundant code - Martin
             }
-            if (player.getGetOutOfJailCards() == 0) {
+            else if (player.getGetOutOfJailCards() == 0) {
                 jailChoice = gui.getUserSelection("Would you like to pay your way out of prison?", "yes", "no");
                 if (jailChoice.equals("yes")) {
                     player.setInPrison(false);
