@@ -50,6 +50,8 @@ public class GameController {
 
     private String SaveName;
 
+    private int bailJail = 50;
+
 
 
 
@@ -290,7 +292,7 @@ public class GameController {
                     jailChoice = gui.getUserSelection("Would you like to pay your way out of prison?", "yes", "no");
                     if (jailChoice.equals("yes")) {
                         player.setInPrison(false);
-                        player.setBalance(player.getBalance() - 500);
+                        player.setBalance(player.getBalance() - bailJail);
                     }
                 }
 
@@ -300,7 +302,7 @@ public class GameController {
                 jailChoice = gui.getUserSelection("Would you like to pay your way out of prison?", "yes", "no");
                 if (jailChoice.equals("yes")) {
                     player.setInPrison(false);
-                    player.setBalance(player.getBalance() - 500);
+                    player.setBalance(player.getBalance() - bailJail);
                 }
             }
         }
