@@ -1,4 +1,4 @@
-package monopoly.mini.controller;
+package monopoly.mini.Test.monopoly.mini.controller;
 
 //CODE FOR SIMULATING USER INPUT.
 //Fjerner test user administrator privilegie
@@ -11,6 +11,7 @@ package monopoly.mini.controller;
 
 import gui_main.GUI;
 import monopoly.mini.MiniMonopoly;
+import monopoly.mini.controller.GameController;
 import monopoly.mini.database.dal.DALException;
 import monopoly.mini.model.Game;
 import monopoly.mini.model.Player;
@@ -90,7 +91,6 @@ class GameControllerTest {
             cont.play();
 
 
-            assertEquals(spil.);
 
 
 

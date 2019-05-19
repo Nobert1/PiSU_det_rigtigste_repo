@@ -1,43 +1,56 @@
 package monopoly.mini.Test;
 
+import monopoly.mini.MiniMonopoly;
 import monopoly.mini.database.dal.DALException;
 import monopoly.mini.database.dal.GameDAO;
-import monopoly.mini.model.properties.Colors;
 import monopoly.mini.model.properties.RealEstate;
 import monopoly.mini.model.properties.Utility;
 import org.junit.jupiter.api.Test;
 import monopoly.mini.model.*;
-import monopoly.mini.database.*;
 
 import java.awt.*;
-import java.sql.SQLException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Test klasse der tester de tre mest vitale operationer i programmet, getGame, UpdateGame, og savegame. Ved at teste om de virker
+ * testes der også samtidigt at alle de linjer som de indeholder virker.
+ */
 class GameDAOTest {
+
+    void setupTestGame(Game spil, Player spiller1, Player spiller2){
+
+        MiniMonopoly mon = new MiniMonopoly();
+        spil.addPlayer(spiller1);
+        spil.addPlayer(spiller2);
+        mon.createSpaces(spil);
+        spiller1.setName("Hans");
+        spiller2.setName("Grethe");
+        spiller1.setPlayerID(0);
+        spiller2.setPlayerID(1);
+        spiller1.setColor(Color.YELLOW);
+        spiller2.setColor(Color.MAGENTA);
+        spiller1.setIcon("Car");
+        spiller1.setIcon("UFO");
+        spiller1.setCurrentPosition(spil.getSpaces().get(0));
+        spiller2.setCurrentPosition(spil.getSpaces().get(0));
+    }
 
     @Test
     void savegame() {
         Game game = new Game();
         GameDAO gameDAO = new GameDAO(game);
         Player player = new Player();
-        player.setInPrison(false);
-        player.setBalance(2000);
-        player.setName("Egon");
-        player.setCurrentPosition(game.getSpaces().get(0));
-        player.setBroke(false);
-        player.setColor(Colors.getcolor(Colors.RED));
-        player.setGetOutOfJailCards(0);
-        player.setIcon("UFO");
+        Player player1 = new Player();
+        setupTestGame(game, player, player1);
 
-        RealEstate realEstate = new RealEstate();
-        realEstate.setPropertid(2);
+
+
+        RealEstate realEstate = game.getRealestates().get(0);
         realEstate.setHouses(2);
-        realEstate.setHotel(false);
         realEstate.setOwner(player);
 
-        Utility utility = new Utility();
-        utility.setPropertyid(1);
+        Utility utility = game.getUtilites().get(0);
         utility.setOwner(player);
                 try {
                     gameDAO.savegame("Testsave");
@@ -50,14 +63,44 @@ class GameDAOTest {
         } catch (DALException e) {
             e.getMessage();
         }
-            assertEquals(player.getBalance(), game.getPlayers().get(0).getBalance());
-            assertEquals(utility.getPropertyid(), game.getRealestates().get(0).getPropertid());
-            assertEquals(realEstate.getPropertid(), game.getUtilites().get(0).getPropertyid());
+            assertEquals(player.getName(), game.getPlayers().get(0).getName());
+            assertEquals(utility.getOwner(), game.getPlayers().get(0));
+            assertEquals(realEstate.getHouses(), game.getRealestates().get(0).getHouses());
     }
 
     @Test
     void updateGame() {
+        Game game = new Game();
+        GameDAO gameDAO = new GameDAO(game);
+        Player player = new Player();
+        Player player1 = new Player();
+        setupTestGame(game, player, player1);
+
+
+
+        RealEstate realEstate = game.getRealestates().get(0);
+        realEstate.setHouses(2);
+        realEstate.setOwner(player);
+
+        Utility utility = game.getUtilites().get(0);
+        utility.setOwner(player);
+        try {
+            gameDAO.savegame("Testsave");
+        } catch (DALException e) {
+            e.getMessage();
+        }
+
+        try {
+            gameDAO.updateGame();
+            gameDAO.getGame(GameDAO.getID());
+        } catch (DALException e) {
+            e.getMessage();
+        }
+        assertEquals(player.getName(), game.getPlayers().get(0).getName());
+        assertEquals(utility.getOwner(), game.getPlayers().get(0));
+        assertEquals(realEstate.getHouses(), game.getRealestates().get(0).getHouses());
     }
+
 
     @Test
     void getGame() {
