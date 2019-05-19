@@ -145,7 +145,6 @@ public class MiniMonopoly {
         s = new Utility();
         s.setName("Coca-Cola Tapperi");
         s.setCost(150);
-        s.setRent(30);
         s.setColor(Colors.getcolor(Colors.DARKGREEN));
         Utility.getBreweries().add(s);
         s.setPropertyid(j++);
@@ -263,7 +262,7 @@ public class MiniMonopoly {
         s = new Utility();
         s.setName("ship");
         s.setCost(200);
-        s.setRent(250);
+        s.setRent(20);
         s.setColor(Colors.getcolor(Colors.SHIPPINGWHITE));
         s.setPropertyid(j++);
         Utility.getShippingLine().add(s);
@@ -282,7 +281,7 @@ public class MiniMonopoly {
         game.addSpace(p);
 
         p = new RealEstate();
-        p.setName("Kgs. Nytrov");
+        p.setName("Kgs. Nytorv");
         p.setCost(260);
         p.setRent(22);
         p.setHousePrice(150);
@@ -295,7 +294,6 @@ public class MiniMonopoly {
         s = new Utility();
         s.setName("Carlsberg");
         s.setCost(150);
-        s.setRent(20);
         s.setColor(Colors.getcolor(Colors.DARKGREEN));
         Utility.getBreweries().add(s);
         s.setPropertyid(j++);
@@ -372,13 +370,13 @@ public class MiniMonopoly {
         p.setRent(35);
         p.setHousePrice(200);
         p.setColor(Colors.getcolor(Colors.PURPLE));
-        p.setRents(175, 500, 100, 1300, 1500);
+        p.setRents(175, 500, 1000, 1300, 1500);
         RealEstate.insertintoColorMap(p);
         p.setPropertid(i++);
         game.addSpace(p);
 
         t = new Tax();
-        t.setName("extraordinær skat, betal 1000");
+        t.setName("Extraordinær skat, betal 100");
         game.addSpace(t);
 
         p = new RealEstate();
@@ -435,7 +433,7 @@ public class MiniMonopoly {
 
         CardMove move4 = new CardMove();
         move4.setTarget(game.getSpaces().get(1));
-        move4.setText("Move to Go and get 200 kr.");
+        move4.setText("Move to Go and get 200,-");
         cards.add(move4);
 
         CardMoveUtility move5 = new CardMoveUtility();
@@ -454,31 +452,31 @@ public class MiniMonopoly {
         cards.add(poorTax);
 
         CardReceiveMoneyFromBank b = new CardReceiveMoneyFromBank();
-        b.setText("You receive 100$ from the bank.");
+        b.setText("You receive 100,- from the bank.");
         b.setAmount(100);
         cards.add(b);
 
         CardReceiveMoneyFromBank dividend = new CardReceiveMoneyFromBank();
-        dividend.setText("The bank pays you dividend and you recieve 50 kr.");
+        dividend.setText("The bank pays you dividend and you recieve 50,-");
         dividend.setAmount(50);
         cards.add(dividend);
 
         CardReceiveMoneyFromBank mortgage = new CardReceiveMoneyFromBank();
-        mortgage.setText("Your building loan matures. You recieve 150.");
+        mortgage.setText("Your building loan matures. You recieve 150,-");
         mortgage.setAmount(150);
         cards.add(mortgage);
 
         CardReceiveMoneyFromBank crossword = new CardReceiveMoneyFromBank();
-        crossword.setText("You won a crossword competition. Collect 100.");
+        crossword.setText("You won a crossword competition. Collect 100,-");
         crossword.setAmount(100);
         cards.add(crossword);
 
         GeneralRepairs repairs = new GeneralRepairs();
-        repairs.setText("Your properties are needing repair. Pay 25 for each house and 100 for each hotel.");
+        repairs.setText("Your properties are needing repair. Pay 25,- for each house and 100,- for each hotel.");
         cards.add(repairs);
 
         Chairman chairman = new Chairman();
-        chairman.setText("You have been elected chairman. Pay 50 to all players for their troubles.");
+        chairman.setText("You have been elected chairman. Pay 50,- to all players for their troubles.");
         cards.add(chairman);
 
         GoToJail goToJail1 = new GoToJail();
