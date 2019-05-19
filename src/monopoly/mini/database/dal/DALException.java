@@ -2,6 +2,11 @@ package monopoly.mini.database.dal;
 
 public class DALException extends Exception {
 
+    /**
+     * Class for throwing an exception, while running the program.
+     */
+
+
     public DALException(String msg, Throwable e) {
         super(msg,e);
     }

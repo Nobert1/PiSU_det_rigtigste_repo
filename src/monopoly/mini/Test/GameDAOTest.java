@@ -12,10 +12,14 @@ import java.awt.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+
 /**
- * Test klasse der tester de tre mest vitale operationer i programmet, getGame, UpdateGame, og savegame. Ved at teste om de virker
- * testes der også samtidigt at alle de linjer som de indeholder virker.
+ * @author Gustav Emil Nobert s185031
+ *
+ * Test class for testing the database. By testing the few methods which use the other methods alot of the lines
+ * gets tested by very few lines of code.
  */
+
 class GameDAOTest {
 
     void setupTestGame(Game spil, Player spiller1, Player spiller2){
@@ -93,6 +97,7 @@ class GameDAOTest {
         try {
             gameDAO.updateGame();
             gameDAO.getGame(GameDAO.getID());
+            gameDAO.deleteSave(GameDAO.getID());
         } catch (DALException e) {
             e.getMessage();
         }
@@ -102,7 +107,4 @@ class GameDAOTest {
     }
 
 
-    @Test
-    void getGame() {
-    }
 }

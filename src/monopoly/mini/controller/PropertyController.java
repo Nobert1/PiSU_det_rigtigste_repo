@@ -229,7 +229,7 @@ public class PropertyController {
             String propertyChoice = gameController.getGui().getUserButtonPressed("Which property would you like to build on?", buildList);
             RealEstate property = new RealEstate();
             for(Property p: player.getOwnedProperties()){
-                if (p.getName() == propertyChoice) {
+                if (p.getName().equals(propertyChoice)) {
                     property = (RealEstate) p;
                 }
             }

@@ -14,13 +14,19 @@ import java.util.List;
 
 public class GameDAO implements IGameDAO {
 
+    /**
+     * @author Gustav Emil Nobert s185031
+     * <p>
+     * This class contains all the methods for the database. The methods includes updating a current one,
+     * loading a game, inserting a game and deleting old saves.
+     */
 
 
     private Game game;
     private static int ID;
     //This int contins the ID of the current game, the purpose of the int it to keep track of the game so it can be updated on the run.
 
-    public GameDAO (Game game) {
+    public GameDAO(Game game) {
         this.game = game;
     }
 
@@ -29,11 +35,17 @@ public class GameDAO implements IGameDAO {
     }
 
 
-
+    /**
+     * Takes the savename as a parameter from the user. Contains alot of insert methods for the different tables.
+     *
+     * @param saveName
+     * @throws DALException
+     */
     @Override
     public void savegame(String saveName) throws DALException {
         try (Connection c = DataSource.getConnection()) {
             c.setAutoCommit(false);
+            CreateSchemas(c);
             insertIntoGame(saveName, c);
             insertintoPlayers(ID, c);
             insertintoUtilities(ID, c);
@@ -46,10 +58,15 @@ public class GameDAO implements IGameDAO {
     }
 
 
-
+    /**
+     * Delets a save, takes the game ID from a user selection. It has a correspondig trigger to ensure that all tables
+     * are empty after delete on game.
+     *
+     * @param gameId
+     * @throws DALException
+     */
     @Override
     public void deleteSave(int gameId) throws DALException {
-        //TODO går nok bare noget lignende et SQL statement der hedder DELETE * FROM gameID WHERE gameID=(?) og så med noget cascade.
         try (Connection c = DataSource.getConnection()) {
             c.setAutoCommit(false);
             PreparedStatement preparedStatement = c.prepareStatement("DELETE FROM Game WHERE gameID =?");
@@ -62,6 +79,12 @@ public class GameDAO implements IGameDAO {
         }
     }
 
+    /**
+     * Updates the game state in the database. This method is called after a player has taken a turn. Very similar
+     * to the save game method, but updates instead.
+     *
+     * @throws DALException
+     */
     @Override
     public void updateGame() throws DALException {
         try (Connection c = DataSource.getConnection()) {
@@ -75,6 +98,13 @@ public class GameDAO implements IGameDAO {
         }
     }
 
+    /**
+     * Returns the non persistant information of the games. Before this method is called the game already has produced the fields
+     * and the gui.
+     *
+     * @param gameId
+     * @throws DALException
+     */
     @Override
     public void getGame(int gameId) throws DALException {
         try (Connection c = DataSource.getConnection()) {
@@ -86,7 +116,14 @@ public class GameDAO implements IGameDAO {
         }
     }
 
-
+    /**
+     * Takes the current spaces and adds the data from the database to alle of them.
+     *
+     * @param gameID
+     * @param c
+     * @return
+     * @throws DALException
+     */
     @Override
     public List<Space> getspaces(int gameID, Connection c) throws DALException {
         List<Space> spacelist = game.getSpaces();
@@ -107,7 +144,8 @@ public class GameDAO implements IGameDAO {
     }
 
     /**
-     * Returns utilites
+     * Modifies the list of utilites with the non persistant data and returns them.
+     *
      * @param gameID
      * @return
      * @throws DALException
@@ -132,7 +170,8 @@ public class GameDAO implements IGameDAO {
     }
 
     /**
-     * Returns realestates
+     * Modifies the real estates by adding the non persistant data and returns them after.
+     *
      * @param gameID
      * @return
      * @throws DALException
@@ -142,7 +181,7 @@ public class GameDAO implements IGameDAO {
         try {
             //  try (Connection c = DataSource.getConnection()) {
             Statement statement = c.createStatement();
-            ResultSet resultSet = statement.executeQuery("SELECT * FROM RealEstate WHERE gameID="+ gameID);
+            ResultSet resultSet = statement.executeQuery("SELECT * FROM RealEstate WHERE gameID=" + gameID);
             ArrayList<RealEstate> realEstatelist = new ArrayList<>();
             while (resultSet.next()) {
                 RealEstate realEstate = makeRealestateFromResultset(resultSet);
@@ -155,7 +194,7 @@ public class GameDAO implements IGameDAO {
     }
 
     /**
-     * Returns the players.
+     * Produces the players from the database and returns them.
      */
     @Override
     public List<Player> getPlayers(int gameID, Connection c) throws DALException {
@@ -176,9 +215,11 @@ public class GameDAO implements IGameDAO {
     }
 
     /**
-     * Produces the real estates. Not from the bottom but with the information that is not persistent.
+     * Produces the real Estates. First the game makes the utilities with the non persistent information, and then
+     * the non persistant information is retrieved from the database.
+     *
      * @param resultSet
-     * @return
+     * @return RealEstate
      * @throws SQLException
      */
     @Override
@@ -204,7 +245,9 @@ public class GameDAO implements IGameDAO {
     }
 
     /**
-     * Produces the utilities. Not from the bottom but with the information that is not persistent.
+     * Produces the utilities. First the game makes the utilities with the non persistent information, and then
+     * the non persistant information is retrieved from the database.
+     *
      * @param resultSet
      * @return
      * @throws SQLException
@@ -234,6 +277,7 @@ public class GameDAO implements IGameDAO {
 
     /**
      * Sets every attribute of the player.
+     *
      * @param resultSet
      * @return
      * @throws SQLException
@@ -248,18 +292,23 @@ public class GameDAO implements IGameDAO {
         player.setCurrentPosition(game.getSpaces().get(resultSet.getInt("position")));
         player.setInPrison(resultSet.getBoolean("injail"));
         String color = resultSet.getString("color");
-
         Color color1 = new Color(Colors.getcolorName(color).getRed(), Colors.getcolorName(color).getGreen(), Colors.getcolorName(color).getBlue());
         player.setColor(color1);
         player.setIcon(resultSet.getString("tokentype"));
+        if (player.getBalance() < 0) {
+            player.setBroke(true);
+        }
         return player;
     }
 
+
     /**
-     * Insert into methods.
+     * Standard insert into method.
+     *
+     * @param gameID
+     * @param c
      * @throws DALException
      */
-
     @Override
     public void insertintoPlayers(int gameID, Connection c) throws DALException {
 
@@ -318,6 +367,7 @@ public class GameDAO implements IGameDAO {
 
     /**
      * Only inserts the non persistent attributes.
+     *
      * @param gameID
      * @throws DALException
      */
@@ -336,7 +386,7 @@ public class GameDAO implements IGameDAO {
                 statement.setBoolean(3, realEstate.isMortgaged());
                 statement.setInt(4, realEstate.getPropertid());
                 statement.setInt(5, realEstate.getHouses());
-                statement.setBoolean(6,realEstate.isHotel());
+                statement.setBoolean(6, realEstate.isHotel());
                 statement.addBatch();
             }
 
@@ -353,7 +403,7 @@ public class GameDAO implements IGameDAO {
      * @throws DALException
      */
     @Override
-    public int insertIntoGame(String gameName, Connection c) throws DALException{
+    public int insertIntoGame(String gameName, Connection c) throws DALException {
         try {
             PreparedStatement statement = c.prepareStatement("INSERT INTO Game VALUES (default, ?)", Statement.RETURN_GENERATED_KEYS);
             statement.setString(1, gameName);
@@ -372,6 +422,14 @@ public class GameDAO implements IGameDAO {
             throw new DALException(e.getMessage());
         }
     }
+
+    /**
+     * Standard update method, updates the player objects.
+     *
+     * @param gameID
+     * @param c
+     * @throws DALException
+     */
     @Override
     public void updatePlayers(int gameID, Connection c) throws DALException {
 
@@ -399,7 +457,13 @@ public class GameDAO implements IGameDAO {
         }
     }
 
-
+    /**
+     * Standard update method for updating the non persistant utility information.
+     *
+     * @param gameID
+     * @param c
+     * @throws DALException
+     */
 
     @Override
     public void updateUtilities(int gameID, Connection c) throws DALException {
@@ -425,9 +489,9 @@ public class GameDAO implements IGameDAO {
     }
 
 
-
     /**
      * One of the update methods.
+     *
      * @param gameID
      * @param c
      * @throws DALException
@@ -446,7 +510,7 @@ public class GameDAO implements IGameDAO {
                 }
                 statement.setBoolean(2, realEstate.isMortgaged());
                 statement.setInt(3, realEstate.getHouses());
-                statement.setBoolean(4,realEstate.isHotel());
+                statement.setBoolean(4, realEstate.isHotel());
                 statement.setInt(6, realEstate.getPropertid());
                 statement.addBatch();
             }
@@ -459,11 +523,12 @@ public class GameDAO implements IGameDAO {
 
 
     /**
-     * Generate the list of games.
+     * Generate the list of games so that the users can pick what game they want to load.
+     *
      * @return
      */
     @Override
-    public String[] generategameIDs() throws DALException{
+    public String[] generategameIDs() throws DALException {
         try (Connection c = DataSource.getConnection()) {
             ArrayList<String> gameIDsList = new ArrayList<>();
             Statement statement = c.createStatement();
@@ -480,6 +545,80 @@ public class GameDAO implements IGameDAO {
                 i++;
             }
             return gameIdsArray;
+        } catch (SQLException e) {
+            throw new DALException(e.getMessage());
+        }
+    }
+
+    public void CreateSchemas(Connection c) throws DALException {
+        try {
+
+            c.setAutoCommit(false);
+
+            String gameTable = "CREATE TABLE if not exists Game (\n" +
+                    "gameID int auto_increment PRIMARY KEY,\n" +
+                    "SaveName varchar(45) UNIQUE \n" +
+                    ");";
+
+            String playerTable = "CREATE TABLE if not exists Player (\n" +
+                    "playerID int NOT NULL,\n" +
+                    "gameID int references Game.gameID,\n" +
+                    "PlayerName varchar(45),\n" +
+                    "balance int NOT NULL,\n" +
+                    "position int,\n" +
+                    "injail boolean,\n" +
+                    "color varchar(45),\n" +
+                    "tokentype varchar(45),\n" +
+                    "Currentplayer boolean,\n" +
+                    "CONSTRAINT pk primary key (playerID, gameID),\n" +
+                    "CONSTRAINT fk FOREIGN KEY (gameID) REFERENCES Game (gameID) ON DELETE CASCADE\n" +
+                    ");";
+
+            String RealEstateTable = "CREATE TABLE if not exists RealEstate  (\n" +
+                    "gameID int references Game.gameID,\n" +
+                    "ownerID int references Player.playerID ON DELETE CASCADE,\n" +
+                    "mortgaged boolean,\n" +
+                    "RealEstateId INT NOT NULL,\n" +
+                    "houses INT,\n" +
+                    "hotel boolean,\n" +
+                    "CONSTRAINT pk primary key (gameID, RealEstateId)\n" +
+                    ");";
+
+            String UtilityTable = "CREATE TABLE if not exists Utilities (\n" +
+                    "gameID int references Game.gameID,\n" +
+                    "ownerID int references Player.playerID,\n" +
+                    "utilityID int NOT NULL,\n" +
+                    "mortgaged boolean,\n" +
+                    "CONSTRAINT pk primary key (gameID, utilityID)\n" +
+                    ");\n";
+
+            String DroptriggerStatement = "DROP TRIGGER delete_trigger;";
+
+            String TriggerStatement =
+                    "CREATE TRIGGER delete_trigger BEFORE DELETE ON Game " +
+                    "FOR EACH ROW " +
+                    "BEGIN " +
+                    "DELETE FROM RealEstate WHERE RealEstate.gameID = old.gameID; " +
+                    "DELETE FROM Player WHERE Player.gameID = old.gameID; " +
+                    "DELETE FROM Utilities WHERE Utilities.gameID = old.gameID; " +
+                    " END;";
+
+
+            PreparedStatement statement = c.prepareStatement(gameTable);
+            PreparedStatement statement1 = c.prepareStatement(playerTable);
+            PreparedStatement statement2 = c.prepareStatement(RealEstateTable);
+            PreparedStatement statement3 = c.prepareStatement(UtilityTable);
+            PreparedStatement statement4 = c.prepareStatement(DroptriggerStatement);
+            PreparedStatement statement5 = c.prepareStatement(TriggerStatement);
+
+            statement.executeUpdate();
+            statement1.executeUpdate();
+            statement2.executeUpdate();
+            statement3.executeUpdate();
+            statement4.executeUpdate();
+            statement5.executeUpdate();
+
+
         } catch (SQLException e) {
             throw new DALException(e.getMessage());
         }

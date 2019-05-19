@@ -32,15 +32,13 @@ public class Utility extends Property {
     }
 
     /**
-     *
+     * Method for  calculating the rent of the utilities.
      * @author s185031
      * @param utility
      * @return
      */
 
     public int Computerent(Utility utility) {
-        //Noget med at den skal kunne kende forskel. Den her løsning er nok ikke 10/10
-        //Burde nok i virkeligheden bare være objekter af to forskellige typer.
 
         int rent = 50;
         if (utility.getCost() == 200) {
@@ -56,8 +54,6 @@ public class Utility extends Property {
                     rent = 10;
                 }
             }
-            //Hvordan får vi fat i terningernes værdi uden at bryde model view controller?
-            rent = rent;
         }
         return rent;
 
