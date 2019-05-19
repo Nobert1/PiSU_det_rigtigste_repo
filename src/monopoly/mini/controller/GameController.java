@@ -574,7 +574,6 @@ public class GameController {
 
     /**
      * Method that allows player to trade properties and money for properties and or money with other players
-     * //TODO: Make sure that player can't trade property with houses on them, unless they trade the whole set
      * @author s175124
      * @param player
      */
