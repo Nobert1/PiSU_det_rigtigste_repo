@@ -292,10 +292,12 @@ public class GameDAO implements IGameDAO {
         player.setCurrentPosition(game.getSpaces().get(resultSet.getInt("position")));
         player.setInPrison(resultSet.getBoolean("injail"));
         String color = resultSet.getString("color");
-
         Color color1 = new Color(Colors.getcolorName(color).getRed(), Colors.getcolorName(color).getGreen(), Colors.getcolorName(color).getBlue());
         player.setColor(color1);
         player.setIcon(resultSet.getString("tokentype"));
+        if (player.getBalance() < 0) {
+            player.setBroke(true);
+        }
         return player;
     }
 
