@@ -103,6 +103,11 @@ public class Property extends Space {
         notifyChange();
     }
 
+    public int Computerent (GameController controller) {
+        //Overwritten by the sub classes.
+        return -1;
+    }
+
     /**
      * Updated so it computes the right rent for properties, while informing if property is mortgaged, houses or
      * if the player has a monopoly.
@@ -116,10 +121,15 @@ public class Property extends Space {
     @Override
     public void doAction(GameController controller, Player player) throws PlayerBrokeException {
         if (owner == null) {
-            controller.getPropertyController().offerToBuy(this,player,controller);
-        } else if (this.getOwner().isInPrison()){
+            controller.getPropertyController().offerToBuy(this, player, controller);
+        } else if (this.getOwner().isInPrison()) {
             controller.getGui().showMessage(this.getOwner().getName() + " is in prison so you do not have to pay rent.");
         } else if (!owner.equals(player) && !this.isMortgaged()) {
+            controller.getPaymentController().payment(controller.getGame().getCurrentPlayer(), this.Computerent(controller), this.getOwner(), controller);
+        }
+    }
+                   /**
+
             int rent = 0;
             if (this instanceof RealEstate) {
                 if(((RealEstate) this).isHotel()){
@@ -175,6 +185,8 @@ public class Property extends Space {
         }
 
     }
+             *
+             */
 
     public void setMortgageValue(int mortgageValue) {
         this.mortgageValue = mortgageValue;
@@ -187,8 +199,6 @@ public class Property extends Space {
     //TODO den her skal vel slettes?
     public void setMortgaged(boolean mortgaged) {
         this.mortgaged = mortgaged;
-        if (mortgaged)
-            setRent(0);
         notifyChange();
     }
 

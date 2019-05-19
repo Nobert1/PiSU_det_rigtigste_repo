@@ -246,6 +246,7 @@ public class PropertyController {
                 gameController.getGui().showMessage("There have been built " + Integer.valueOf(houseChoice) + " houses.");
             } else {
                 property.setHotel(true);
+                property.setHouses(0);
                 gameController.getGui().showMessage("You have now built a hotel.");
             }
         }

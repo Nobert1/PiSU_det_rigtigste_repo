@@ -50,6 +50,8 @@ public class GameController {
 
     private String SaveName;
 
+    private int bailJail = 50;
+
 
 
 
@@ -101,8 +103,7 @@ public class GameController {
                     e.printStackTrace();
                 }
             }
-        }
-            else if (selection.equals("load game")) {
+        } else if (selection.equals("load game")) {
             String[] arr = database.generategameIDs();
             if (arr.length == 0) {
                 gui.showMessage("there are no saved games");
@@ -122,6 +123,7 @@ public class GameController {
                 SaveName = gui.getUserString("what would you like to call your save? The game auto saves the game state after each turn");
                 database.savegame(SaveName);
             }
+        //The view creates theese are it has been identified, if there is going to be comming any information from the database.
             view.createplayers();
             view.createFields();
         }
@@ -172,15 +174,11 @@ public class GameController {
             Player player = players.get(current);
             String choice;
             do{
-
                 //Handles player choices when in jail.
                 jailHandler(player);
-
                 choice = gui.getUserButtonPressed("What would you like to do " + game.getCurrentPlayer().getName()+"?",  "Trade", "Build or Sell houses", "Mortgaging", "Roll");
-
                 //Switch statement for player choices.
                 choiceSwitch(player, choice);
-
             }while(choice != "Roll");
 
             if (!player.isBroke()) {
@@ -190,7 +188,6 @@ public class GameController {
                     // We could react to the player having gone broke
                 }
             }
-
             // Check whether we have a winner
             Player winner = null;
             int countActive = 0;
@@ -202,18 +199,13 @@ public class GameController {
             }
             if (countActive == 1) {
                 gui.showMessage(
-                        "Player " + winner.getName() +
-                                " has won with " + winner.getBalance() + "$.");
+                        "Player " + winner.getName() + " has won with " + winner.getBalance() + "$.");
                 break;
             } else if (countActive < 1) {
-                // This can actually happen in very rare conditions and only
-                // if the last player makes a stupid mistake (like buying something
-                // in an auction in the same round when the last but one player went
-                // bankrupt)
+
                 gui.showMessage(
                         "All players are broke.");
                 break;
-
             }
             current = (current + 1) % players.size();
             game.setCurrentPlayer(players.get(current));
@@ -291,7 +283,7 @@ public class GameController {
                     jailChoice = gui.getUserSelection("Would you like to pay your way out of prison?", "yes", "no");
                     if (jailChoice.equals("yes")) {
                         player.setInPrison(false);
-                        player.setBalance(player.getBalance() - 500);
+                        player.setBalance(player.getBalance() - bailJail);
                     }
                 }
 
@@ -301,7 +293,7 @@ public class GameController {
                 jailChoice = gui.getUserSelection("Would you like to pay your way out of prison?", "yes", "no");
                 if (jailChoice.equals("yes")) {
                     player.setInPrison(false);
-                    player.setBalance(player.getBalance() - 500);
+                    player.setBalance(player.getBalance() - bailJail);
                 }
             }
         }
@@ -453,7 +445,6 @@ public class GameController {
         int highestBid = 0;
 
         ArrayList<Player> bidList = new ArrayList<>(game.getPlayers());
-
         do{
             Player p = bidList.remove(0);
             bidList.add(p);
@@ -463,7 +454,6 @@ public class GameController {
         }while(true);
 
         //Actual bidding method
-
         Player highestBidder = new Player();
         highestBidder.setName("No one");
         int counter = 0;
@@ -577,7 +567,6 @@ public class GameController {
      * @param player
      */
     public void trade(Player player)throws PlayerBrokeException{
-
         //Player chooses which player they would like to trade
         String choosePlayer;
         String[] tradeListString = new String[game.getPlayers().size() - 1];
@@ -687,6 +676,7 @@ public class GameController {
             }
         }while(choosePlayer != "No");
     }
+
 
 
     /**
