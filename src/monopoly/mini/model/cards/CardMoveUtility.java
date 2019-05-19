@@ -54,7 +54,7 @@ public class CardMoveUtility extends Card {
             if (player.getCurrentPosition().getIndex() < 12 || player.getCurrentPosition().getIndex() >= 28) {
                 controller.getPlayerController().moveToSpace(player, target1,controller);
             }
-            if (player.getCurrentPosition().getIndex() < 28) {
+            else if (player.getCurrentPosition().getIndex() < 28) {
                 controller.getPlayerController().moveToSpace(player, target2,controller);
             }
         } finally {
