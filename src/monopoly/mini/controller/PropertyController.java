@@ -133,7 +133,7 @@ public class PropertyController {
 
     public void unmortgageProperty(Property property, GameController gameController) throws PlayerBrokeException {
         property.setMortgaged(false);
-        gameController.getPaymentController().paymentToBank(property.getOwner(), property.getCost() / 2 + property.getMortgageValue() / 10, gameController);
+        gameController.getPaymentController().paymentToBank(property.getOwner(), (property.getCost()/2) + ((property.getCost()/2)/10), gameController);
     }
 
     public void unmortgage(Player player, GameController gameController) throws PlayerBrokeException {

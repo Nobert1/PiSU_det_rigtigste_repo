@@ -228,7 +228,6 @@ public class GameController {
         dispose();
     }
 
-
     public String choiceSwitch (Player player, String choice) {
         switch(choice) {
             case "Trade":
@@ -298,7 +297,6 @@ public class GameController {
             }
         }
     }
-
 
     /**
      * The method that checks if it is possible to obtain enough cash.
@@ -404,7 +402,6 @@ public class GameController {
      * @param amount
      * @return
      */
-
     public boolean checkIfSolvent(Player player, int amount) {
         boolean solvent = true;
         int mortgageValue = 0;
@@ -488,7 +485,6 @@ public class GameController {
             gui.showMessage("there were no bidders so it remains unowned!");
         }
     }
-
 
     /**
      * Action handling the situation when one player is broke to another
@@ -677,15 +673,12 @@ public class GameController {
         }while(choosePlayer != "No");
     }
 
-
-
     /**
      * Used in trade method.
      * @author s175124
      * @param propArray
      * @return
      */
-
     public String propArrayStringCreator(Property[] propArray, Player player) {
         String s = "";
         for (int i = 0; i < propArray.length; i++) {
