@@ -42,8 +42,10 @@ public class Utility extends Property {
         if (this.getCost() == 200) {
             for (Utility ship : ShippingLine) {
                 if (ship.getOwner() == this.getOwner() && !ship.getName().equals(this.getName()) && !ship.isMortgaged()) {
-                    rent = rent * 2;
                     numberofowned++;
+                    if(numberofowned > 1) {
+                        rent = rent * 2;
+                    }
                     controller.getGui().showMessage("The rent is " + rent + " since that the owner has " + numberofowned + " ships.");
                 }
             } } else if (this.getCost() == 150) {
