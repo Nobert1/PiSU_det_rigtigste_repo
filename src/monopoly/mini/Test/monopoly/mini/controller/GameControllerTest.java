@@ -1,4 +1,4 @@
-package monopoly.mini.controller;
+package monopoly.mini.Test.monopoly.mini.controller;
 
 //CODE FOR SIMULATING USER INPUT.
 //Fjerner test user administrator privilegie
@@ -10,11 +10,13 @@ package monopoly.mini.controller;
 //byte[] byteArray = output.toByteArray();
 
 import monopoly.mini.MiniMonopoly;
+import monopoly.mini.controller.GameController;
 import monopoly.mini.database.dal.DALException;
 import monopoly.mini.model.Card;
 import monopoly.mini.model.Game;
 import monopoly.mini.model.Player;
 import monopoly.mini.model.cards.CardMoveUtility;
+import monopoly.mini.model.exceptions.GameEndedException;
 import monopoly.mini.model.exceptions.PlayerBrokeException;
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;
@@ -93,7 +95,7 @@ class GameControllerTest {
             cont.play();
             //User has to roll for player 1 and roll for player 2 and then choose end game.
 
-        } catch (DALException e) {
+        } catch (DALException | GameEndedException e) {
             e.getMessage();
         }
 
@@ -131,7 +133,7 @@ class GameControllerTest {
             Player curr = spil.getCurrentPlayer();
             cont.play();
 
-        } catch (DALException e) {
+        } catch (DALException | GameEndedException e) {
             e.getMessage();
         }
 

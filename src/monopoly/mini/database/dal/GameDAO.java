@@ -551,7 +551,7 @@ public class GameDAO implements IGameDAO {
     /**
      * Schema statement for when it's the first time using the program on a new database.
      * It drops the trigger every time and recreates it, because triggers don't have anything that's similar to
-     * "Create table if not exists", which tables have. 
+     * "Create table if not exists", which tables have.
      * @param c
      * @throws DALException
      */
