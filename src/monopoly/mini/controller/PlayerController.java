@@ -104,11 +104,8 @@ public class PlayerController {
         boolean isNotInJail = true;
 
         do {
-            //int die1 = (int) (1 + 6 * Math.random());
-            //int die2 = (int) (1 + 6 * Math.random());
-
-            int die1 = 10;
-            int die2 = 20;
+            int die1 = (int) (1 + 6 * Math.random());
+            int die2 = (int) (1 + 6 * Math.random());
 
 
             gameController.setDiecount(die1, die2);

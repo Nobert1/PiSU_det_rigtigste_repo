@@ -1,5 +1,6 @@
 package monopoly.mini.model.properties;
 
+import monopoly.mini.controller.GameController;
 import monopoly.mini.model.Property;
 
 import java.awt.*;
@@ -34,30 +35,31 @@ public class Utility extends Property {
     /**
      * Method for  calculating the rent of the utilities.
      * @author s185031
-     * @param utility
      * @return
      */
-
-    public int Computerent(Utility utility) {
+    @Override
+    public int Computerent(GameController controller) {
 
         int rent = 50;
-        if (utility.getCost() == 200) {
+        if (this.getCost() == 200) {
 
             for (Utility ship : ShippingLine) {
-                if (ship.getOwner() == utility.getOwner() && !ship.getName().equals(utility.getName())) {
+                if (ship.getOwner() == this.getOwner() && !ship.getName().equals(this.getName()) && !ship.isMortgaged()) {
                     rent = rent * 2;
                 }
-            } } else if (utility.getCost() == 150) {
-            rent = 4;
+            } } else if (this.getCost() == 150) {
+            rent = 4 * controller.getDiecount();
+            int counter = 0;
             for (Utility brewery : Breweries) {
-                if (brewery.getOwner() == utility.getOwner() && !brewery.getName().equals(utility.getName())) {
-                    rent = 10;
+                if (brewery.getOwner() == this.getOwner() && !brewery.isMortgaged()) {
+                    counter++;
                 }
+            }
+            if (counter == 2) {
+                rent = 10 * controller.getDiecount();
             }
         }
         return rent;
-
-
     }
 
     public static Set<Utility> getBreweries() {

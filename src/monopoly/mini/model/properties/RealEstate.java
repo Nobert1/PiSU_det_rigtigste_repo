@@ -1,5 +1,6 @@
 package monopoly.mini.model.properties;
 
+import monopoly.mini.controller.GameController;
 import monopoly.mini.model.Property;
 
 import java.awt.*;
@@ -163,34 +164,34 @@ public class RealEstate extends Property {
      *Method that returns rent depending on the amount of houses. If there are no houses the method looks
      * if the player has a monopoly (all properties of that colour owned) and returns double rent
      * @s175124
-     * @param realEstate
+     * @param
      * @return
      */
-
-    public int Computerent(RealEstate realEstate) {
-        if (realEstate.isHotel()) {
-            return realEstate.getRentHotel();
-        } else if (realEstate.getHouses() == 1) {
-            return realEstate.getRentHouse1();
-        } else if (realEstate.getHouses() == 2) {
-            return realEstate.getRentHouse2();
-        } else if (realEstate.getHouses() == 3) {
-            return realEstate.getRentHouse3();
-        } else if (realEstate.getHouses() == 4) {
-            return realEstate.getRentHouse4();
-        }
-
-        Set<RealEstate> estateSet = RealEstate.getcolormap(realEstate);
-        int counter = 0;
-        for (RealEstate r: estateSet) {
-            if (realEstate.getOwner() == r.getOwner()) {
-                counter++;
+//TODO er huslejen allerede sat for hvis der står huse på den?
+    @Override
+    public int Computerent(GameController gameController) {
+        rent = this.getRent();
+        if((this.isHotel())) {
+            gameController.getGui().showMessage("There is a hotel on this property.");
+            rent = this.getHousesRent();
+        } else if (this.getHouses() > 0){
+            gameController.getGui().showMessage("There are " + this.getHouses() + " houses.");
+            rent = this.getHousesRent();
+        } if((this.getHouses() == 0)){
+            Set<RealEstate> estateSet = RealEstate.getcolormap(this);
+            int counter = 0;
+            for (RealEstate r: estateSet) {
+                if (this.getOwner() == r.getOwner()) {
+                    counter++;
+                }
+            }
+            if (counter == estateSet.size()){
+                gameController.getGui().showMessage(this.getOwner().getName() + " owns all properties of this colour and rent i doubled.");
+                rent = this.getRent() * 2;
             }
         }
-        if (counter == estateSet.size()){
-            return realEstate.getRent()*2;
-        }
-        return realEstate.getRent();
+        gameController.getGui().showMessage("The rent is " + rent);
+        return rent;
     }
 
     public void setRents(int one, int two, int three, int four, int hotel){
@@ -199,6 +200,22 @@ public class RealEstate extends Property {
         this.rentHouse3 = three;
         this.rentHouse4 = four;
         this.rentHotel = hotel;
+    }
+
+    public int getHousesRent() {
+        int rent = 0;
+        if (this.getHouses() == 1) {
+            rent = this.getRentHouse1();
+        } if (this.getHouses() == 2) {
+            rent = this.getRentHouse2();
+        } if (this.getHouses() == 3) {
+            rent = this.getRentHouse3();
+        } if (this.getHouses() == 4) {
+            rent = this.getRentHouse4();
+        } if (this.isHotel()) {
+            rent = this.getRentHotel();
+        }
+        return rent;
     }
 
     public int getRentHouse1() {
