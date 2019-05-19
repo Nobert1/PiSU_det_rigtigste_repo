@@ -4,6 +4,7 @@ import monopoly.mini.controller.GameController;
 import monopoly.mini.database.dal.DALException;
 import monopoly.mini.model.*;
 import monopoly.mini.model.cards.*;
+import monopoly.mini.model.exceptions.GameEndedException;
 import monopoly.mini.model.properties.Colors;
 import monopoly.mini.model.properties.RealEstate;
 import monopoly.mini.model.properties.Utility;
@@ -514,9 +515,8 @@ public class MiniMonopoly {
             createCardDeck(game);
             controller.databaseinteraction();
             game.shuffleCardDeck();
-
             controller.play();
-        } catch (DALException e) {
+        } catch (DALException | GameEndedException e) {
             e.getMessage();
         }
     }

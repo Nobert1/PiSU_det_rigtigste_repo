@@ -4,6 +4,7 @@ import monopoly.mini.database.dal.DALException;
 import monopoly.mini.database.dal.GameDAO;
 import monopoly.mini.model.*;
 import monopoly.mini.model.cards.GetOutOfJail;
+import monopoly.mini.model.exceptions.GameEndedException;
 import monopoly.mini.model.exceptions.PlayerBrokeException;
 import monopoly.mini.model.properties.RealEstate;
 import monopoly.mini.model.Game;
@@ -158,7 +159,7 @@ public class GameController {
      * @author s175124
      */
 
-    public void play() throws DALException {
+    public void play() throws DALException, GameEndedException {
         List<Player> players = game.getPlayers();
         Player c = game.getCurrentPlayer();
         int current = 0;
@@ -201,7 +202,7 @@ public class GameController {
             if (countActive == 1) {
                 gui.showMessage(
                         "Player " + winner.getName() + " has won with " + winner.getBalance() + "$.");
-                break;
+                throw new GameEndedException();
             } else if (countActive < 1) {
 
                 gui.showMessage(

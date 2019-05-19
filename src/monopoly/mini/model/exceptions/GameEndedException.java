@@ -11,6 +11,7 @@ public class GameEndedException extends Exception {
     public GameEndedException() {
 //Is the gui message here or in the catch clause?
         super("Everyone except is broke");
+        System.exit(0);
     }
 
 }
