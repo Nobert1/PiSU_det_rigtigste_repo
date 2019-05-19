@@ -19,8 +19,6 @@ public class GeneralRepairs extends Card {
 
     @Override
     public void doAction(GameController controller, Player player) throws PlayerBrokeException {
-        //Tax is calculated by liquid funds plus properties and the buildings one it.
-
         try {
 
             int repairs = 0;
