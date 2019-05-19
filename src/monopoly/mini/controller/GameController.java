@@ -605,8 +605,10 @@ public class GameController {
             String tradeOption = "s";
             int playerPropertyCount = 0;
             int playerMoneyCount = 0;
+            boolean willTrade;
             Property[] giveProperties = new Property[playerPropertiesList.size()];
             do {
+                willTrade = true;
                 String[] playerPropertiesArr = playerPropertiesList.toArray(new String[playerPropertiesList.size()]);
                 tradeOption = gui.getUserButtonPressed("What would you like to give in the trade? \nYou have chosen " + playerPropertyCount + " properties, " +
                         "and " + playerMoneyCount + " dollars", "Properties", "Money", "Pick what you want to trade for");
@@ -617,12 +619,29 @@ public class GameController {
                         String chosenProperty = gui.getUserSelection("Which property would you like to trade?", playerPropertiesArr);
                         for (Property p : player.getOwnedProperties()) {
                             if (p.getName() == chosenProperty) {
-                                giveProperties[playerPropertyCount++] = p;
-                                for (int i = 0; i < playerPropertiesList.size(); i++) {
-                                    if (playerPropertiesList.get(i) == chosenProperty) {
-                                        playerPropertiesList.remove(i);
+                                if(p instanceof RealEstate){
+                                    for(RealEstate r: ((RealEstate) p).getcolormap((RealEstate) p)){
+                                        if(r.isHotel() || r.getHouses() > 0){
+                                            String s = gui.getUserButtonPressed("You cannot trade this property as there are " +
+                                                    "houses built on this strip. Would you like to sell these houses and include" +
+                                                    "this property in the trade", "Yes", "No");
+                                            if(s.equals("Yes")){
+                                                propertyController.sellHousesMortgage(r,this);
+                                            } else {
+                                                willTrade = false;
+                                                break;
+                                            }
+                                        }
                                     }
                                 }
+                               if(willTrade) {
+                                   giveProperties[playerPropertyCount++] = p;
+                                   for (int i = 0; i < playerPropertiesList.size(); i++) {
+                                       if (playerPropertiesList.get(i) == chosenProperty) {
+                                           playerPropertiesList.remove(i);
+                                       }
+                                   }
+                               }
                             }
                         }
                     }
@@ -640,6 +659,7 @@ public class GameController {
             int tradeePropertyCount = 0;
             int tradeeMoneyCount = 0;
             do {
+                willTrade = true;
                 String[] tradeePropertiesArr = tradeePropertiesList.toArray(new String[tradeePropertiesList.size()]);
                 tradeOption = gui.getUserButtonPressed("What would you like to receive in the trade? \nYou have chosen " + tradeePropertyCount + " properties, " +
                         "and " + tradeeMoneyCount + " dollars", "Properties", "Money", "Get approval for trade");
@@ -650,10 +670,26 @@ public class GameController {
                         String chosenProperty = gui.getUserSelection("Which property would you like to trade?", tradeePropertiesArr);
                         for (Property p : tradee.getOwnedProperties()) {
                             if (p.getName() == chosenProperty) {
-                                receiveProperties[tradeePropertyCount++] = p;
-                                for (int i = 0; i < tradeePropertiesList.size(); i++) {
-                                    if (tradeePropertiesList.get(i) == chosenProperty) {
-                                        tradeePropertiesList.remove(i);
+                                if (p instanceof RealEstate) {
+                                    for (RealEstate r : ((RealEstate) p).getcolormap((RealEstate) p)) {
+                                        if (r.isHotel() || r.getHouses() > 0) {
+                                            String s = gui.getUserButtonPressed("You cannot trade this property as there are " +
+                                                    "houses built on this strip. Would you like to sell these houses and include" +
+                                                    "this property in the trade", "Yes", "No");
+                                            if (s.equals("Yes")) {
+                                                propertyController.sellHousesMortgage(r, this);
+                                            } else {
+                                                willTrade = false;
+                                            }
+                                        }
+                                    }
+                                }
+                                if (willTrade) {
+                                    receiveProperties[tradeePropertyCount++] = p;
+                                    for (int i = 0; i < tradeePropertiesList.size(); i++) {
+                                        if (tradeePropertiesList.get(i) == chosenProperty) {
+                                            tradeePropertiesList.remove(i);
+                                        }
                                     }
                                 }
                             }

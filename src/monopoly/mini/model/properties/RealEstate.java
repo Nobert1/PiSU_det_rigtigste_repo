@@ -168,7 +168,7 @@ public class RealEstate extends Property {
             } else if (this.getHouses() < houses) {
                 return 2;
             }
-        return 0;
+        return 1;
     }
     /**
      * @Author Gustav Emil Nobert
