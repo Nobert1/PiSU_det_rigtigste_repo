@@ -481,6 +481,26 @@ public class MiniMonopoly {
         chairman.setText("You have been elected chairman. Pay 50 to all players for their troubles.");
         cards.add(chairman);
 
+        GoToJail goToJail1 = new GoToJail();
+        goToJail1.setText("You didn't stop at a stoplight. Go to jail.");
+        cards.add(goToJail1);
+
+        GoToJail goToJail2 = new GoToJail();
+        goToJail2.setText("You frauded your taxes-return. Go to jail.");
+        cards.add(goToJail2);
+
+        GetOutOfJail getOutOfJail1 = new GetOutOfJail();
+        getOutOfJail1.setText("Your dad made a deal with the prison-guard. Get out of jail.");
+        cards.add(getOutOfJail1);
+
+        GetOutOfJail getOutOfJail2 = new GetOutOfJail();
+        getOutOfJail2.setText("You dug a tunnel out of jail. Get out of jail.");
+        cards.add(getOutOfJail2);
+
+        CardMoveBackwards moveback = new CardMoveBackwards();
+        moveback.setText("You took a wrong turn on the highway. Move backwards by three.");
+        cards.add(moveback);
+
         game.setCardDeck(cards);
 
     }

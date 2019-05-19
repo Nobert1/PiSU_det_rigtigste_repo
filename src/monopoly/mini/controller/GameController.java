@@ -184,6 +184,7 @@ public class GameController {
                 choiceSwitch(player, choice);
 
             }while(choice != "Roll");
+
             if (!player.isBroke()) {
                 try {
                     playerController.makeMove(player,this);
