@@ -1,22 +1,19 @@
-package monopoly.mini.Test;
-
-import monopoly.mini.model.Player;
-import monopoly.mini.model.Property;
-import org.junit.Test;
-import static org.junit.Assert.*;
-
 import monopoly.mini.model.*;
 import monopoly.mini.model.cards.CardMove;
 import monopoly.mini.model.cards.CardReceiveMoneyFromBank;
 import monopoly.mini.model.cards.PayTax;
+import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class GameTest {
+import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
+
+class GameTest {
 
     @Test
-    public void getSpaces() {
+    void getSpaces() {
 
         Game spil = new Game();
 
@@ -41,22 +38,30 @@ public class GameTest {
     }
 
     @Test
-    public void setSpaces() {
+    void getUtilites() {
+    }
+
+    @Test
+    void getRealestates() {
+    }
+
+    @Test
+    void setSpaces() {
         //test is performed for getSpaces.
     }
 
     @Test
-    public void addSpace() {
+    void addSpace() {
         //test is performed for getSpaces.
     }
 
     @Test
-    public void getCardDeck() {
+    void getCardDeck() {
         //test is performed for setCardDeck.
     }
 
     @Test
-    public void drawCardFromDeck() {
+    void drawCardFromDeck() {
 
         Game spil = new Game();
 
@@ -103,7 +108,7 @@ public class GameTest {
     }
 
     @Test
-    public void returnCardToDeck() {
+    void returnCardToDeck() {
 
         Game spil = new Game();
 
@@ -154,7 +159,7 @@ public class GameTest {
     }
 
     @Test
-    public void setCardDeck() {
+    void setCardDeck() {
 
         Game spil = new Game();
 
@@ -197,7 +202,7 @@ public class GameTest {
     }
 
     @Test
-    public void shuffleCardDeck() {
+    void shuffleCardDeck() {
 
         //Game is set up
 
@@ -254,7 +259,7 @@ public class GameTest {
     }
 
     @Test
-    public void getPlayers() {
+    void getPlayers() {
 
         Game spil = new Game();
         Player spiller1 = new Player();
@@ -268,15 +273,16 @@ public class GameTest {
         testarr.add(spiller1); testarr.add(spiller2); testarr.add(spiller3);
 
         assertEquals(testarr, spil.getPlayers());
+
     }
 
     @Test
-    public void setPlayers() {
+    void setPlayers() {
         //test is performed for getPlayers.
     }
 
     @Test
-    public void addPlayer() {
+    void addPlayer() {
 
         Game spil = new Game();
         Player spiller1 = new Player();
@@ -287,7 +293,7 @@ public class GameTest {
     }
 
     @Test
-    public void getCurrentPlayer() {
+    void getCurrentPlayer() {
 
         Game spil = new Game();
         Player spiller1 = new Player();
@@ -303,10 +309,15 @@ public class GameTest {
 
         assertEquals(spiller2, spil.getCurrentPlayer());
 
+
     }
 
     @Test
-    public void setCurrentPlayer() {
+    void setCurrentPlayer() {
         //test is performed for getCurrentPlayers.
+    }
+
+    @Test
+    void getPassstartbonus() {
     }
 }

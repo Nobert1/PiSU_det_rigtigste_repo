@@ -7,11 +7,13 @@ import monopoly.mini.model.Space;
 import monopoly.mini.model.exceptions.PlayerBrokeException;
 
 /**
- * A card that directs the player to a move to a specific space (location) of the game.
- *
- * @author Ekkart Kindler, ekki@dtu.dk
- *
+ * A card that helps the player get out of jail.
+ * @author s180557
+ * @return
  */
+
+//TODO This card should not go back inthe stack until used.
+
 public class GetOutOfJail extends Card {
 
     @Override

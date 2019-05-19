@@ -194,68 +194,16 @@ public class GameController {
             //The player choses which function they would like to do, which then calls the method
             Player player = players.get(current);
             String choice;
-            String jailChoice;
             do{
-                if (player.isInPrison()) {
-                    if (player.getGetOutOfJailCards() > 0) {
-                        jailChoice = gui.getUserSelection("You have a get out of jail card. Would you like to use it?", "Yes", "No");
-                        if (jailChoice.equals("Yes")) {
-                            player.setInPrison(false);
-                            player.setGetOutOfJailCards(player.getGetOutOfJailCards() - 1);
-                        }
-                        else if (jailChoice.equals("No")){
-                            jailChoice = gui.getUserSelection("Would you like to pay your way out of prison?", "yes", "no");
-                            if (jailChoice.equals("yes")) {
-                                player.setInPrison(false);
-                                player.setBalance(player.getBalance() - 500);
-                            }
-                        }
 
-                        //Needs testing, does it cost 500? - Gustav
-                        //Redundant code - Martin
-                    }
-                    if (player.getGetOutOfJailCards() == 0) {
-                        jailChoice = gui.getUserSelection("Would you like to pay your way out of prison?", "yes", "no");
-                        if (jailChoice.equals("yes")) {
-                            player.setInPrison(false);
-                            player.setBalance(player.getBalance() - 500);
-                        }
-                    }
-                }
+                //Handles player choices when in jail.
+                jailHandler(player);
+
                 choice = gui.getUserButtonPressed("What would you like to do " + game.getCurrentPlayer().getName()+"?",  "Trade", "Build or Sell houses", "Mortgaging", "Roll");
-                switch(choice) {
-                    case "Trade":
-                        try {
-                            trade(game.getCurrentPlayer());
-                        } catch (PlayerBrokeException e) {
 
-                        }
-                        break;
-                    case "Build or Sell houses":
-                        String h = gui.getUserButtonPressed("Would you like to build or sell?","Build","Sell");
-                        if(h.equals("Build")){
-                            try {
-                                propertyController.buildHouses(game.getCurrentPlayer(),this);
-                            } catch (PlayerBrokeException e) {
-                            }
-                        } else {
-                            propertyController.sellHouses(game.getCurrentPlayer(),this);
-                        }
-                        break;
-                    case "Mortgaging":
-                        String m = gui.getUserButtonPressed("Would you like to mortgage or unmortgage?", "Mortgage","Unmortgage");
-                        if(m.equals("Mortgage")) {
-                            propertyController.mortgage(game.getCurrentPlayer(),this);
-                        } else {
-                            try {
-                                propertyController.unmortgage(game.getCurrentPlayer(),this);
-                            }catch (PlayerBrokeException e){
+                //Switch statement for player choices.
+                choiceSwitch(player, choice);
 
-                            }
-                        }
-                        break;
-                    default:
-                }
             }while(choice != "Roll");
             if (!player.isBroke()) {
                 try {
@@ -311,10 +259,91 @@ public class GameController {
         dispose();
     }
 
+    public String choiceSwitch (Player player, String choice) {
+        switch(choice) {
+            case "Trade":
+                try {
+                    trade(game.getCurrentPlayer());
+                } catch (PlayerBrokeException e) {
+
+                }
+                break;
+            case "Build or Sell houses":
+                String h = gui.getUserButtonPressed("Would you like to build or sell?","Build","Sell");
+                if(h.equals("Build")){
+                    try {
+                        propertyController.buildHouses(game.getCurrentPlayer(),this);
+                    } catch (PlayerBrokeException e) {
+                    }
+                } else {
+                    propertyController.sellHouses(game.getCurrentPlayer(),this);
+                }
+                break;
+            case "Mortgaging":
+                String m = gui.getUserButtonPressed("Would you like to mortgage or unmortgage?", "Mortgage","Unmortgage");
+                if(m.equals("Mortgage")) {
+                    propertyController.mortgage(game.getCurrentPlayer(),this);
+                } else {
+                    try {
+                        propertyController.unmortgage(game.getCurrentPlayer(),this);
+                    }catch (PlayerBrokeException e){
+
+                    }
+                }
+                break;
+            default:
+        }
+        return choice;
+    }
+    /**
+     * The method that checks if it is possible to obtain enough cash.
+     * @author s180557
+     * @return
+     */
+    public void jailHandler (Player player) {
+        String jailChoice;
+        if (player.isInPrison()) {
+            if (player.getGetOutOfJailCards() > 0) {
+                jailChoice = gui.getUserSelection("You have a get out of jail card. Would you like to use it?", "Yes", "No");
+                if (jailChoice.equals("Yes")) {
+                    player.setInPrison(false);
+                    player.setGetOutOfJailCards(player.getGetOutOfJailCards() - 1);
+                }
+                else if (jailChoice.equals("No")){
+                    jailChoice = gui.getUserSelection("Would you like to pay your way out of prison?", "yes", "no");
+                    if (jailChoice.equals("yes")) {
+                        player.setInPrison(false);
+                        player.setBalance(player.getBalance() - 500);
+                    }
+                }
+
+                //Needs testing, does it cost 500? - Gustav
+                //Redundant code - Martin
+            }
+            if (player.getGetOutOfJailCards() == 0) {
+                jailChoice = gui.getUserSelection("Would you like to pay your way out of prison?", "yes", "no");
+                if (jailChoice.equals("yes")) {
+                    player.setInPrison(false);
+                    player.setBalance(player.getBalance() - 500);
+                }
+            }
+        }
+    }
+
+
+    /**
+     * The method that checks if it is possible to obtain enough cash.
+     * @author s180557
+     * @return
+     */
     public List<Player> getPlayerList (){
         return game.getPlayers();
     }
-
+    /**
+     * The method that checks if it is possible to obtain enough cash.
+     * @author s180557
+     * @return
+     */
     public List<Space> getSpacesList (){
         return game.getSpaces();
     }

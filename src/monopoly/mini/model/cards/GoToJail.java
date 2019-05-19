@@ -7,10 +7,9 @@ import monopoly.mini.model.Space;
 import monopoly.mini.model.exceptions.PlayerBrokeException;
 
 /**
- * A card that directs the player to a move to a specific space (location) of the game.
- *
- * @author Ekkart Kindler, ekki@dtu.dk
- *
+ * A card that sends the player to jail without passing Go.
+ * @author s180557
+ * @return
  */
 public class GoToJail extends Card {
 

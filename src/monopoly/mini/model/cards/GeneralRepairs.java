@@ -10,12 +10,11 @@ import monopoly.mini.model.properties.RealEstate;
 import java.util.Set;
 
 /**
- * A card that directs the player to pay tax to the bank. The tax amounts
- * 10% of the balance of the player's account.
- *
- * @author Ekkart Kindler, ekki@dtu.dk
- *
+ * A card that withdraws cash from player corresponding to amount of houses and hotels.
+ * @author s180557
+ * @return
  */
+
 public class GeneralRepairs extends Card {
 
     @Override

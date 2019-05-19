@@ -10,12 +10,11 @@ import monopoly.mini.model.properties.RealEstate;
 import java.util.Set;
 
 /**
- * A card that directs the player to pay tax to the bank. The tax amounts
- * 10% of the balance of the player's account.
- *
- * @author Ekkart Kindler, ekki@dtu.dk
- *
+ * A card that taxes the players bank account
+ * @author s180557
+ * @return
  */
+
 public class PayPoorTax extends Card {
 
     private int taxation;

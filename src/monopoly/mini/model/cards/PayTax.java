@@ -17,6 +17,13 @@ import java.util.Set;
  * @author Ekkart Kindler, ekki@dtu.dk
  *
  */
+
+/**
+ * EXTENDED:
+ * The card now asserts the amount of assets as well for taxztion.
+ * @author s180557
+ * @return
+ */
 public class PayTax extends Card {
 
     @Override

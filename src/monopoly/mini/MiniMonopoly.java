@@ -404,6 +404,11 @@ public class MiniMonopoly {
             p.setHousePrice(200);
         }
 
+        /**
+         * Initialization of all cards.
+         * @author s180557
+         * @return
+         */
         //TODO Make sure all cards are implemented
 
         List<Card> cards = new ArrayList<Card>();
@@ -470,8 +475,6 @@ public class MiniMonopoly {
         Chairman chairman = new Chairman();
         chairman.setText("You have been elected chairman. Pay 50 to all players for their troubles.");
         cards.add(chairman);
-
-
 
         game.setCardDeck(cards);
 

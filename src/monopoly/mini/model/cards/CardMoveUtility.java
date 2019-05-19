@@ -7,11 +7,11 @@ import monopoly.mini.model.Space;
 import monopoly.mini.model.exceptions.PlayerBrokeException;
 
 /**
- * A card that directs the player to a move to a specific space (location) of the game.
- *
- * @author Ekkart Kindler, ekki@dtu.dk
- *
+ * A card that moves the player to the next nearest utility space.
+ * @author s180557
+ * @return
  */
+
 public class CardMoveUtility extends Card {
 
     private Space target1;

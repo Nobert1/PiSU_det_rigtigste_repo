@@ -7,32 +7,11 @@ import monopoly.mini.model.Space;
 import monopoly.mini.model.exceptions.PlayerBrokeException;
 
 /**
- * A card that directs the player to a move to a specific space (location) of the game.
- *
- * @author Ekkart Kindler, ekki@dtu.dk
- *
+ * A card that moves the player backwards by three
+ * @author s180557
+ * @return
  */
 public class CardMoveBackwards extends Card {
-
-    private Space target;
-
-    /**
-     * Returns the target space to which this card directs the player to go.
-     *
-     * @return the target of the move
-     */
-    public Space getTarget() {
-        return target;
-    }
-
-    /**
-     * Sets the target space of this card.
-     *
-     * @param target the new target of the move
-     */
-    public void setTarget(Space target) {
-        this.target = target;
-    }
 
     @Override
     public void doAction(GameController controller, Player player) throws PlayerBrokeException {
@@ -48,7 +27,5 @@ public class CardMoveBackwards extends Card {
             super.doAction(controller, player);
         }
     }
-
-
 
 }
