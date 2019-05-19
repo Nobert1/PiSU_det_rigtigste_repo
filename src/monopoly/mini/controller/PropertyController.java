@@ -233,7 +233,10 @@ public class PropertyController {
                     property = (RealEstate) p;
                 }
             }
-            String[] houseAmount = new String[5-property.getHouses()];
+            String[] houseAmount = new String[property.checkMaxHouses()];
+            if (houseAmount.length == 0) {
+                gameController.getGui().showMessage("You can't build since you have hotels on everything in this strip!");
+            } else {
             for(int i = 1; i <= houseAmount.length; i++){
                 houseAmount[i-1] = String.valueOf(i);
             }
@@ -248,6 +251,7 @@ public class PropertyController {
                 property.setHotel(true);
                 property.setHouses(0);
                 gameController.getGui().showMessage("You have now built a hotel.");
+            }
             }
         }
     }
@@ -294,11 +298,8 @@ public class PropertyController {
             String chosenProperty = gameController.getGui().getUserButtonPressed("Which property would you like to sell houses from?", estateArr);
             for (RealEstate r : estateList) {
                 if (r.getName().equals(chosenProperty)) {
-                    if (r.isHotel()) {
-                        houseArr = new String[5];
-                    } else {
-                        houseArr = new String[r.getHouses()];
-                    }
+                        houseArr = new String[r.checkMinHouses()];
+                    if (houseArr.length > 0) {
                     for (int i = 0; i < houseArr.length; i++) {
                         houseArr[i] = String.valueOf(i + 1);
                     }
@@ -317,6 +318,9 @@ public class PropertyController {
                         gameController.getGui().showMessage("You have sold " + housesToSell + " and received " +
                                 Integer.valueOf(housesToSell) * (r.getHousePrice() / 2) + "dollars");
                     }
+                }
+                    else
+                        gameController.getGui().showMessage("You cant sell on this because you have too many houses on other properties with this color strip.");
                 }
             }
         }

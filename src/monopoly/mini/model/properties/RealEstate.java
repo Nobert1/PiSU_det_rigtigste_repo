@@ -158,7 +158,39 @@ public class RealEstate extends Property {
         return null;
     }
 
+    /**
+     * @Author Gustav Emil Nobert
+     * @return returns how many houses you can build.
+     */
+    public int checkMaxHouses() {
+        int houses = 0;
 
+        for (RealEstate estate : RealEstate.getcolormap(this)) {
+            if (estate.getHouses() > houses) {
+                houses = estate.getHouses();
+            }
+            }
+            if (this.getHouses() > houses) {
+                return 0;
+            } else if (this.getHouses() == houses) {
+                return 1;
+            }
+        return 2;
+    }
+    /**
+     * @Author Gustav Emil Nobert
+     * @return returns how many houses you can sell.
+     */
+    public int checkMinHouses() {
+        int min = 1;
+        for (RealEstate estate : RealEstate.getcolormap(this)) {
+            if (this.getHouses() < estate.getHouses()) {
+                min = 0;
+            }
+
+        }
+        return min;
+    }
 
     /**
      *Method that returns rent depending on the amount of houses. If there are no houses the method looks
