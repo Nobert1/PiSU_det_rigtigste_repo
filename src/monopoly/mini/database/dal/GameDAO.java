@@ -305,9 +305,8 @@ public class GameDAO implements IGameDAO {
 
     /**
      * Standard insert into method.
-     *
      * @param gameID
-     * @param c
+     * @param c,
      * @throws DALException
      */
     @Override
@@ -622,6 +621,8 @@ public class GameDAO implements IGameDAO {
             throw new DALException(e.getMessage());
         }
     }
+
+    @Override
     public void setCurrentplayer(int gameID, Connection c) throws DALException{
         try {
             c.setAutoCommit(false);

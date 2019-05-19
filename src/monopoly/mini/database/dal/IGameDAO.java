@@ -54,6 +54,7 @@ public interface IGameDAO {
     public void updateUtilities(int gameID, Connection c) throws DALException;
     public void updatePlayers(int gameID, Connection c) throws DALException;
 
+    public void setCurrentplayer(int gameID, Connection c) throws DALException;
 
     /**
      * Basic methods to make objects from resultsets.
