@@ -121,7 +121,6 @@ public class PlayerController {
             int die1 = (int) (1 + 6 * Math.random());
             int die2 = (int) (1 + 6 * Math.random());
 
-
             gameController.setDiecount(die1, die2);
             castDouble = (die1 == die2);
             gameController.getGui().setDice(die1, die2);

@@ -37,7 +37,7 @@ public class Utility extends Property {
     @Override
     public int Computerent(GameController controller) {
 
-        int numberofowned = 0;
+        int numberofowned = 1;
         int rent = 50;
         if (this.getCost() == 200) {
             for (Utility ship : ShippingLine) {
