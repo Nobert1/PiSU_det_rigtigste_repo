@@ -507,10 +507,7 @@ public class GameController {
         benificiary.receiveMoney(amount);
         brokePlayer.setBalance(0);
         brokePlayer.setBroke(true);
-        // TODO We assume here, that the broke player has already sold all his houses! But, if
-        // not, we could make sure at this point that all houses are removed from
-        // properties (properties with houses on are not supposed to be transferred, neither
-        // in a trade between players, nor when  player goes broke to another player)
+
         for (Property property : brokePlayer.getOwnedProperties()) {
             if(property instanceof RealEstate){
                 ((RealEstate) property).setHouses(0);
@@ -538,11 +535,14 @@ public class GameController {
 
         player.setBalance(0);
         player.setBroke(true);
-
-        // TODO we also need to remove the houses and the mortgage from the properties
-
         for (Property property : player.getOwnedProperties()) {
+            if(property instanceof RealEstate){
+                ((RealEstate) property).setHouses(0);
+                ((RealEstate) property).setHotel(false);
+            }
             property.setOwner(null);
+            property.setMortgaged(false);
+
         }
         player.removeAllProperties();
 
