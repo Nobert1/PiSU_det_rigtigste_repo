@@ -3,6 +3,12 @@ package monopoly.mini.controller;
 import monopoly.mini.model.Player;
 import monopoly.mini.model.exceptions.PlayerBrokeException;
 
+/**
+ * Payment controller which has all the methods for payment
+ * @author s175124
+ */
+
+
 public class PaymentController {
 
     /**

@@ -10,6 +10,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Set;
 
+/**
+ * Property controller which has all the methods for buying selling properties and houses
+ * @author s175124
+ */
+
 public class PropertyController {
 
 

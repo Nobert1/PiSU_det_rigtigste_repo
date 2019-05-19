@@ -512,6 +512,10 @@ public class GameController {
         // properties (properties with houses on are not supposed to be transferred, neither
         // in a trade between players, nor when  player goes broke to another player)
         for (Property property : brokePlayer.getOwnedProperties()) {
+            if(property instanceof RealEstate){
+                ((RealEstate) property).setHouses(0);
+                ((RealEstate) property).setHotel(false);
+            }
             property.setOwner(benificiary);
             benificiary.addOwnedProperty(property);
         }

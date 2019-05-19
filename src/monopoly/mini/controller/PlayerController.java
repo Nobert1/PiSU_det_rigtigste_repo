@@ -10,7 +10,21 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * player controller which has all the methods for creating and moving players.
+ * @author s175124
+ */
+
+
 public class PlayerController {
+
+
+    /**
+     * Method which creates players interactively
+     * @author s175124
+     * @param game
+     * @param gameController
+     */
 
     public void createPlayers(Game game, GameController gameController) {
         int players = 0;
