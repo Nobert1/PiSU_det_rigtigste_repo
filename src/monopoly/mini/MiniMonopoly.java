@@ -503,36 +503,6 @@ public class MiniMonopoly {
 
     }
 
-
-    /**
-     * This method will be called before the game is started to create
-     * the participating players.
-     */
-
-	public static void createPlayers(Game game) {
-		// TODO the players should eventually be created interactively or be loaded from a database
-        int i = 1;
-        Player p = new Player();
-		p.setName("Player 1");
-		p.setCurrentPosition(game.getSpaces().get(0));
-		p.setColor(Color.RED);
-		p.setPlayerID(i++);
-		game.addPlayer(p);
-		p = new Player();
-		p.setName("Player 2");
-		p.setCurrentPosition(game.getSpaces().get(0));
-		p.setColor(Color.YELLOW);
-        p.setPlayerID(i++);
-		game.addPlayer(p);
-		p = new Player();
-		p.setName("Player 3");
-		p.setCurrentPosition(game.getSpaces().get(0));
-		p.setColor(Color.GREEN);
-        p.setPlayerID(i++);
-		game.addPlayer(p);
-	}
-
-
     /**
      * The main method which creates a game, shuffles the chance
      * cards, creates players, and then starts the game. Note

@@ -228,7 +228,6 @@ public class GameController {
         dispose();
     }
 
-
     public String choiceSwitch (Player player, String choice) {
         switch(choice) {
             case "Trade":
@@ -298,7 +297,6 @@ public class GameController {
             }
         }
     }
-
 
     /**
      * The method that checks if it is possible to obtain enough cash.
@@ -404,7 +402,6 @@ public class GameController {
      * @param amount
      * @return
      */
-
     public boolean checkIfSolvent(Player player, int amount) {
         boolean solvent = true;
         int mortgageValue = 0;
@@ -452,24 +449,32 @@ public class GameController {
                 break;
             }
         }while(true);
-
         //Actual bidding method
         Player highestBidder = new Player();
-        highestBidder.setName("No one");
         int counter = 0;
         while (counter < bidList.size() - 1) {
             for (int i = 0; bidList.size() > i; i++) {
-                String option = gui.getUserButtonPressed("The highest bid is " + highestBid + " by " + highestBidder.getName() + ".\n"
+                String option = "";
+                if (highestBid != 0) {
+                    option = gui.getUserButtonPressed("The highest bid is " + highestBid + " by " + highestBidder.getName() + ".\n"
                         + bidList.get(i).getName() + " Do you want to bid? ", "yes", "no");
+                } else if (highestBid == 0) {
+                    option = gui.getUserButtonPressed(bidList.get(i).getName() + " there is no highest bid yet, do you want to bid? ", "yes", "no");
+                }
                 if (option.equals("yes")) {
-                    while(currentBid <= highestBid) {
+                    do {
+                        if (highestBidder.getName() != null) {
                         currentBid = gui.getUserInteger("The highest bid is " + highestBid + " by " + highestBidder.getName() + ".\n" +
                                 bidList.get(i).getName() + ", how much would you like to bid? Must be more than the highest bid");
-                        if(currentBid > highestBid) {
-                            highestBid = currentBid;
+                        } else {
+                            currentBid = gui.getUserInteger("How much would you like to bid?");
                         }
+                        if(currentBid < highestBid) {
+                            gui.showMessage(bidList.get(i).getName() + " you are now the highest bidder!");
+                        } else {
                         gui.showMessage("The bid must be higher than the highest bid!");
-                    }
+                    }} while(currentBid <= highestBid);
+                    highestBid = currentBid;
                     highestBidder = bidList.get(i);
                     counter = 0;
                 } else if (option.equals("no")) {
@@ -479,7 +484,7 @@ public class GameController {
                 }
             }
         }
-        if (!highestBidder.getName().equals("No one")) {
+        if (highestBidder.getName() != null) {
             gui.showMessage("Congratulations " + highestBidder.getName() + " you win " + property.getName() + " for " + highestBid + " dollars!");
             highestBidder.payMoney(highestBid);
             highestBidder.addOwnedProperty(property);
@@ -488,7 +493,6 @@ public class GameController {
             gui.showMessage("there were no bidders so it remains unowned!");
         }
     }
-
 
     /**
      * Action handling the situation when one player is broke to another
@@ -677,15 +681,12 @@ public class GameController {
         }while(choosePlayer != "No");
     }
 
-
-
     /**
      * Used in trade method.
      * @author s175124
      * @param propArray
      * @return
      */
-
     public String propArrayStringCreator(Property[] propArray, Player player) {
         String s = "";
         for (int i = 0; i < propArray.length; i++) {
