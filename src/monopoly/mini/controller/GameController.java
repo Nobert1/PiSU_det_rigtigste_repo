@@ -167,7 +167,7 @@ public class GameController {
                 current = i;
             }
         }
-//TODO: right now to pay out of jail is in card loop which means you can only pay your way out if you have a card and say no?
+
         boolean terminated = false;
         while (!terminated) {
             //The player choses which function they would like to do, which then calls the method
@@ -344,7 +344,6 @@ public class GameController {
     }
 
     /**
-     * TODO: Not finished
      * @author s175124 &s185031
      * @param player
      * @param amount: Needs amount missing to be input which then is used to check if the player has enough
@@ -429,7 +428,6 @@ public class GameController {
 
     /**
      * This method implements the activity of auctioning a property. Works rn
-     * TODO: needs to be looked at again and optimised with obtain cash
      * @param property the property which is for auction
      *                 The max and min amount of bid is currently not working when i have 'highest bid' instead of a raw number ex:1,5,100
      *                 It works when using mouse on screen it wont allow player to bid if it is out of range. But it is possible to press enter
@@ -437,7 +435,6 @@ public class GameController {
      * @author s175124
      */
     public void auction(Property property) {
-        // TODO give player option to bid whatever they want and obtainCash after if they do not have enough
         int currentBid = -1;
         int highestBid = 0;
 
@@ -561,11 +558,9 @@ public class GameController {
             disposed = true;
             if (view != null) {
                 view.dispose();
+                System.exit(0);
                 view = null;
             }
-            // TODO we should also dispose of the GUI here. But this works only
-            //      for my private version of the GUI and not for the GUI currently
-            //      deployed via Maven (or other official versions);
         }
     }
 

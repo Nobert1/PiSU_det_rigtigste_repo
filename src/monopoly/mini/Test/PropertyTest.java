@@ -92,6 +92,8 @@ public class PropertyTest {
 
         GameController cont = new GameController(spil);
 
+        cont.setDiecount(4, 5);
+
         //Testing that the current player position changed.
         assertEquals(100, spil.getUtilites().get(0).Computerent(cont));
     }

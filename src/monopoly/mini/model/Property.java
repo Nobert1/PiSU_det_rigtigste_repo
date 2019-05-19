@@ -115,8 +115,7 @@ public class Property extends Space {
      * @param player the involved player
      * @throws PlayerBrokeException
      */
-        //TODO drenge det kan vi ikke det her, flyt det ned i klsaserne i stedet for at behandle det i super klassen.
-    //TODO det virkeligt alt for roddet det der.
+
     @Override
     public void doAction(GameController controller, Player player) throws PlayerBrokeException {
         if (owner == null) {
@@ -127,67 +126,7 @@ public class Property extends Space {
             controller.getPaymentController().payment(controller.getGame().getCurrentPlayer(), this.Computerent(controller), this.getOwner(), controller);
         }
     }
-                   /**
 
-            int rent = 0;
-            if (this instanceof RealEstate) {
-                if(((RealEstate) this).isHotel()){
-                    controller.getGui().showMessage("There is a hotel on this property.");
-                } else {
-                    controller.getGui().showMessage("There are " + ((RealEstate) this).getHouses() + " houses.");
-                } if(((RealEstate) this).getHouses() == 0){
-                    Set<RealEstate> estateSet = RealEstate.getcolormap((RealEstate) this);
-                    int counter = 0;
-                    for (RealEstate r: estateSet) {
-                        if (this.getOwner() == r.getOwner()) {
-                            counter++;
-                        }
-                    }
-                    if (counter == estateSet.size()){
-                        controller.getGui().showMessage(this.getOwner().getName() + " owns all properties of this colour and rent i doubled.");
-                    }
-                }
-                rent = ((RealEstate) this).Computerent((RealEstate) this);
-            } else {
-                rent = ((Utility) this).Computerent((Utility) this);
-                if(rent == 4){
-                    rent = rent * controller.getDiecount();
-                    controller.getGui().showMessage("Only 1 utility is owned so you pay 4 times your last roll which was"
-                            + controller.getDiecount());
-                } else if (rent == 10){
-                    rent = rent * controller.getDiecount();
-                    controller.getGui().showMessage("Both utilities are owned so you pay 10 times your last roll which was"
-                            + controller.getDiecount());
-                } else {
-                    int amountShips = 4;
-                    if(rent == 50){
-                        amountShips = 1;
-                    } else if (rent == 100){
-                        amountShips = 2;
-                    } else if (rent == 200){
-                        amountShips = 3;
-                    }
-                    controller.getGui().showMessage("You have landed on a ferry. " + this.getOwner().getName() + " owns " + amountShips
-                            + " which means the rent is " + rent);
-                }
-            }
-            try {
-                controller.getPaymentController().payment(player, rent, this.getOwner(),controller);
-            } catch (PlayerBrokeException e) {
-                //TODO do something with exceptions
-            }
-
-        } else if(owner.equals(player)) {
-            controller.getGui().showMessage("You have landed on your own property.");
-        } else {
-            controller.getGui().showMessage(this.getName() + " is mortgaged you do not have to pay rent.");
-        }
-
-    }
-             *
-             */
-
-    //TODO den her skal vel slettes?
     public void setMortgaged(boolean mortgaged) {
         this.mortgaged = mortgaged;
         notifyChange();

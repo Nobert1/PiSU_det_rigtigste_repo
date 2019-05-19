@@ -12,7 +12,7 @@ import monopoly.mini.model.exceptions.PlayerBrokeException;
  * @return
  */
 
-//TODO This card should not go back inthe stack until used.
+//TODO Karl This card should not go back in the stack until used.
 
 public class GetOutOfJail extends Card {
 

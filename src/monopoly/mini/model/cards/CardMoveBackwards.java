@@ -12,8 +12,6 @@ import monopoly.mini.model.exceptions.PlayerBrokeException;
  * @return
  */
 
-//TODO This method gives the player money for passing Go bc of backwards!
-
 public class CardMoveBackwards extends Card {
 
     @Override

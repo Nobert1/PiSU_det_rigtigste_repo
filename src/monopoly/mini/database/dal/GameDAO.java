@@ -439,7 +439,6 @@ public class GameDAO implements IGameDAO {
                     "Currentplayer = ? WHERE gameID = ? AND playerID = ?;");
             statement.setInt(5, gameID);
             for (Player player : game.getPlayers()) {
-                //TODO Regex this perhaps?
                 statement.setInt(1, player.getBalance());
                 statement.setInt(2, player.getCurrentPosition().getIndex());
                 statement.setBoolean(3, player.isInPrison());

@@ -89,11 +89,12 @@ public class Game extends Subject {
      * @return the topmost card of the deck
      */
     public Card drawCardFromDeck() {
-        // TODO should be more defensive
-        Card card = cardDeck.remove(0);
-        notifyChange();
+        Card card = null;
+        if (cardDeck.size()>0) {
+            card = cardDeck.remove(0);
+            notifyChange();
+        }
         return card;
-
     }
 
     /**

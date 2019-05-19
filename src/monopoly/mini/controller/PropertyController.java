@@ -29,7 +29,7 @@ public class PropertyController {
      * @throws PlayerBrokeException when the player chooses to buy but could not afford it
      */
     public void offerToBuy(Property property, Player player, GameController gameController) throws PlayerBrokeException {
-        // TODO We might also allow the player to obtainCash before
+        // TODO Alex: We might also allow the player to obtainCash before
         // the actual offer, to see whether he can free enough cash
         // for the sale.
         if (player.getBalance() > property.getCost()) {

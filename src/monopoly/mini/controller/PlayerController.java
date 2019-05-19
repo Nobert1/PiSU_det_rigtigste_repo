@@ -132,8 +132,7 @@ public class PlayerController {
             } else if (player.isInPrison()) {
                 gameController.getGui().showMessage("Player " + player.getName() + " stays in prison since he did not cast a double!");
             }
-            // TODO note that the player could also pay to get out of prison,
-            //      which is not yet implemented
+
             if (castDouble) {
                 doublesCount++;
                 if (doublesCount > 2) {
@@ -163,7 +162,6 @@ public class PlayerController {
         } while (castDouble && isNotInJail);
     }
 
-    //TODO Update jail position to not be hardcoded
     public void checkForGoToJail (Player player, GameController gameController) throws PlayerBrokeException {
         int pos = player.getCurrentPosition().getIndex();
         if (pos == 30) {
@@ -179,7 +177,6 @@ public class PlayerController {
     public void gotoJail(Player player, GameController gameController) {
         // Field #10 is in the default game board of Monopoly the field
         // representing the prison.
-        // TODO the 10 should not be hard coded
         player.setCurrentPosition(gameController.getGame().getSpaces().get(10));
         player.setInPrison(true);
     }
@@ -196,11 +193,8 @@ public class PlayerController {
         int posOld = player.getCurrentPosition().getIndex();
         player.setCurrentPosition(space);
 
-        //TODO Money should not be awarded when moving backwards from a card og moving to jail.
         if (posOld > player.getCurrentPosition().getIndex() && !player.isNotPassingGo()) {
             // Note that this assumes that the game has more than 12 spaces here!
-            // TODO: the amount of 2000$ should not be a fixed constant here (could also
-            //       be configured in the Game class.
             gameController.getGui().showMessage("Player " + player.getName() + " receives " + gameController.getGame().getPassstartbonus() + " for passing Go!");
             gameController.getPaymentController().paymentFromBank(player, gameController.getGame().getPassstartbonus());
         }

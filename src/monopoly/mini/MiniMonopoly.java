@@ -40,7 +40,6 @@ public class MiniMonopoly {
     }
     public static void createSpaces(Game game) {
 
-//TODO: input mortgage values
         int i = 0;
         int j = 0;
 
@@ -52,7 +51,6 @@ public class MiniMonopoly {
         p.setName("Rødovrevej");
         p.setCost(60);
         p.setRent(2);
-        p.setMortgageValue(30);
         p.setHousePrice(50);
         p.setColor(Colors.getcolor(Colors.LIGHTBLUE));
         p.setHousePrice(50);
@@ -69,7 +67,6 @@ public class MiniMonopoly {
         p.setName("Hvidovrevej");
         p.setCost(60);
         p.setRent(4);
-        p.setMortgageValue(30);
         p.setHousePrice(50);
         p.setColor(Colors.getcolor(Colors.LIGHTBLUE));
         p.setRents(20, 60, 180, 320, 450);
@@ -162,7 +159,7 @@ public class MiniMonopoly {
         game.addSpace(p);
 
         p = new RealEstate();
-        p.setName("Gl. Kongevej"); // TODO Inkonsistens med GUI'en (pris 140, 160)
+        p.setName("Gl. Kongevej");
         p.setCost(160);
         p.setRent(12);
         p.setHousePrice(100);
@@ -208,7 +205,7 @@ public class MiniMonopoly {
         game.addSpace(p);
 
         p = new RealEstate();
-        p.setName("Strandvejen"); //TODO inkonsistens
+        p.setName("Strandvejen");
         p.setCost(200);
         p.setRent(16);
         p.setHousePrice(100);
@@ -412,7 +409,6 @@ public class MiniMonopoly {
          * @author s180557
          * @return
          */
-        //TODO Make sure all cards are implemented
 
         List<Card> cards = new ArrayList<Card>();
 

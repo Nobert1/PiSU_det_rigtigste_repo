@@ -114,7 +114,6 @@ class GameControllerTest {
     @Test
     void playToWin() {
 
-        //TODO Ikke færdig, mangler at kunne læse hvem vinderen er.
         //Game game = createGame();
         //GameController controller = new GameController(game);
 

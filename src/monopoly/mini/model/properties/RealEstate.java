@@ -50,12 +50,6 @@ public class RealEstate extends Property {
     private static Set<RealEstate> YellowProperties = new HashSet<>();
     private static Set<RealEstate> WhiteProperties = new HashSet<>();
 
-
-
-
-    // TODO to be implemented
-
-
     public int getPropertid() {
         return propertid;
     }
@@ -68,7 +62,6 @@ public class RealEstate extends Property {
         this.houses = houses;
         notifyChange();
     }
-
 
     public int getHouses() {
         return houses;
@@ -204,7 +197,7 @@ public class RealEstate extends Property {
      * @param
      * @return
      */
-//TODO er huslejen allerede sat for hvis der står huse på den?
+
     @Override
     public int Computerent(GameController gameController) {
         rent = this.getRent();

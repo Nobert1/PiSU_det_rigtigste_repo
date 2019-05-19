@@ -63,16 +63,9 @@ public class View implements Observer {
         GUI_Field[] guiFields = gui.getFields();
         int i = 0;
         for (Space space: game.getSpaces()) {
-            // TODO, here we assume that the games fields fit to the GUI's fields;
-            // the GUI fields should actually be created according to the game's
-            // fields
             space2GuiField.put(space, guiFields[i++]);
             space.attach(this);
             update(space);
-            //Her skal der evt være en eller anden form for update metode, så som updatespace eller update player
-            // TODO we should also register with the properties as observer; but
-            // the current version does not update anything for the spaces, so we do not
-            // register the view as an observer for now
         }
         // create the players in the GUI
     }

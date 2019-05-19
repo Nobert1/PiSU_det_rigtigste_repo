@@ -16,9 +16,6 @@ import java.util.Set;
  */
 public class Utility extends Property {
 
-
-    // TODO to be implemented
-
     private static Set<Utility> ShippingLine = new HashSet<Utility>();
     private static Set<Utility> Breweries = new HashSet<Utility>();
     private java.awt.Color color;
