@@ -104,9 +104,11 @@ public class PlayerController {
         boolean isNotInJail = true;
 
         do {
-            int die1 = (int) (1 + 6 * Math.random());
-            int die2 = (int) (1 + 6 * Math.random());
+            //int die1 = (int) (1 + 6 * Math.random());
+            //int die2 = (int) (1 + 6 * Math.random());
 
+            int die1 = 10;
+            int die2 = 20;
 
 
             gameController.setDiecount(die1, die2);
@@ -150,6 +152,7 @@ public class PlayerController {
         } while (castDouble && isNotInJail);
     }
 
+    //TODO Update jail position to not be hardcoded
     public void checkForGoToJail (Player player, GameController gameController) throws PlayerBrokeException {
         int pos = player.getCurrentPosition().getIndex();
         if (pos == 30) {

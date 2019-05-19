@@ -208,9 +208,18 @@ public class GameController {
                             if (jailChoice.equals("yes")) {
                                 player.setInPrison(false);
                                 player.setBalance(player.getBalance() - 500);
+                            }
                         }
-                    }
+
                         //Needs testing, does it cost 500? - Gustav
+                        //Redundant code - Martin
+                    }
+                    if (player.getGetOutOfJailCards() == 0) {
+                        jailChoice = gui.getUserSelection("Would you like to pay your way out of prison?", "yes", "no");
+                        if (jailChoice.equals("yes")) {
+                            player.setInPrison(false);
+                            player.setBalance(player.getBalance() - 500);
+                        }
                     }
                 }
                 choice = gui.getUserButtonPressed("What would you like to do " + game.getCurrentPlayer().getName()+"?",  "Trade", "Build or Sell houses", "Mortgaging", "Roll");
