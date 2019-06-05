@@ -53,7 +53,6 @@ public class GameDAO implements IGameDAO {
             insertintoRealEstates(ID, c);
             insertintoCurrentplayer(ID, c);
             c.commit();
-            //Grunden til vi bruger en forbindelse er både for performance og for atomicity.
         } catch (SQLException e) {
             throw new DALException(e.getMessage());
         }
@@ -302,6 +301,7 @@ public class GameDAO implements IGameDAO {
         if (player.getBalance() < 0) {
             player.setBroke(true);
         }
+        player.setGetOutOfJailCards(resultSet.getInt("Jailcards"));
         return player;
     }
 
@@ -609,10 +609,10 @@ public class GameDAO implements IGameDAO {
 
             String CurrentplayerTable = "CREATE TABLE if not exists Currentplayer (\n" +
                     "gameID int references Game.gameID,\n" +
-                    "CurrentplayerID int references Player.playerID,\n" +
+                    "CurrentplayerID int references Player.playerID \n" +
                     ");\n";
 
-            String DroptriggerStatement = "DROP TRIGGER delete_trigger;";
+                String DroptriggerStatement = "DROP TRIGGER IF EXISTS delete_trigger;";
 
             String TriggerStatement =
                     "CREATE TRIGGER delete_trigger BEFORE DELETE ON Game " +
