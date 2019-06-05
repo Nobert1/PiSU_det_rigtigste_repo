@@ -29,6 +29,7 @@ public interface IGameDAO {
     public void insertintoRealEstates(int gameID, Connection c) throws DALException;
     public void insertintoUtilities(int gameID, Connection c) throws DALException;
     public void insertintoPlayers(int gameID, Connection c) throws DALException;
+    public void insertintoCurrentplayer(int gameID, Connection c) throws DALException;
 
     /**
      * Load methods, returns the game.
@@ -39,6 +40,8 @@ public interface IGameDAO {
     public List<Utility> getUtilites(int gameID, Connection c) throws DALException;
     public List<RealEstate> getRealEstates(int gameID, Connection c) throws DALException;
     public List<Player> getPlayers(int gameID, Connection c) throws DALException;
+    public void getCurrentplayer(int gameID, Connection c) throws DALException;
+
 
     /**
      * Methods for saving the game while it's running.
@@ -50,8 +53,7 @@ public interface IGameDAO {
     public void updateRealEstates(int gameID, Connection c) throws DALException;
     public void updateUtilities(int gameID, Connection c) throws DALException;
     public void updatePlayers(int gameID, Connection c) throws DALException;
-
-    public void setCurrentplayer(int gameID, Connection c) throws DALException;
+    public void updateCurrentPlayer(int gameID, Connection c) throws DALException;
 
     /**
      * Basic methods to make objects from resultsets.

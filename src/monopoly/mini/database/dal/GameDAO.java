@@ -33,6 +33,7 @@ public class GameDAO implements IGameDAO {
     public static int getID() {
         return ID;
     }
+    //Bruges i test klassen.
 
 
     /**
@@ -50,6 +51,7 @@ public class GameDAO implements IGameDAO {
             insertintoPlayers(ID, c);
             insertintoUtilities(ID, c);
             insertintoRealEstates(ID, c);
+            insertintoCurrentplayer(ID, c);
             c.commit();
             //Grunden til vi bruger en forbindelse er både for performance og for atomicity.
         } catch (SQLException e) {
@@ -92,6 +94,7 @@ public class GameDAO implements IGameDAO {
             updatePlayers(ID, c);
             updateUtilities(ID, c);
             updateRealEstates(ID, c);
+            updateCurrentPlayer(ID, c);
             c.commit();
         } catch (SQLException e) {
             throw new DALException(e.getMessage());
@@ -110,7 +113,7 @@ public class GameDAO implements IGameDAO {
         try (Connection c = DataSource.getConnection()) {
             game.setPlayers(getPlayers(gameId, c));
             game.setSpaces(getspaces(gameId, c));
-            setCurrentplayer(gameId, c);
+            getCurrentplayer(gameId, c);
             ID = gameId;
         } catch (SQLException e) {
             throw new DALException(e.getMessage());
@@ -325,10 +328,7 @@ public class GameDAO implements IGameDAO {
                 statement.setBoolean(6, player.isInPrison());
                 statement.setString(7, Colors.getcolorName(player.getColor()));
                 statement.setString(8, player.getIcon());
-                statement.setBoolean(9, false);
-                if (game.getCurrentPlayer() == player) {
-                    statement.setBoolean(9, true);
-                }
+                statement.setInt(9, player.getGetOutOfJailCards());
                 statement.addBatch();
             }
 
@@ -422,6 +422,19 @@ public class GameDAO implements IGameDAO {
         }
     }
 
+    public void insertintoCurrentplayer(int gameID, Connection c) throws DALException {
+        try {
+            PreparedStatement statement = c.prepareStatement("INSERT INTO Currentplayer VALUES (?, ?)");
+            statement.setInt(1, gameID);
+            statement.setInt(2, game.getCurrentPlayer().getPlayerID());
+            int row = statement.executeUpdate();
+
+        } catch (SQLException e) {
+            e.getMessage();
+        }
+    }
+
+
     /**
      * Standard update method, updates the player objects.
      *
@@ -434,17 +447,14 @@ public class GameDAO implements IGameDAO {
 
         //try (Connection c = DataSource.getConnection()) {
         try {
-            PreparedStatement statement = c.prepareStatement("UPDATE Player SET balance = ?, position = ?, injail = ?, " +
-                    "Currentplayer = ? WHERE gameID = ? AND playerID = ?;");
+            PreparedStatement statement = c.prepareStatement("UPDATE Player SET balance = ?, position = ?, injail = ?, Jailcards = ?" +
+                    " WHERE gameID = ? AND playerID = ?;");
             statement.setInt(5, gameID);
             for (Player player : game.getPlayers()) {
                 statement.setInt(1, player.getBalance());
                 statement.setInt(2, player.getCurrentPosition().getIndex());
                 statement.setBoolean(3, player.isInPrison());
-                statement.setBoolean(4, false);
-                if (game.getCurrentPlayer().getPlayerID() == player.getPlayerID()) {
-                    statement.setBoolean(4, true);
-                }
+                statement.setInt(4, player.getGetOutOfJailCards());
                 statement.setInt(6, player.getPlayerID());
                 statement.addBatch();
             }
@@ -562,7 +572,7 @@ public class GameDAO implements IGameDAO {
 
             String gameTable = "CREATE TABLE if not exists Game (\n" +
                     "gameID int auto_increment PRIMARY KEY,\n" +
-                    "SaveName varchar(45) UNIQUE \n" +
+                    "SaveName varchar(45) \n" +
                     ");";
 
             String playerTable = "CREATE TABLE if not exists Player (\n" +
@@ -574,7 +584,7 @@ public class GameDAO implements IGameDAO {
                     "injail boolean,\n" +
                     "color varchar(45),\n" +
                     "tokentype varchar(45),\n" +
-                    "Currentplayer boolean,\n" +
+                    "Jailcards int,\n" +
                     "CONSTRAINT pk primary key (playerID, gameID),\n" +
                     "CONSTRAINT fk FOREIGN KEY (gameID) REFERENCES Game (gameID) ON DELETE CASCADE\n" +
                     ");";
@@ -597,6 +607,11 @@ public class GameDAO implements IGameDAO {
                     "CONSTRAINT pk primary key (gameID, utilityID)\n" +
                     ");\n";
 
+            String CurrentplayerTable = "CREATE TABLE if not exists Currentplayer (\n" +
+                    "gameID int references Game.gameID,\n" +
+                    "CurrentplayerID int references Player.playerID,\n" +
+                    ");\n";
+
             String DroptriggerStatement = "DROP TRIGGER delete_trigger;";
 
             String TriggerStatement =
@@ -606,6 +621,7 @@ public class GameDAO implements IGameDAO {
                     "DELETE FROM RealEstate WHERE RealEstate.gameID = old.gameID; " +
                     "DELETE FROM Player WHERE Player.gameID = old.gameID; " +
                     "DELETE FROM Utilities WHERE Utilities.gameID = old.gameID; " +
+                            "DELETE FROM Currentplayer where Currentplayer.gameID = old.gameID; " +
                     " END;";
 
 
@@ -613,8 +629,9 @@ public class GameDAO implements IGameDAO {
             PreparedStatement statement1 = c.prepareStatement(playerTable);
             PreparedStatement statement2 = c.prepareStatement(RealEstateTable);
             PreparedStatement statement3 = c.prepareStatement(UtilityTable);
-            PreparedStatement statement4 = c.prepareStatement(DroptriggerStatement);
-            PreparedStatement statement5 = c.prepareStatement(TriggerStatement);
+            PreparedStatement statement4 = c.prepareStatement(CurrentplayerTable);
+            PreparedStatement statement5 = c.prepareStatement(DroptriggerStatement);
+            PreparedStatement statement6 = c.prepareStatement(TriggerStatement);
 
             statement.executeUpdate();
             statement1.executeUpdate();
@@ -622,6 +639,7 @@ public class GameDAO implements IGameDAO {
             statement3.executeUpdate();
             statement4.executeUpdate();
             statement5.executeUpdate();
+            statement6.executeUpdate();
 
 
         } catch (SQLException e) {
@@ -637,19 +655,18 @@ public class GameDAO implements IGameDAO {
      * @throws DALException
      */
     @Override
-    public void setCurrentplayer(int gameID, Connection c) throws DALException{
+    public void getCurrentplayer(int gameID, Connection c) throws DALException{
         try {
             c.setAutoCommit(false);
 
-            PreparedStatement statement = c.prepareStatement("SELECT * FROM Player WHERE gameID = ? AND Currentplayer = ?");
+            PreparedStatement statement = c.prepareStatement("SELECT CurrentplayerID FROM Currentplayer WHERE gameID = ?");
             statement.setInt(1, gameID);
-            statement.setBoolean(2, true);
 
             ResultSet resultSet = statement.executeQuery();
 
             if (resultSet.next()) {
                 for (Player player :game.getPlayers())
-                    if (player.getPlayerID() ==  resultSet.getInt("playerID")){
+                    if (player.getPlayerID() ==  resultSet.getInt("CurrentplayerID")){
                         game.setCurrentPlayer(player);
                     }
             }
@@ -658,4 +675,18 @@ public class GameDAO implements IGameDAO {
             throw new DALException(e.getMessage());
         }
     }
+
+    public void updateCurrentPlayer(int gameID, Connection c) throws DALException{
+
+        try {
+        PreparedStatement statement = c.prepareStatement("UPDATE Currentplayer SET CurrentplayerID = ? WHERE gameID =?");
+        statement.setInt(1, game.getCurrentPlayer().getPlayerID());
+        statement.setInt(2, gameID);
+        int row = statement.executeUpdate();
+
+    } catch (SQLException e) {
+        throw new DALException(e.getMessage());
+    }
+    }
+
 }
